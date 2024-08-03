@@ -20,6 +20,7 @@ import { PayrollHistory } from '../screens/PayrollHistory';
 import { Posts } from '../screens/Posts';
 import { Departments } from '../screens/Departments';
 import CreateEmployees from '../screens/CreateEmployees';
+import CreatePosts from '../screens/CreatePosts';
 import CreateTeams from '../screens/CreateTeams';
 import ViewInformationEmploye from '../screens/ViewInformationEmploye';
 
@@ -50,6 +51,7 @@ export const router = createBrowserRouter([
                 path: 'employees/create',
                 element: <CreateEmployees />,
             },
+
             {
                 path: 'employees/:id',
                 element: <ViewInformationEmploye />,
@@ -114,10 +116,20 @@ export const router = createBrowserRouter([
                 path: 'payroll/history',
                 element: <PayrollHistory />,
             },
+
+            // post
             {
                 path: 'company/posts',
                 element: <Posts />,
             },
+
+            {
+                path: 'company/create',
+                element: <CreatePosts />,
+            },
+
+
+            // Departments
             {
                 path: 'company/departments',
                 element: <Departments />,
