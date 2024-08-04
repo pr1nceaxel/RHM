@@ -104,8 +104,7 @@ export const EmployeeList = () => {
           <Button
             type="primary"
             size="large"
-            onClick={() => navigate("/home/employees/create")}
-          >
+            onClick={() => navigate("/home/employees/create")}>
             Nouveau
           </Button>
         </div>
