@@ -21,6 +21,7 @@ import { Posts } from '../screens/Posts';
 import { Departments } from '../screens/Departments';
 import CreateEmployees from '../screens/CreateEmployees';
 import CreatePosts from '../screens/CreatePosts';
+import CreateDep from '../screens/CreateDep';
 import CreateTeams from '../screens/CreateTeams';
 import ViewInformationEmploye from '../screens/ViewInformationEmploye';
 
@@ -124,7 +125,7 @@ export const router = createBrowserRouter([
             },
 
             {
-                path: 'company/create',
+                path: 'company/:id_p',
                 element: <CreatePosts />,
             },
 
@@ -133,6 +134,10 @@ export const router = createBrowserRouter([
             {
                 path: 'company/departments',
                 element: <Departments />,
+            },
+            {
+                path: 'company/departments/:id_dep',
+                element: <CreateDep />,
             },
         ],
     }
