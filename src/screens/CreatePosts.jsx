@@ -1,9 +1,9 @@
-
-//  ici modifier information 
+// src/screens/CreatePosts.jsx
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useState } from "react";
-
-import { Button, Modal, Form, Input, InputNumber, Select, Space } from "antd";
+import { AgGridReact } from "ag-grid-react";
+import { Button, Modal, Form, Input, InputNumber, Select, Table } from 'antd';
+// import 'antd/dist/antd.css';
 
 const { Option } = Select;
 
@@ -18,10 +18,52 @@ const formItemLayout = {
   },
 };
 
+const liste1 = [
+  // Vos données
+
+  {
+    id: 1,
+    firstName: "Jean",
+    lastName: "Dupont",
+    position: "Développeur Full Stack",
+    department: "Développement",
+    contractType: "CDI",
+    email: "jean.dupont@example.com"
+  },
+  {
+      id: 2,
+      firstName: "Jean",
+      lastName: "Dupont",
+      position: "Développeur Full Stack",
+      department: "Finance",
+      contractType: "CDI",
+      email: "jean.dupont@example.com"
+  },
+  {
+      id: 3,
+      firstName: "Jean",
+      lastName: "Dupont",
+      position: "Développeur Full Stack",
+      department: "Développement",
+      contractType: "CDI",
+      email: "jean.dupont@example.com"
+  },
+  {
+      id: 4,
+      firstName: "Jean",
+      lastName: "Dupont",
+      position: "Développeur Full Stack",
+      department: "Finance",
+      contractType: "CDI",
+      email: "jean.dupont@example.com"
+  },
+];
+
+
+
+
 export default function CreatePosts() {
-
   const navigate = useNavigate();
-
   const { search } = useLocation();
   const query = new URLSearchParams(search);
 
@@ -29,111 +71,91 @@ export default function CreatePosts() {
   const label = query.get('label');
   const leader = query.get('leader');
   const description = query.get('description');
-  // const datePosted = query.get('datePosted');
   const Number_of_Employee = query.get('Number_of_Employee');
-
-  const onStatusChange = (value) => {
-    switch (value) {
-      case 'Diponible':
-        form.setFieldsValue({});
-        break;
-      case 'Indiponible':
-        form.setFieldsValue({});
-        break;
-
-      default:
-    }
-  };
-
-
-  const handleEdit = () => {
-    // Logique pour modifier l'employé
-    console.log("Modifier l'employé:", id_p);
-  };
-
-  const handleDelete = () => {
-    // Logique pour supprimer l'employé
-    console.log("Supprimer l'employé:", id_p);
-  };
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
+  const showModal = () => setIsModalVisible(true);
+  const handleOk = () => setIsModalVisible(false);
+  const handleCancel = () => setIsModalVisible(false);
 
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
+  const handleShow = () => setIsModalVisible2(true);
+  const handleClose = () => setIsModalVisible2(false);
+  const [isModalVisible2, setIsModalVisible2] = useState(false);
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+  const columns = [
+    { title: 'ID', dataIndex: 'id', key: 'id' },
+    { title: 'Prénom', dataIndex: 'firstName', key: 'firstName' },
+    { title: 'Nom', dataIndex: 'lastName', key: 'lastName' },
+    { title: 'Poste', dataIndex: 'position', key: 'position' },
+    // { title: 'Département', dataIndex: 'department', key: 'department' },
+    { title: 'Type de Contrat', dataIndex: 'contractType', key: 'contractType' },
+    // { title: 'Email', dataIndex: 'email', key: 'email' },
+  ];
 
   return (
-<div className="flex flex-col items-center   bg-gray-100 p-5">
-  <h1 className="text-2xl font-bold mb-5 text-gray-800">Information du Poste</h1>
-  <table className="min-w-full bg-white">
-    <tbody>
-      <tr className="w-full border-b">
-        <td className="py-4 px-6 text-lg font-bold  text-gray-600 break-words border">Id</td>
-        <td className="py-4 px-6 text-lg text-gray-600 break-words border">{id_p}</td>
-      </tr>
-      <tr className="w-full border-b">
-        <td className="py-4 px-6 text-lg font-bold  text-gray-600 break-words border">Label</td>
-        <td className="py-4 px-6 text-lg text-gray-600 break-words border">{label}</td>
-      </tr>
-      <tr className="w-full border-b">
-        <td className="py-4 px-6 text-lg font-bold  text-gray-600 break-words border">Leader</td>
-        <td className="py-4 px-6 text-lg text-gray-600 break-words border">{leader}</td>
-      </tr>
+    <div className="flex flex-col items-center bg-gray-100 p-5">
+      <h1 className="text-2xl font-bold mb-5 text-gray-800">Information du Poste</h1>
+      <table className="min-w-full bg-white">
+        <tbody>
+          <tr className="w-full border-b">
+            <td className="py-4 px-6 text-lg font-bold text-gray-600 border">Id</td>
+            <td className="py-4 px-6 text-lg text-gray-600 border">{id_p}</td>
+          </tr>
+          <tr className="w-full border-b">
+            <td className="py-4 px-6 text-lg font-bold text-gray-600 border">Label</td>
+            <td className="py-4 px-6 text-lg text-gray-600 border">{label}</td>
+          </tr>
+          <tr className="w-full border-b">
+            <td className="py-4 px-6 text-lg font-bold text-gray-600 border">Leader</td>
+            <td className="py-4 px-6 text-lg text-gray-600 border">{leader}</td>
+          </tr>
+          <tr className="w-full border-b">
+            <td className="py-4 px-6 text-lg font-bold text-gray-600 border">Nombre d'Employés</td>
+            <td className="py-4 px-6 text-lg text-gray-600 border">{Number_of_Employee}</td>
+          </tr>
+        </tbody>
+      </table>
 
-      <tr className="w-full border-b">
-        <td className="py-4 px-6 text-lg font-bold  text-gray-600 break-words border">Number of Employees</td>
-        <td className="py-4 px-6 text-lg text-gray-600 break-words border">{Number_of_Employee}</td>
-      </tr>
-    </tbody>
-  </table>
+      <div className='min-w-full bg-white border'>
+        <h1 className='uppercase text-bold font-bold text-center m-5'>Description</h1>
+        <div className='m-8 overflow-auto max-h-40'>
+          {description}
+        </div>
+      </div>
 
-  <div  className='min-w-full bg-white border '>
-    <h1 className='uppercase text-bold  font-bold text-center m-5 '>Description</h1>
-    <div  className='m-8 overflow-auto max-h-40 '>
-        {description}
-    </div>
+      <div className="mt-5 flex justify-between w-full">
+        <Button 
+          onClick={() => navigate("/home/company/posts")}
+          className="bg-orange-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Retour
+        </Button>
+        <div className="flex space-x-3">
+          <Button 
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleShow}
+          >
+            Voir Membre
+          </Button>
+          <Button 
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={showModal}
+          >
+            Modifier
+          </Button>
+          <Button 
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => console.log("Supprimer l'employé:", id_p)}
+          >
+            Supprimer
+          </Button>
+        </div>
+      </div>
 
-  </div>
-  
-  <div className="mt-5 flex justify-between w-full">
-    <button 
-      onClick={() => navigate("/home/company/posts")}
-      className="bg-orange-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-    >
-      Retour
-    </button>
-    <div className="flex space-x-3">
-      <button 
-        // onClick={handleEdit} 
-        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Voir Membre
-      </button>
-      <button 
-        // onClick={handleEdit} 
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={showModal}
-      >
-        Modifier
-      </button>
-      <button 
-        onClick={handleDelete} 
-        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Supprimer
-      </button>
-    </div>
-  </div>
 
-  <Modal
+
+      <Modal
         title="Modifier Poste"
         open={isModalVisible}
         onOk={handleOk}
@@ -175,7 +197,7 @@ export default function CreatePosts() {
           >
             <Select
               placeholder="Sélectionnez une option"
-              onChange={onStatusChange}
+              onChange={(value) => console.log(value)}
               allowClear
             >
               <Option value="Disponible">Disponible</Option>
@@ -191,11 +213,26 @@ export default function CreatePosts() {
 
 
 
-      
 
-</div>
+{/* modal2 **************************************************************************************************/}
 
-
-
+      <Modal
+        title="liste Employee "
+        open={isModalVisible2}
+        onOk={handleClose}
+        onCancel={handleClose}
+        footer={[
+          <Button key="close" onClick={handleClose}>
+            Fermer
+          </Button>,
+        ]}
+      >
+        <Table
+          columns={columns}
+          dataSource={liste1}
+          rowKey="id"
+        />
+      </Modal>
+    </div>
   );
 }

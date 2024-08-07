@@ -148,8 +148,8 @@ export const Posts = () => {
   };
 
   const handleRowClick = (event) => {
-    const { id_p, label, leader,description , datePosted, Number_of_Employee } = event.data;
-    navigate(`/home/company/CreatePosts?id_p=${id_p}&label=${label}&leader=${leader}&description=${description}&Number_of_Employee=${Number_of_Employee}`);
+    const { id, label, leader,description , datePosted, Number_of_Employee } = event.data;
+    navigate(`/home/company/CreatePosts?id_p=${id}&label=${label}&leader=${leader}&description=${description}&Number_of_Employee=${Number_of_Employee}`);
   };
   
 

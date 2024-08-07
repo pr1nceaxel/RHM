@@ -1,7 +1,7 @@
 import { useLocation, useNavigate,useParams } from 'react-router-dom';
 import { useState } from "react";
 
-import { Button, Modal, Form, Input, InputNumber, Select, Space } from "antd";
+import { Button, Modal, Form, Input, InputNumber, Select, Table } from 'antd';
 
 
 const formItemLayout = {
@@ -14,6 +14,49 @@ const formItemLayout = {
     sm: { span: 14 },
   },
 };
+
+
+const liste1 = [
+  // Vos données
+
+  {
+    id: 1,
+    firstName: "Jean",
+    lastName: "Dupont",
+    position: "Développeur Full Stack",
+    department: "Développement",
+    contractType: "CDI",
+    email: "jean.dupont@example.com"
+  },
+  {
+      id: 2,
+      firstName: "Jean",
+      lastName: "Dupont",
+      position: "Développeur Full Stack",
+      department: "Finance",
+      contractType: "CDI",
+      email: "jean.dupont@example.com"
+  },
+  {
+      id: 3,
+      firstName: "Jean",
+      lastName: "Dupont",
+      position: "Développeur Full Stack",
+      department: "Développement",
+      contractType: "CDI",
+      email: "jean.dupont@example.com"
+  },
+  {
+      id: 4,
+      firstName: "Jean",
+      lastName: "Dupont",
+      position: "Développeur Full Stack",
+      department: "Finance",
+      contractType: "CDI",
+      email: "jean.dupont@example.com"
+  },
+];
+
 
 export default function CreateDep() {
   const navigate = useNavigate();
@@ -50,6 +93,19 @@ export default function CreateDep() {
     setIsModalVisible(false);
   };
 
+  const [isModalVisible2, setIsModalVisible2] = useState(false);
+
+  const handleShow = () => setIsModalVisible2(true);
+  const handleClose = () => setIsModalVisible2(false);
+  const columns = [
+    { title: 'ID', dataIndex: 'id', key: 'id' },
+    { title: 'Prénom', dataIndex: 'firstName', key: 'firstName' },
+    { title: 'Nom', dataIndex: 'lastName', key: 'lastName' },
+    { title: 'Poste', dataIndex: 'position', key: 'position' },
+    // { title: 'Département', dataIndex: 'department', key: 'department' },
+    { title: 'Type de Contrat', dataIndex: 'contractType', key: 'contractType' },
+    // { title: 'Email', dataIndex: 'email', key: 'email' },
+  ];
 
   
   return (
@@ -93,12 +149,12 @@ export default function CreateDep() {
           Retour
         </button>
         <div className="flex space-x-3">
-          <button 
-            // onClick={handleEdit} 
+        <Button 
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleShow}
           >
             Voir Membre
-          </button>
+          </Button>
           <button 
         onClick={showModal}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -151,6 +207,25 @@ export default function CreateDep() {
         </Form>
       </Modal>
 
+{/* modal2 **************************************************************************************************/}
+
+<Modal
+        title="liste Employee "
+        open={isModalVisible2}
+        onOk={handleClose}
+        onCancel={handleClose}
+        footer={[
+          <Button key="close" onClick={handleClose}>
+            Fermer
+          </Button>,
+        ]}
+      >
+        <Table
+          columns={columns}
+          dataSource={liste1}
+          rowKey="id"
+        />
+      </Modal>
 
     </div>
   );
