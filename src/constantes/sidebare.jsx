@@ -13,6 +13,9 @@ import {
     CarryOutOutlined,
     BankOutlined,
   } from "@ant-design/icons";
+  import { FaNetworkWired } from "react-icons/fa";
+  import { FcDepartment } from "react-icons/fc";
+
   import { Link } from 'react-router-dom';
   
   function getItem(label, key, icon, path, children) {
@@ -51,7 +54,8 @@ import {
     ]),
     getItem("Entreprise", "sub5", <ApartmentOutlined />, null, [
       getItem("Postes", "17", <BankOutlined />, "/home/company/posts"),
-      getItem("Département", "18", <ApartmentOutlined />, "/home/company/departments"),
+      getItem("Département", "18", <FcDepartment />, "/home/company/departments"),
+      getItem("Partenaire", "19", <FaNetworkWired />   , "/home/company/partner"),
     ]),
   ];
   

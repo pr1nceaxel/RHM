@@ -2,6 +2,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Modal, Form, Input, InputNumber, Mentions, Select, Cascader, TreeSelect, DatePicker } from "antd";
 
 
@@ -19,44 +20,54 @@ const formItemLayout = {
 };
 
 export const Departments = () => {
+
+  const navigate = useNavigate();
+
   const [rowData, setRowData] = useState([
     {
+      id_dep:"1",
       label: "Développement",
       leader: "Jean Dupont",
-      location: "Paris",
-      budget: "200,000€",
-      creationDate: "2022-03-01",
+      des_dep:"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      number_of_post:"3",
+      
     },
     {
+      id_dep:"2",
       label: "Ressources Humaines",
       leader: "Marie Curie",
-      location: "Lyon",
-      budget: "150,000€",
-      creationDate: "2021-07-15",
+      des_dep:"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      number_of_post:"2",
+      
     },
     {
+      id_dep:"3",
       label: "Finance",
       leader: "Louis Pasteur",
-      location: "Marseille",
-      budget: "300,000€",
-      creationDate: "2020-11-20",
+      des_dep:"ccccccccccccccccccccccccccccccccccc",
+      number_of_post:"2",
+      
     },
     {
+      id_dep:"4",
       label: "Marketing",
       leader: "Claude Monet",
-      location: "Nice",
-      budget: "180,000€",
-      creationDate: "2019-06-30",
+      des_dep:"ddddddddddddddddddddddddddddddddd",
+      number_of_post:"2",
+      
     },
   ]);
 
   const [colDefs, setColDefs] = useState([
     { field: "label", headerName: "Label du Département" },
     { field: "leader", headerName: "Responsable" },
-    { field: "location", headerName: "Localisation" },
-    { field: "budget", headerName: "Budget" },
-    { field: "creationDate", headerName: "Date de Création" },
-    { field: "Action", headerName: "Action" },
+    { field: "number_of_post", headerName: "Nombre de post" },
+
+    // { field: "des_dep", headerName: "description du post" },
+    // { field: "", headerName: "Localisation" },
+    // { field: "creationDate", headerName: "Date de Création" },
+    // { field: "Action", headerName: "Action" },
+
   ]);
 
 
@@ -85,6 +96,12 @@ export const Departments = () => {
     setIsModalVisible(false);
   };
 
+  const handleRowClick = (event) => {
+    const { id_dep, label, leader,des_dep , number_of_post } = event.data;
+    navigate(`/home/company/Departments/CreateDep?id_dep=${id_dep}&label=${label}&leader=${leader}&des_dep=${des_dep}&number_of_post=${number_of_post}`);
+  };
+
+
   return (
     <div className="mx-5 py-3">
       <div className="flex mx-2 justify-between my-3">
@@ -106,6 +123,8 @@ export const Departments = () => {
           rowData={rowData}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
+          onRowClicked={handleRowClick}
+
         />
       </div>
 
@@ -113,7 +132,7 @@ export const Departments = () => {
 
       <Modal
         title="Créer un Nouveau département"
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
         footer={[
@@ -141,31 +160,6 @@ export const Departments = () => {
           >
             <Input.TextArea placeholder="Description du département"/>
           </Form.Item>
-
-          {/* <Form.Item
-            name="status"
-            label="status"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-          <Select
-            placeholder="Select a option and change input text above"
-            onChange={onStatusChange}
-            allowClear
-          >
-            <Option value="Ouvert">Ouvert</Option>
-            <Option value="Fermé">Fermé</Option>
-            <Option value="Encour">En Cours</Option>
-          </Select>
-        </Form.Item>      */}
-
-        {/* <Form.Item label="Nombre" name="Number_of_Employee" rules={[{ required: true, message: 'Champs vide!' }]}
-        >
-          <InputNumber />
-        </Form.Item> */}
 
 
         </Form>

@@ -19,8 +19,11 @@ import { Benefits } from '../screens/Benefits';
 import { PayrollHistory } from '../screens/PayrollHistory';
 import { Posts } from '../screens/Posts';
 import { Departments } from '../screens/Departments';
+import { Partner } from '../screens/Partner';
 import CreateEmployees from '../screens/CreateEmployees';
 import CreatePosts from '../screens/CreatePosts';
+import CreateDep from '../screens/CreateDep';
+import CreatePart from '../screens/CreatePart';
 import CreateTeams from '../screens/CreateTeams';
 import ViewInformationEmploye from '../screens/ViewInformationEmploye';
 
@@ -123,8 +126,9 @@ export const router = createBrowserRouter([
                 element: <Posts />,
             },
 
+
             {
-                path: 'company/create',
+                path: 'company/:id_p',
                 element: <CreatePosts />,
             },
 
@@ -133,6 +137,23 @@ export const router = createBrowserRouter([
             {
                 path: 'company/departments',
                 element: <Departments />,
+            },
+            {
+                path: 'company/departments/:id_dep',
+                element: <CreateDep />,
+            },
+            
+            // partenaire
+
+            
+            {
+                path: 'company/partner',
+                element: <Partner />,
+            },
+
+            {
+                path: 'company/partner/:id',
+                element: <CreatePart />,
             },
         ],
     }

@@ -1,11 +1,8 @@
-// src/screens/CreatePosts.jsx
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { AgGridReact } from "ag-grid-react";
-import { Button, Modal, Form, Input, InputNumber, Select, Table } from 'antd';
-// import 'antd/dist/antd.css';
+import { useLocation, useNavigate,useParams } from 'react-router-dom';
+import { useState } from "react";
 
-const { Option } = Select;
+import { Button, Modal, Form, Input, InputNumber, Select, Table } from 'antd';
+
 
 const formItemLayout = {
   labelCol: {
@@ -17,6 +14,7 @@ const formItemLayout = {
     sm: { span: 14 },
   },
 };
+
 
 const liste1 = [
   // Vos données
@@ -60,29 +58,45 @@ const liste1 = [
 ];
 
 
-
-
-export default function CreatePosts() {
+export default function CreateDep() {
   const navigate = useNavigate();
   const { search } = useLocation();
   const query = new URLSearchParams(search);
 
-  const id_p = query.get('id_p');
+  const id_dep = query.get('id_dep');
   const label = query.get('label');
   const leader = query.get('leader');
-  const description = query.get('description');
-  const Number_of_Employee = query.get('Number_of_Employee');
+  const des_dep = query.get('des_dep');
+  const number_of_post = query.get('number_of_post');
+
+  const handleEdit = () => {
+    // Logique pour modifier le département
+    console.log("Modifier département:", id_dep);
+  };
+
+  const handleDelete = () => {
+    // Logique pour supprimer le département
+    console.log("Supprimer département:", id_dep);
+  };
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const showModal = () => setIsModalVisible(true);
-  const handleOk = () => setIsModalVisible(false);
-  const handleCancel = () => setIsModalVisible(false);
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const [isModalVisible2, setIsModalVisible2] = useState(false);
 
   const handleShow = () => setIsModalVisible2(true);
   const handleClose = () => setIsModalVisible2(false);
-  const [isModalVisible2, setIsModalVisible2] = useState(false);
-
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id' },
     { title: 'Prénom', dataIndex: 'firstName', key: 'firstName' },
@@ -93,70 +107,73 @@ export default function CreatePosts() {
     // { title: 'Email', dataIndex: 'email', key: 'email' },
   ];
 
+  
   return (
+
+
     <div className="flex flex-col items-center bg-gray-100 p-5">
-      <h1 className="text-2xl font-bold mb-5 text-gray-800">Information du Poste</h1>
+      <h1 className="text-2xl font-bold mb-5 text-gray-800">Information du Département</h1>
       <table className="min-w-full bg-white">
         <tbody>
           <tr className="w-full border-b">
-            <td className="py-4 px-6 text-lg font-bold text-gray-600 border">Id</td>
-            <td className="py-4 px-6 text-lg text-gray-600 border">{id_p}</td>
+            <td className="py-4 px-6 text-lg font-bold text-gray-600 break-words border">Id</td>
+            <td className="py-4 px-6 text-lg text-gray-600 break-words border">{id_dep}</td>
           </tr>
           <tr className="w-full border-b">
-            <td className="py-4 px-6 text-lg font-bold text-gray-600 border">Label</td>
-            <td className="py-4 px-6 text-lg text-gray-600 border">{label}</td>
+            <td className="py-4 px-6 text-lg font-bold text-gray-600 break-words border">Label</td>
+            <td className="py-4 px-6 text-lg text-gray-600 break-words border">{label}</td>
           </tr>
           <tr className="w-full border-b">
-            <td className="py-4 px-6 text-lg font-bold text-gray-600 border">Leader</td>
-            <td className="py-4 px-6 text-lg text-gray-600 border">{leader}</td>
+            <td className="py-4 px-6 text-lg font-bold text-gray-600 break-words border">Leader</td>
+            <td className="py-4 px-6 text-lg text-gray-600 break-words border">{leader}</td>
           </tr>
           <tr className="w-full border-b">
-            <td className="py-4 px-6 text-lg font-bold text-gray-600 border">Nombre d'Employés</td>
-            <td className="py-4 px-6 text-lg text-gray-600 border">{Number_of_Employee}</td>
+            <td className="py-4 px-6 text-lg font-bold text-gray-600 break-words border">Nombre de Départements</td>
+            <td className="py-4 px-6 text-lg text-gray-600 break-words border">{number_of_post}</td>
           </tr>
         </tbody>
       </table>
 
-      <div className='min-w-full bg-white border'>
-        <h1 className='uppercase text-bold font-bold text-center m-5'>Description</h1>
-        <div className='m-8 overflow-auto max-h-40'>
-          {description}
+      <div className="min-w-full bg-white border">
+        <h1 className="uppercase font-bold text-center m-5">Description</h1>
+        <div className="m-8 overflow-auto max-h-40">
+          {des_dep}
         </div>
       </div>
 
       <div className="mt-5 flex justify-between w-full">
-        <Button 
-          onClick={() => navigate("/home/company/posts")}
+        <button 
+          onClick={() => navigate("/home/company/departments")}
           className="bg-orange-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
         >
           Retour
-        </Button>
+        </button>
         <div className="flex space-x-3">
-          <Button 
+        <Button 
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
             onClick={handleShow}
           >
             Voir Membre
           </Button>
-          <Button 
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={showModal}
+          <button 
+        onClick={showModal}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+
           >
             Modifier
-          </Button>
-          <Button 
+          </button>
+          <button 
+            onClick={handleDelete} 
             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => console.log("Supprimer l'employé:", id_p)}
           >
             Supprimer
-          </Button>
+          </button>
         </div>
       </div>
 
 
-
       <Modal
-        title="Modifier Poste"
+        title="Modifier département"
         open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -169,54 +186,30 @@ export default function CreatePosts() {
           </Button>,
         ]}
       >
-        <Form {...formItemLayout} style={{ maxWidth: 600 }} initialValues={{ Number_of_Employee: 0 }}>
+        <Form {...formItemLayout} style={{ maxWidth: 600 }}  initialValues={{ Number_of_Employee: 0 }}>
           <Form.Item label="Label" name="label" rules={[{ required: true, message: 'Champs vide!' }]}>
-            <Input placeholder="Nom du poste" />
+            <Input placeholder="Nom du département"/>
           </Form.Item>
 
           <Form.Item label="Responsable" name="responsable" rules={[{ required: true, message: 'Champs vide!' }]}>
-            <Input placeholder="Nom du responsable" />
+            <Input placeholder="Nom du responsable"/>
           </Form.Item>
 
           <Form.Item
             label="Description"
-            name="description_post"
+            name="description_dep"
             rules={[{ required: true, message: 'Champs vide!' }]}
           >
-            <Input.TextArea placeholder="Description du poste" />
+            <Input.TextArea placeholder="Description du département"/>
           </Form.Item>
 
-          <Form.Item
-            name="status"
-            label="Statut"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Select
-              placeholder="Sélectionnez une option"
-              onChange={(value) => console.log(value)}
-              allowClear
-            >
-              <Option value="Disponible">Disponible</Option>
-              <Option value="Indisponible">Indisponible</Option>
-            </Select>
-          </Form.Item>
 
-          <Form.Item label="Nombre" name="Number_of_Employee" rules={[{ required: true, message: 'Champs vide!' }]}>
-            <InputNumber />
-          </Form.Item>
         </Form>
       </Modal>
 
-
-
-
 {/* modal2 **************************************************************************************************/}
 
-      <Modal
+<Modal
         title="liste Employee "
         open={isModalVisible2}
         onOk={handleClose}
@@ -233,6 +226,7 @@ export default function CreatePosts() {
           rowKey="id"
         />
       </Modal>
+
     </div>
   );
 }
