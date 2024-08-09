@@ -1,57 +1,16 @@
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { localeText } from "../constantes/gridText";
+import axios from 'axios'; // Ajoutez axios pour la requête HTTP
 
 export const EmployeeList = () => {
   const navigate = useNavigate();
 
-  const [rowData, setRowData] = useState([
-    {
-      id: 1,
-      firstName: "Jean",
-      lastName: "Dupont",
-      position: "Développeur Full Stack",
-      department: "Développement",
-      contractType: "CDI",
-      status: "Actif",
-      email: "jean.dupont@example.com"
-    },
-    {
-      id: 2,
-      firstName: "Marie",
-      lastName: "Curie",
-      position: "Responsable RH",
-      department: "Ressources Humaines",
-      contractType: "CDD",
-      status: "En Congés",
-      email: "marie.curie@example.com"
-    },
-    {
-      id: 3,
-      firstName: "Louis",
-      lastName: "Pasteur",
-      position: "Comptable",
-      department: "Finance",
-      contractType: "CDI",
-      status: "Actif",
-      email: "louis.pasteur@example.com"
-    },
-    {
-      id: 4,
-      firstName: "Claude",
-      lastName: "Monet",
-      position: "Assistant Marketing",
-      department: "Marketing",
-      contractType: "Stage",
-      status: "Actif",
-      email: "claude.monet@example.com"
-    }
-  ]);
-
+  const [rowData, setRowData] = useState([]);
   const [colDefs, setColDefs] = useState([
     { field: "firstName", headerName: "Prénom" },
     { field: "lastName", headerName: "Nom" },
@@ -92,6 +51,21 @@ export const EmployeeList = () => {
     const employeeId = event.data.id;
     navigate(`/home/employees/${employeeId}`);
   };
+
+  // Fetch data from the API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/employe');
+        console.log(response.data); 
+        setRowData(response.data.data);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des données', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="mx-5 py-3">

@@ -26,6 +26,8 @@ import CreateDep from '../screens/CreateDep';
 import CreatePart from '../screens/CreatePart';
 import CreateTeams from '../screens/CreateTeams';
 import ViewInformationEmploye from '../screens/ViewInformationEmploye';
+import { LoginPage } from '../screens/LoginPage'
+
 
 
 
@@ -36,7 +38,7 @@ export const router = createBrowserRouter([
     },
     {
         path: '/auth',
-        element: <h1 className="text-3xl font-bold underline">Auth</h1>
+        element: <LoginPage />,
     },
     {
         path: '/home',
