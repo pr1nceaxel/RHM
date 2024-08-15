@@ -26,7 +26,8 @@ import CreateDep from '../screens/CreateDep';
 import CreatePart from '../screens/CreatePart';
 import CreateTeams from '../screens/CreateTeams';
 import ViewInformationEmploye from '../screens/ViewInformationEmploye';
-import { LoginPage } from '../screens/LoginPage'
+import LoginCompany from '../screens/LoginCompany';
+import LoginPage from '../screens/LoginPage';
 
 
 
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
     {
         path: '/auth',
         element: <LoginPage />,
+    },
+    {
+        path: '/auth/company',
+        element: <LoginCompany />,
     },
     {
         path: '/home',
