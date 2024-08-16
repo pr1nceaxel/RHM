@@ -26,7 +26,7 @@ export const dropDownMenuItems = [
     key: "3",
     danger: true,
     label: (
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1" onClick={()=>{}} >
         <CiLogout />
         <p>Deconnexion</p>
       </div>

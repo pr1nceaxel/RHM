@@ -18,10 +18,11 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoCalendarOutline } from "react-icons/io5";
 import { dropDownMenuItems } from "../helpers/DropdonwAvatarList";
 
-
 const { Header, Content, Footer, Sider } = Layout;
 
 const HomeLayout = () => {
+
+
   const [collapsed, setCollapsed] = useState(false);
   const [scrollDirection, setScrollDirection] = useState("up");
   const {
