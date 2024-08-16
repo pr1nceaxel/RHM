@@ -3,73 +3,28 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Modal, Form, Input, InputNumber, Mentions, Select, Cascader, TreeSelect, DatePicker } from "antd";
-
-
-const { RangePicker } = DatePicker;
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 6 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 14 },
-  },
-};
+import {
+  Button,
+  Modal,
+  Form,
+  Input,
+  Select,
+} from "antd";
+import { createDepartement } from "../api/departement";
 
 export const Departments = () => {
-
   const navigate = useNavigate();
+  const [form] = Form.useForm(); 
 
   const [rowData, setRowData] = useState([
-    {
-      id_dep:"1",
-      label: "Développement",
-      leader: "Jean Dupont",
-      des_dep:"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      number_of_post:"3",
-      
-    },
-    {
-      id_dep:"2",
-      label: "Ressources Humaines",
-      leader: "Marie Curie",
-      des_dep:"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-      number_of_post:"2",
-      
-    },
-    {
-      id_dep:"3",
-      label: "Finance",
-      leader: "Louis Pasteur",
-      des_dep:"ccccccccccccccccccccccccccccccccccc",
-      number_of_post:"2",
-      
-    },
-    {
-      id_dep:"4",
-      label: "Marketing",
-      leader: "Claude Monet",
-      des_dep:"ddddddddddddddddddddddddddddddddd",
-      number_of_post:"2",
-      
-    },
+    
   ]);
 
   const [colDefs, setColDefs] = useState([
     { field: "label", headerName: "Label du Département" },
     { field: "leader", headerName: "Responsable" },
     { field: "number_of_post", headerName: "Nombre de post" },
-
-    // { field: "des_dep", headerName: "description du post" },
-    // { field: "", headerName: "Localisation" },
-    // { field: "creationDate", headerName: "Date de Création" },
-    // { field: "Action", headerName: "Action" },
-
   ]);
-
 
   const defaultColDef = {
     flex: 1,
@@ -78,18 +33,10 @@ export const Departments = () => {
     floatingFilter: true,
   };
 
-  const pagination = true;
-  const paginationPageSize = 500;
-  const paginationPageSizeSelector = [200, 500, 1000];
-
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
   };
 
   const handleCancel = () => {
@@ -97,10 +44,34 @@ export const Departments = () => {
   };
 
   const handleRowClick = (event) => {
-    const { id_dep, label, leader,des_dep , number_of_post } = event.data;
-    navigate(`/home/company/Departments/CreateDep?id_dep=${id_dep}&label=${label}&leader=${leader}&des_dep=${des_dep}&number_of_post=${number_of_post}`);
+    const { id_dep, label, leader, des_dep, number_of_post } = event.data;
+    navigate(
+      `/home/company/Departments/CreateDep?id_dep=${id_dep}&label=${label}&leader=${leader}&des_dep=${des_dep}&number_of_post=${number_of_post}`
+    );
   };
 
+  const handleSubmit = async () => {
+    try {
+      
+      const values = await form.validateFields();
+      console.log("Form values:", values);
+      
+      const response = await createDepartement(values.departmentName, values.managerName, values.location, parseFloat(values.budget) , values.description);
+      console.log("Response:", response);
+
+      // if (response.success) {
+      //   message.success("Département créé avec succès !");
+        
+      //   setRowData([...rowData, response.newDepartment]);
+      //   setIsModalVisible(false);
+      //   form.resetFields(); 
+      // } else {
+      //   message.error("Erreur lors de la création du département : " + response.message);
+      // }
+    } catch (error) {
+      console.error("Une erreur est survenue:", error);
+    }
+  };
 
   return (
     <div className="mx-5 py-3">
@@ -110,58 +81,82 @@ export const Departments = () => {
           <p>Voici la liste des départements au sein de notre entreprise.</p>
         </div>
         <div>
-        <Button type="primary" size="large" onClick={showModal}>
+          <Button type="primary" size="large" onClick={showModal}>
             Nouveau Département
           </Button>
         </div>
       </div>
       <div className="ag-theme-quartz" style={{ height: 500 }}>
         <AgGridReact
-          pagination={pagination}
-          paginationPageSize={paginationPageSize}
-          paginationPageSizeSelector={paginationPageSizeSelector}
+          pagination={true}
+          paginationPageSize={500}
+          paginationPageSizeSelector={[200, 500, 1000]}
           rowData={rowData}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
           onRowClicked={handleRowClick}
-
         />
       </div>
 
-      {/* formulaire_cache */}
-
+      {/* Modal pour créer un nouveau département */}
       <Modal
         title="Créer un Nouveau département"
         open={isModalVisible}
-        onOk={handleOk}
         onCancel={handleCancel}
         footer={[
           <Button key="back" onClick={handleCancel}>
             Annuler
           </Button>,
-          <Button key="submit" type="primary" onClick={handleOk}>
+          <Button key="submit" type="primary" onClick={handleSubmit}>
             Soumettre
           </Button>,
         ]}
       >
-        <Form {...formItemLayout} style={{ maxWidth: 600 }}  initialValues={{ Number_of_Employee: 0 }}>
-          <Form.Item label="Label" name="label" rules={[{ required: true, message: 'Champs vide!' }]}>
-            <Input placeholder="Nom du département"/>
+        <Form
+          form={form}
+          layout="vertical"
+          requiredMark={false}
+          className="w-full mx-auto mt-5"
+          initialValues={{
+            remember: true,
+          }}
+          autoComplete="off"
+        >
+          <div className="flex w-full space-x-4 items-center justify-center mx-auto">
+            <Form.Item
+              label="Nom du département"
+              name="departmentName"
+              className="w-full"
+              rules={[
+                {
+                  required: true,
+                  message: "Veuillez entrer le nom du département!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Manager"
+              name="managerName"
+              className="w-full"
+            >
+              <Select
+                showSearch
+                placeholder="Sélectionner le manager"
+              />
+            </Form.Item>
+          </div>
+          <Form.Item label="Localisation" name="location">
+            <Input />
           </Form.Item>
-
-          <Form.Item label="Responsable" name="responsable" rules={[{ required: true, message: 'Champs vide!' }]}>
-            <Input placeholder="Nom du responsable"/>
+          <Form.Item label="Budget en F CFA" name="budget">
+            <Input />
           </Form.Item>
-
-          <Form.Item
-            label="Description"
-            name="description_dep"
-            rules={[{ required: true, message: 'Champs vide!' }]}
-          >
-            <Input.TextArea placeholder="Description du département"/>
+          <Form.Item label="Description" name="description">
+            <Input.TextArea placeholder="Ajouter une description pour ce département" />
           </Form.Item>
-
-
         </Form>
       </Modal>
     </div>
