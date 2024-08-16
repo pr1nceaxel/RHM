@@ -4,65 +4,99 @@ import { Button, message, Steps, theme } from "antd";
 import StepOne from "../components/company/form/StepOne";
 import StepTwo from "../components/company/form/StepTwo";
 import StepThree from "../components/company/form/StepThree";
-const steps = [
-  {
-    title: "Entrepsie",
-    content: <StepOne />,
-  },
-  {
-    title: "Admin",
-    content: <StepTwo />,
-  },
-  {
-    title: "Paiement",
-    content: <StepThree />,
-  },
-];
+import StepFour from "../components/company/form/StepFour";
 
 const LoginCompany = () => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
+  const [selectedForfait, setSelectedForfait] = useState(null); 
+
+  console.log("Forfait choisi:", selectedForfait); 
+
   const next = () => {
     setCurrent(current + 1);
   };
+
   const prev = () => {
     setCurrent(current - 1);
   };
+  const handleForfaitSelection = (forfait) => {
+    setSelectedForfait(forfait);
+    console.log("Forfait choisi:", forfait); 
+    next();
+  };
+
+  const steps = [
+    {
+      title: "Entreprise",
+      content: <StepOne />,
+    },
+    {
+      title: "Admin",
+      content: <StepTwo />,
+    },
+    {
+      title: "Forfait",
+      content: <StepThree nextStep={handleForfaitSelection} />,
+    },
+    {
+      title: "Paiement",
+      content: <StepFour />,
+    },
+  ];
+
   const items = steps.map((item) => ({
     key: item.title,
     title: item.title,
   }));
+
   const contentStyle = {
     marginTop: "18px",
-    minHeight: "500px",
+    minHeight: current === 3 ? "" : "550px",
     color: token.colorTextTertiary,
     borderRadius: token.borderRadiusLG,
-    border: `1px dashed ${token.colorBorder}`,  
-padding: "20px 0px",
+    border:
+      current === 3
+        ? `1px solid ${token.colorBorder}`
+        : `1px dashed ${token.colorBorder}`, // Correction ici
+    padding: "20px 0px",
+    backgroundColor: current === 3 ? "#E9F8F1" : "transparent",
+  };
+  const onChange = (value) => {
+    console.log("onChange:", value);
+    setCurrent(value);
   };
 
   return (
     <>
-      <div className=" w-2/5 mx-auto my-5">
+      <div className="lg:w-2/5 sm:w-full mx-auto my-5">
         <div className="mb-5">
-          <div className="flex items-center ">
+          <div className="flex items-center">
             <img src={logo} alt="" className="w-16 h-16 my-2" />
-            <h1 className="text-3xl font-medium "> Creer votre compte entreprise 🎉</h1>
+            <h1 className="text-3xl font-medium">
+              Créez votre compte entreprise 🎉
+            </h1>
           </div>
-          <div className="">
+          <div>
             <p className="text-lg font-light">
-              Creer votre compte entreprise pour beneficier de nos services.
+              Créez votre compte entreprise pour bénéficier de nos services.
             </p>
           </div>
         </div>
         <div>
-          <Steps current={current} percent={60} items={items} />
+          <Steps
+            current={current}
+            percent={10}
+            items={items}
+            onChange={onChange}
+          />
           <div style={contentStyle}>{steps[current].content}</div>
           <div
             style={{
               marginTop: 24,
               textAlign: "end",
             }}
+            className={current === 2 ? "hidden" : ""}
           >
             {current > 0 && (
               <Button
@@ -71,20 +105,20 @@ padding: "20px 0px",
                 }}
                 onClick={() => prev()}
               >
-                Previous
+                Retour
               </Button>
             )}
             {current < steps.length - 1 && (
               <Button type="primary" onClick={() => next()}>
-                Next
+                Suivant
               </Button>
             )}
             {current === steps.length - 1 && (
               <Button
                 type="primary"
-                onClick={() => message.success("Processing complete!")}
+                onClick={() => message.loading("Un instant!")}
               >
-                Done
+                Creer
               </Button>
             )}
           </div>

@@ -11,20 +11,22 @@ const beforeUpload = (file) => {
     file.type === "image/svg";
   if (!isJpgOrPng) {
     message.error("Vous ne pouvez télécharger que des fichiers JPG/PNG/SVG!");
+    return Upload.LIST_IGNORE; // Bloquer le téléchargement
   }
   const isLt2M = file.size / 1024 / 1024 < 2;
   if (!isLt2M) {
     message.error(
       "Vous ne pouvez télécharger des fichiers que de moins de 2 Mo!"
     );
+    return Upload.LIST_IGNORE; // Bloquer le téléchargement
   }
-  return isJpgOrPng && isLt2M;
+  return false; // Empêcher l'upload automatique
 };
 
 export default function StepOne() {
   const countryOptions = countryList().getData();
-
   const [fileList, setFileList] = useState([]);
+  const [form] = Form.useForm();
 
   const onChange = ({ fileList: newFileList }) => {
     // Limiter à un seul fichier
@@ -50,23 +52,28 @@ export default function StepOne() {
     imgWindow?.document.write(image.outerHTML);
   };
 
+  const handleFormChange = (changedValues, allValues) => {
+    console.log("Form values:", { ...allValues, logo: fileList[0]?.originFileObj });
+  };
+
   return (
     <div>
       <Form
+        form={form}
         name="basic"
         layout="vertical"
         requiredMark={false}
         className="w-full mx-auto p-4"
         autoComplete="off"
+        onValuesChange={handleFormChange}
       >
         <div className="flex w-full space-x-4 items-center justify-center mx-auto">
           <Form.Item name="logo">
-            <ImgCrop rotationSlider aspectSlider>
+            <ImgCrop rotationSlider aspectSliderar>
               <Upload
                 listType="picture-circle"
                 name="avatar"
                 className="avatar-uploader"
-                action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
                 fileList={fileList}
                 onChange={onChange}
                 onPreview={onPreview}
@@ -99,7 +106,7 @@ export default function StepOne() {
           rules={[
             {
               required: true,
-              message: "Veuillez entrer votre email professionnel!",
+              message: "Veuillez entrer l'email professionnel de l'entreprise!",
             },
           ]}
         >
@@ -112,7 +119,8 @@ export default function StepOne() {
           rules={[
             {
               required: true,
-              message: "Veuillez entrer votre numéro de téléphone!",
+              message:
+                "Veuillez entrer le numéro de téléphone professionnel de l'entreprise!",
             },
           ]}
         >
