@@ -35,7 +35,7 @@ export const EmployeeList = () => {
       if (e.key === "0") {
         navigate(`/employees/${data.id}`);
       } else if (e.key === "1") {
-        navigate(`/employees/${data.id}/edit`);
+        navigate(`/employees/${data.id}`);
       } else if (e.key === "2") {
         handleDelete(data.id);
       }

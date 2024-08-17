@@ -77,7 +77,7 @@ export const Departments = () => {
         }}
         trigger={["click"]}
       >
-        <a onClick={(e) => e.preventDefault()}>
+        <a className="mt-6" onClick={(e) => e.preventDefault()}>
           <Space>
             <PiDotsThreeOutlineThin size={24} />
           </Space>
@@ -99,7 +99,7 @@ export const Departments = () => {
     {
       field: "leader",
       headerName: "Leader",
-      valueFormatter: (params) => (params.value ? params.value : "aucun"),
+      valueFormatter: (params) => (params.value ? params.value : "N/A"),
     },
     {
       field: "location",

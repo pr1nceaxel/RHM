@@ -34,6 +34,16 @@ const beforeUpload = (file) => {
   return false;
 };
 
+const getBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+};
+
+
 export default function CreateEmployees() {
   const navigate = useNavigate();
   const { departments, loadDepartments } = useDepartmentStore();
@@ -75,10 +85,14 @@ export default function CreateEmployees() {
   const [form] = Form.useForm();
 
   const handleSave = async () => {
+
+    
+    const flagBase64 = fileList.length > 0 ? await getBase64(fileList[0].originFileObj) : null;
     const values = await form.validateFields();
     try {
       console.log("values", values.flag);
       const response = await createEmployee({
+        // flag: flagBase64,
         flag: values.flag,
         comments: values.comments,
         firstName: values.firstName,

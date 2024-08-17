@@ -29,7 +29,6 @@ export default function StepOne() {
   const [form] = Form.useForm();
 
   const onChange = ({ fileList: newFileList }) => {
-    // Limiter à un seul fichier
     if (newFileList.length > 1) {
       newFileList = [newFileList[newFileList.length - 1]];
       message.error("Vous ne pouvez télécharger qu'une seule image.");
