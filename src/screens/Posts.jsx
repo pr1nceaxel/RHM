@@ -1,9 +1,23 @@
+/* eslint-disable react/prop-types */
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Modal, Form, Input, InputNumber, Select, Space } from "antd";
+import {
+  Button,
+  Modal,
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  message,
+  Dropdown,
+  Space,
+} from "antd";
+import { createPost, deletePost, loadPositions } from "../api/post";
+import usePositionStore from "../stores/post";
+import { PiDotsThreeOutlineThin } from "react-icons/pi";
 
 const { Option } = Select;
 
@@ -20,91 +34,91 @@ const formItemLayout = {
 
 export const Posts = () => {
   const navigate = useNavigate();
+  const { positions, loadPositions, removePosition } = usePositionStore();
 
+  const [form] = Form.useForm();
 
-  const [rowData, setRowData] = useState([
-    {
-      id_p: 1,
-      label: "Développeur Full Stack",
-      leader: "Jean Dupont",
-      description: "aaaaaaaaaaaaaaaaaaaaaa",
-      datePosted: "2024-08-01",
-      status: "Diponible",
-      Number_of_Employee: "12",
-    },
-    {
-      id_p: 2,
-      label: "Responsable RH",
-      leader: "Marie Curie",
-      description: "bbbbbbbbbbbbbbbbbbbbbbbbb",
-      datePosted: "2024-07-20",
-      status: "Indiponible",
-      Number_of_Employee: "1",
-    },
-    {
-      id_p: 3,
-      label: "Comptable",
-      leader: "Louis Pasteur",
-      description: "cccccccccccccccccccccccccc",
-      datePosted: "2024-07-15",
-      status: "Diponible",
-      Number_of_Employee: "2",
-    },
-    {
-      id_p: 4,
-      label: "Assistant Marketing",
-      leader: "Claude Monet",
-      description: "dddddddddddddddddddddddddd",
-      datePosted: "2024-06-30",
-      status: "Indiponible",
-      Number_of_Employee: "3",
-    },
-  ]);
+  const [rowData, setRowData] = useState([]);
 
-  const onStatusChange = (value) => {
-    switch (value) {
-      case 'Diponible':
-        form.setFieldsValue({});
-        break;
-      case 'Indiponible':
-        form.setFieldsValue({});
-        break;
-
-      default:
+  const handleDelete = async (id) => {
+    try {
+      const response = await deletePost(id);
+      if (response.data.ok) {
+        removePosition(id);
+        message.success("Post supprimé avec succès");
+        loadPositions();
+      }
+    } catch (error) {
+      message.error(`Oops! ${error.message}`);
     }
   };
 
-  const [colDefs, setColDefs] = useState([
-    { field: "label", headerName: "Label du Poste" },
-    { field: "leader", headerName: "Responsable" },
-    // { field: "description", headerName: "Description" },
-    // { field: "datePosted", headerName: "Date de Publication" },
-    {
-      field: "status",
-      headerName: "Statut",
-      cellRenderer: (params) => {
-        switch (params.value) {
-          case "Diponible":
-            return "🟢 Diponible";
-          case "Indiponible":
-            return "🔴 Indiponible";
+  const CustomButtonComponent = (props) => {
+    const { data } = props;
+    const handleMenuClick = (e) => {
+      if (e.key === "0") {
+        navigate(`/departments/${data.id}`);
+      } else if (e.key === "1") {
+        navigate(`/departments/${data.id}/edit`);
+      } else if (e.key === "2") {
+        handleDelete(data.id);
+      }
+    };
 
-          default:
-            return params.value;
-        }
+    const items = [
+      {
+        label: <a href="#">Détail</a>,
+        key: "0",
       },
-    },
+      {
+        label: <a href="#">Modifier</a>,
+        key: "1",
+      },
+      {
+        type: "divider",
+      },
+      {
+        label: <a href="#">Supprimer</a>,
+        danger: true,
+        key: "2",
+      },
+    ];
+
+    return (
+      <Dropdown
+        menu={{
+          items,
+          onClick: handleMenuClick,
+        }}
+        trigger={["click"]}
+      >
+        <a className="mt-6" onClick={(e) => e.preventDefault()}>
+          <Space>
+            <PiDotsThreeOutlineThin size={24} />
+          </Space>
+        </a>
+      </Dropdown>
+    );
+  };
+
+  useEffect(() => {
+    loadPositions();
+  }, [loadPositions]);
+
+  useEffect(() => {
+    setRowData(positions);
+  }, [positions]);
+
+  const [colDefs] = useState([
+    { field: "title", headerName: "Label du Poste" },
+    { field: "department", headerName: "Département" },
     { field: "Number_of_Employee", headerName: "Nombre d'Employés" },
-    // {
-    //   headerName: "Action",
-    //   cellRendererFramework: (params) => (
-    //     <Space size="middle">
-    //       <Button onClick={() => handleEdit(params.data)}>Modifier</Button>
-    //       <Button onClick={() => handleDelete(params.data)}>Supprimer</Button>
-    //       <Button onClick={() => handleViewMore(params.data)}>Voir Plus</Button>
-    //     </Space>
-    //   ),
-    // },
+    {
+      field: "Action",
+      cellRenderer: CustomButtonComponent,
+      flex: 0.4,
+      filter: false,
+    },
   ]);
 
   const defaultColDef = {
@@ -124,34 +138,30 @@ export const Posts = () => {
     setIsModalVisible(true);
   };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
   const handleCancel = () => {
     setIsModalVisible(false);
   };
 
-  const handleEdit = (data) => {
-    console.log("Edit: ", data);
-    // Logique pour modifier le poste
-  };
+  const handleSubmit = async () => {
+    try {
+      const values = await form.validateFields();
+      const newPost = {
+        label: values.label,
+        leader: values.responsable,
+        description: values.description_post,
+        datePosted: new Date().toISOString().split("T")[0], 
+        status: values.status,
+        Number_of_Employee: values.Number_of_Employee,
+      };
 
-  const handleDelete = (data) => {
-    console.log("Delete: ", data);
-    // Logique pour supprimer le poste
+      const response = await createPost(newPost);
+      setRowData([...rowData, response.data]); 
+      setIsModalVisible(false);
+      form.resetFields(); 
+    } catch (error) {
+      console.error("Failed to create post:", error);
+    }
   };
-
-  const handleViewMore = (data) => {
-    console.log("View More: ", data);
-    // Logique pour voir plus de détails sur le poste
-  };
-
-  const handleRowClick = (event) => {
-    const { id, label, leader,description , datePosted, Number_of_Employee } = event.data;
-    navigate(`/home/company/CreatePosts?id_p=${id}&label=${label}&leader=${leader}&description=${description}&Number_of_Employee=${Number_of_Employee}`);
-  };
-  
 
   return (
     <div className="mx-5 py-3">
@@ -176,54 +186,57 @@ export const Posts = () => {
           rowData={rowData}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
-          onRowClicked={handleRowClick}
-
         />
       </div>
 
       <Modal
         title="Créer un Nouveau Poste"
         open={isModalVisible}
-        onOk={handleOk}
+        onOk={handleSubmit}
         onCancel={handleCancel}
         footer={[
           <Button key="back" onClick={handleCancel}>
             Annuler
           </Button>,
-          <Button key="submit" type="primary" onClick={handleOk}>
+          <Button key="submit" type="primary" onClick={handleSubmit}>
             Soumettre
           </Button>,
         ]}
       >
-        <Form {...formItemLayout} style={{ maxWidth: 600 }} initialValues={{ Number_of_Employee: 0 }}>
-          <Form.Item label="Label" name="label" rules={[{ required: true, message: 'Champs vide!' }]}>
+        <Form
+          {...formItemLayout}
+          form={form}
+          style={{ maxWidth: 600 }}
+          initialValues={{ Number_of_Employee: 0 }}
+        >
+          <Form.Item
+            label="Label"
+            name="label"
+            rules={[{ required: true, message: "Champs vide!" }]}
+          >
             <Input placeholder="Nom du poste" />
           </Form.Item>
 
-          <Form.Item label="Responsable" name="responsable" rules={[{ required: true, message: 'Champs vide!' }]}>
+          <Form.Item
+            label="Responsable"
+            name="responsable"
+            rules={[{ required: true, message: "Champs vide!" }]}
+          >
             <Input placeholder="Nom du responsable" />
           </Form.Item>
 
           <Form.Item
             label="Description"
             name="description_post"
-            rules={[{ required: true, message: 'Champs vide!' }]}
+            rules={[{ required: true, message: "Champs vide!" }]}
           >
             <Input.TextArea placeholder="Description du poste" />
           </Form.Item>
 
-          <Form.Item
-            name="status"
-            label="Statut"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
+          <Form.Item name="status" label="Statut" rules={[{ required: true }]}>
             <Select
               placeholder="Sélectionnez une option"
-              onChange={onStatusChange}
+              onChange={() => {}}
               allowClear
             >
               <Option value="Disponible">Disponible</Option>
@@ -231,7 +244,11 @@ export const Posts = () => {
             </Select>
           </Form.Item>
 
-          <Form.Item label="Nombre" name="Number_of_Employee" rules={[{ required: true, message: 'Champs vide!' }]}>
+          <Form.Item
+            label="Nombre"
+            name="Number_of_Employee"
+            rules={[{ required: true, message: "Champs vide!" }]}
+          >
             <InputNumber />
           </Form.Item>
         </Form>
