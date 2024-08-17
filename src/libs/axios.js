@@ -10,7 +10,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
     (config) => {
-        console.log("Requête envoyée :", config);
+        // console.log("Requête envoyée :", config);
         return config;
     },
     (error) => {
@@ -21,7 +21,7 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
     (response) => {
-        console.log("Réponse reçue :", response);
+        // console.log("Réponse reçue :", response);
         return response;
     },
     (error) => {

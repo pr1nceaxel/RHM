@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Button,
@@ -9,21 +10,112 @@ import {
   Form,
   Input,
   Select,
+  message,
+  Dropdown,
+  Space,
 } from "antd";
-import { createDepartement } from "../api/departement";
+import { createDepartement, deleteDepartement } from "../api/departement";
+import useDepartmentStore from "../stores/departement";
+import { PiDotsThreeOutlineThin } from "react-icons/pi";
 
 export const Departments = () => {
   const navigate = useNavigate();
-  const [form] = Form.useForm(); 
+  const { departments, loadDepartments } = useDepartmentStore();
+  const [form] = Form.useForm();
+  const [rowData, setRowData] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const [rowData, setRowData] = useState([
-    
-  ]);
+  const handleDelete = async (id) => {
+    try {
+      const response = await deleteDepartement(id);
+      if (response.data.ok) {
+        message.success("Département supprimé avec succès");
+        loadDepartments();
+      }
+    } catch (error) {
+      message.error(`Oops! ${error.message}`);
+    }
+  };
 
-  const [colDefs, setColDefs] = useState([
-    { field: "label", headerName: "Label du Département" },
-    { field: "leader", headerName: "Responsable" },
-    { field: "number_of_post", headerName: "Nombre de post" },
+  const CustomButtonComponent = (props) => {
+    const { data } = props;
+    const handleMenuClick = (e) => {
+      if (e.key === "0") {
+        navigate(`/departments/${data.id}`);
+      } else if (e.key === "1") {
+        navigate(`/departments/${data.id}/edit`);
+      } else if (e.key === "2") {
+        handleDelete(data.id);
+      }
+    };
+
+    const items = [
+      {
+        label: <a href="#">Détail</a>,
+        key: "0",
+      },
+      {
+        label: <a href="#">Modifier</a>,
+        key: "1",
+      },
+      {
+        type: "divider",
+      },
+      {
+        label: <a href="#">Supprimer</a>,
+        danger: true,
+        key: "2",
+      },
+    ];
+
+    return (
+      <Dropdown
+        menu={{
+          items,
+          onClick: handleMenuClick,
+        }}
+        trigger={["click"]}
+      >
+        <a onClick={(e) => e.preventDefault()}>
+          <Space>
+            <PiDotsThreeOutlineThin size={24} />
+          </Space>
+        </a>
+      </Dropdown>
+    );
+  };
+
+  useEffect(() => {
+    loadDepartments();
+  }, [loadDepartments]);
+
+  useEffect(() => {
+    setRowData(departments);
+  }, [departments]);
+
+  const [colDefs] = useState([
+    { field: "name", headerName: "Label" },
+    {
+      field: "leader",
+      headerName: "Leader",
+      valueFormatter: (params) => (params.value ? params.value : "aucun"),
+    },
+    {
+      field: "location",
+      headerName: "Localisation",
+      valueFormatter: (params) => (params.value ? params.value : "aucune"),
+    },
+    {
+      field: "budget",
+      headerName: "Budget",
+      valueFormatter: (params) => (params.value ? params.value : "aucun"),
+    },
+    {
+      field: "Action",
+      cellRenderer: CustomButtonComponent,
+      flex: 0.4,
+      filter: false,
+    },
   ]);
 
   const defaultColDef = {
@@ -32,8 +124,6 @@ export const Departments = () => {
     filter: true,
     floatingFilter: true,
   };
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -44,37 +134,43 @@ export const Departments = () => {
   };
 
   const handleRowClick = (event) => {
-    const { id_dep, label, leader, des_dep, number_of_post } = event.data;
-    navigate(
-      `/home/company/Departments/CreateDep?id_dep=${id_dep}&label=${label}&leader=${leader}&des_dep=${des_dep}&number_of_post=${number_of_post}`
-    );
+    const { id } = event.data;
+    console.log("Row clicked:", id);
   };
 
   const handleSubmit = async () => {
     try {
-      
       const values = await form.validateFields();
-      console.log("Form values:", values);
-      
-      const response = await createDepartement(values.departmentName, values.managerName, values.location, parseFloat(values.budget) , values.description);
-      console.log("Response:", response);
 
-      // if (response.success) {
-      //   message.success("Département créé avec succès !");
-        
-      //   setRowData([...rowData, response.newDepartment]);
-      //   setIsModalVisible(false);
-      //   form.resetFields(); 
-      // } else {
-      //   message.error("Erreur lors de la création du département : " + response.message);
-      // }
+      if (values.budget <= 0) {
+        message.error("Le budget doit être supérieur à 0");
+        return;
+      }
+
+      try {
+        const response = await createDepartement(
+          values.departmentName,
+          values.managerName,
+          values.location,
+          values.budget,
+          values.description
+        );
+        if (response.data.ok) {
+          form.resetFields();
+          setIsModalVisible(false);
+          message.success("Département créé avec succès");
+          loadDepartments();
+        }
+      } catch (error) {
+        message.error(`Oops! ${error.message}`);
+      }
     } catch (error) {
       console.error("Une erreur est survenue:", error);
     }
   };
 
   return (
-    <div className="mx-5 py-3">
+    <div className="mx-5 py-3 ag-theme-quartz">
       <div className="flex mx-2 justify-between my-3">
         <div>
           <h1 className="text-xl font-bold">Départements</h1>
@@ -86,11 +182,10 @@ export const Departments = () => {
           </Button>
         </div>
       </div>
-      <div className="ag-theme-quartz" style={{ height: 500 }}>
+      <div style={{ height: "70vh" }}>
         <AgGridReact
           pagination={true}
           paginationPageSize={500}
-          paginationPageSizeSelector={[200, 500, 1000]}
           rowData={rowData}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
@@ -137,15 +232,8 @@ export const Departments = () => {
               <Input />
             </Form.Item>
 
-            <Form.Item
-              label="Manager"
-              name="managerName"
-              className="w-full"
-            >
-              <Select
-                showSearch
-                placeholder="Sélectionner le manager"
-              />
+            <Form.Item label="Manager" name="managerName" className="w-full">
+              <Select showSearch placeholder="Sélectionner le manager" />
             </Form.Item>
           </div>
           <Form.Item label="Localisation" name="location">
