@@ -20,7 +20,7 @@ import { PiDotsThreeOutlineThin } from "react-icons/pi";
 
 export const Departments = () => {
   const navigate = useNavigate();
-  const { departments, loadDepartments } = useDepartmentStore();
+  const { departments, loadDepartments,removeDepartment  } = useDepartmentStore();
   const [form] = Form.useForm();
   const [rowData, setRowData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -29,6 +29,7 @@ export const Departments = () => {
     try {
       const response = await deleteDepartement(id);
       if (response.data.ok) {
+        removeDepartment(id);
         message.success("Département supprimé avec succès");
         loadDepartments();
       }
