@@ -9,17 +9,20 @@ export default function EmployerCards({ employee }) {
     <div className="w-80 border rounded-xl mx-auto">
       <div className="mx-auto text-center my-4">
         <img
-          src={employee.photo || logo}
+          src={logo}
           alt=""
-          className="w-28 h-28 my-2 border mx-auto rounded-3xl"
+          className="w-28 h-28 my-2 border mx-auto rounded-full"
         />
       </div>
       <div className="my-2">
-        <p className="mx-auto text-center font-medium">{employee.firstName + ' ' + employee.lastName || "Nom Non Disponible"}</p>
+        <p className="mx-auto text-center font-medium">
+          {employee?.firstName && employee?.lastName ? `${ employee.firstName } ${employee.lastName}` : "Nom Non Disponible"}
+        </p>
       </div>
       <div className="my-2">
         <p className="mx-auto text-center text-gray-500">
-          {employee.position || "Poste Non Disponible"}
+          {employee?.position?.title || "Poste Non Disponible"}
+
         </p>
       </div>
       <div className="flex justify-center items-center space-x-4 my-4">

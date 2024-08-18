@@ -119,9 +119,10 @@ const HomeLayout = () => {
                 height: 64,
               }}
             />
-            <p>NAVBAR</p>
+            <p className="font-medium text-base text-gray-500">LOUTCHE</p>
 
             <div className="ml-auto flex items-center gap-5 mx-10">
+              <p className="text-blue-950">Aide</p>
               <Badge count={5}>
                 <IoMdNotificationsOutline size={24} />
               </Badge>

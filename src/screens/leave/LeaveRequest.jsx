@@ -125,7 +125,7 @@ export const LeaveRequest = () => {
           </Button>
         </div>
       </div>
-      <div className="ag-theme-quartz" style={{ height: 500 }}>
+      <div className="ag-theme-quartz" style={{ height: "70vh"}}>
         <AgGridReact
           pagination={pagination}
           paginationPageSize={paginationPageSize}

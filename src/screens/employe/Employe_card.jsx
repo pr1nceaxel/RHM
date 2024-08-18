@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import { getEmployes } from "../../api/api_employe";
 import EmployerCards from "../../components/ui/EmployeeCards";
 import EmployeSkeletonCard from "../../skeleton/employecard";
@@ -11,8 +10,10 @@ export default function EmployeCard() {
   useEffect(() => {
     async function fetchEmployees() {
       try {
-        const response = await getEmployes()
-        setEmployees(response.data);
+        const response = await getEmployes();
+        if (response && response.data) {
+          setEmployees(response.data);
+        }
       } catch (error) {
         console.error('Erreur lors du chargement des employés:', error);
       } finally {
@@ -27,9 +28,12 @@ export default function EmployeCard() {
     <div className="flex justify-center">
       <div className="flex flex-wrap gap-4 justify-center">
         {loading
-          ? Array.from({ length: 10 }).map((_, index) => <EmployeSkeletonCard key={index} />)
-          : employees.map((employee) => <EmployerCards key={employee.id} employee={employee} />)
-        }
+          ? Array.from({ length: 10 }).map((_, index) => (
+              <EmployeSkeletonCard key={index} />
+            ))
+          : employees.map((employee) => (
+              <EmployerCards key={employee.id} employee={employee} />
+            ))}
       </div>
     </div>
   );
