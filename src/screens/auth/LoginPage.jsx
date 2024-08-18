@@ -1,9 +1,9 @@
-import logo from "../assets/LOGO.svg";
+import logo from "../../assets/LOGO.svg";
 import { Button, Checkbox, Form, Input } from "antd";
 import { useState, useEffect } from "react";
-import useAuthStore from "../stores/auth";
-import { loginUser } from "../api/auth";
+import useAuthStore from "../../stores/store_auth";
 
+import { loginUser } from "../../api/api_auth";
 
 // Liste des images du diaporama
 const images = [

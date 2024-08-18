@@ -3,22 +3,21 @@ import { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
-import { Button, Dropdown, Space, message } from "antd";
+import {  Dropdown, Space, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { PiDotsThreeOutlineThin } from "react-icons/pi";
 
-import { deleteEmployee } from "../api/employe";
-import useEmployeeStore from "../stores/employe";
+import { deleteEmploye } from "../../api/api_employe";
+import  useEmployeStore  from "../../stores/store_employe";
 
-export const EmployeeList = () => {
+export const EmployeList = () => {
   const navigate = useNavigate();
-  const { employees, loadEmployees, removeEmployee } = useEmployeeStore();
+  const { employees, loadEmployees, removeEmployee } = useEmployeStore();
   const [rowData, setRowData] = useState([]);
 
   const handleDelete = async (id) => {
     try {
-      const response = await deleteEmployee(id);
-      console.log("response", response);
+      const response = await deleteEmploye(id);
       if (response.ok) {
         message.success("Employé supprimé avec succès");
         removeEmployee(id);
@@ -88,38 +87,17 @@ export const EmployeeList = () => {
     floatingFilter: true,
   };
 
-  const handleRowClick = (event) => {
-    const { id } = event.data;
-    console.log("Row clicked:", id);
-  };
-
   return (
-    <div className="mx-5 py-3">
-      <div className="flex mx-2 justify-between my-3">
-        <div>
-          <h1 className="text-xl font-bold">Liste des Employés</h1>
-          <p>Voici la liste des employés de notre entreprise.</p>
-        </div>
-        <div>
-          <Button
-            type="primary"
-            size="large"
-            onClick={() => navigate("/employees/create")}
-          >
-            Nouveau
-          </Button>
-        </div>
-      </div>
+
       <div className="ag-theme-quartz" style={{ height: "70vh" }}>
         <AgGridReact
           pagination={true}
-          paginationPageSize={500}
           rowData={rowData}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
-          onRowClicked={handleRowClick}
         />
       </div>
-    </div>
-  );
+
+  
+  )
 };

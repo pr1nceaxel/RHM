@@ -1,7 +1,7 @@
 import api from "../libs/axios";
 
 
-export const getEmployees = async () => {
+export const getEmployes = async () => {
   try {
     const response = await api.get("/employe");
     return response.data;
@@ -11,7 +11,7 @@ export const getEmployees = async () => {
 };
 
 
-export const createEmployee = async ({
+export const createEmploye = async ({
   flag,
   comments, 
   firstName,
@@ -62,7 +62,7 @@ export const createEmployee = async ({
   }
 };
 
-export const getEmployee = async (id) => {
+export const getEmploye = async (id) => {
   try {
     const response = await api.get(`/employe/${id}`);
     return response.data;
@@ -71,7 +71,7 @@ export const getEmployee = async (id) => {
   }
 }
 
-export const deleteEmployee = async (id) => {
+export const deleteEmploye = async (id) => {
   try {
     const response = await api.delete(`/employe/${id}`);
     return response.data;

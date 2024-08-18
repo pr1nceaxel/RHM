@@ -1,13 +1,13 @@
 import { create } from 'zustand';
-import { getEmployees } from '../api/employe';
+import {  getEmployes } from '../api/api_employe';
 
 
-const useEmployeeStore = create((set) => ({
+const useEmployeStore = create((set) => ({
   employees: [],
 
   loadEmployees: async () => {
     try {
-      const response = await getEmployees();
+      const response = await getEmployes();
       if (response && response.data) {
         const employees = response.data.map(emp => ({
           ...emp,
@@ -41,4 +41,4 @@ const useEmployeeStore = create((set) => ({
   },
 }));
 
-export default useEmployeeStore;
+export default useEmployeStore;

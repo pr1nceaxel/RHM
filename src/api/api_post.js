@@ -1,13 +1,13 @@
 import api from "../libs/axios";
 
-export const createPost = async (title, description, responsibilities, requirements, departementId) => {
+export const createPost = async (title, description, departmentId ) => {
     try {
         const response = await api.post("/post", {
             title : title,
             description: description,
-            responsibilities: responsibilities,
-            requirements: requirements,
-            departementId: departementId
+            departmentId: departmentId,
+            // responsibilities: responsibilities,
+            // requirements: requirements,
         });
         return response;
     } catch (error) {
@@ -41,7 +41,7 @@ export const deletePost = async (id) => {
 
 export const getPosts = async () => {
     try {
-        const response = await api.get("/post");
+        const response = await api.get("/post"); 
         return response.data
     } catch (error) {
         throw error.response?.data || error.message;

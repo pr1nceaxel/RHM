@@ -4,6 +4,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { PiDotsThreeOutlineThin } from "react-icons/pi";
 import {
   Button,
   Modal,
@@ -14,9 +15,10 @@ import {
   Dropdown,
   Space,
 } from "antd";
-import { createDepartement, deleteDepartement } from "../api/departement";
-import useDepartmentStore from "../stores/departement";
-import { PiDotsThreeOutlineThin } from "react-icons/pi";
+
+import  useDepartmentStore  from "../../stores/store_departement";
+import { createDepartement, deleteDepartement } from "../../api/api_departement";
+
 
 export const Departments = () => {
   const navigate = useNavigate();
@@ -186,7 +188,6 @@ export const Departments = () => {
       <div style={{ height: "70vh" }}>
         <AgGridReact
           pagination={true}
-          paginationPageSize={500}
           rowData={rowData}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}

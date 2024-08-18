@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { getDepartements } from '../api/departement';
+import { getDepartements } from "../api/api_departement";
 
 
 const useDepartmentStore = create((set) => ({

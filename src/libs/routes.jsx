@@ -1,34 +1,34 @@
 import { createBrowserRouter } from "react-router-dom";
+
+// Layouts
 import HomeLayout from "../layouts/homelayout";
-import { Dashboard } from "../screens/Dashboard";
-import { EmployeeList } from "../screens/EmployeeList";
-import { EmployeeTeam } from "../screens/EmployeeTeam";
-import { EmployeeCounter } from "../screens/EmployeeCounter";
-import { EmployeeArchive } from "../screens/EmployeeArchive";
-import { EmployeeTools } from "../screens/EmployeeTools";
-import { LeaveRequest } from "../screens/LeaveRequest";
-import { AbsenceCalendar } from "../screens/AbsenceCalendar";
-import { LeaveCalendar } from "../screens/LeaveCalendar";
-import { LeaveTracking } from "../screens/LeaveTracking";
-import { TimeTracking } from "../screens/TimeTracking";
-import { Overtime } from "../screens/Overtime";
-import { Schedule } from "../screens/Schedule";
-import { Payroll } from "../screens/Payroll";
-import { Benefits } from "../screens/Benefits";
-import { PayrollHistory } from "../screens/PayrollHistory";
-import { Posts } from "../screens/Posts";
-import { Departments } from "../screens/Departments";
-import { Partner } from "../screens/Partner";
-import CreateEmployees from "../screens/CreateEmployees";
-import CreatePosts from "../screens/CreatePosts";
-import CreateDep from "../screens/CreateDep";
-import CreatePart from "../screens/CreatePart";
-import CreateTeams from "../screens/CreateTeams";
-import ViewInformationEmploye from "../screens/ViewInformationEmploye";
-import LoginCompany from "../screens/LoginCompany";
-import LoginPage from "../screens/LoginPage";
+import EmployeLayout from "../layouts/EmployeLayout";
 import RequireAuth from "../layouts/RequireAuth";
 import NotRequireAuth from "../layouts/NotRequireAuth";
+
+// Screens
+import {Dashboard} from "../screens/Dashboard";
+import {EmployeList} from "../screens/employe/Employe_list";
+import EmployeCard from "../screens/employe/Employe_card";
+import CreateEmploye from "../screens/employe/Employe_create";
+import {EmployeCounter} from "../screens/employe/Employe_counter";
+import ViewInformationEmploye from "../screens/employe/ViewInformationEmploye";
+import {EmployeTeam} from "../screens/employe/Employe_team";
+import CreateTeams from "../screens/entreprise/CreateTeams";
+import {EmployeArchive} from "../screens/employe/Employe_archive";
+import {EmployeTools} from "../screens/employe/Employe_tools";
+import {LeaveRequest} from "../screens/leave/LeaveRequest";
+import { AbsenceCalendar } from "../screens/leave/AbsenceCalendar";
+import {LeaveCalendar} from "../screens/leave/LeaveCalendar";
+import {LeaveTracking} from "../screens/leave/LeaveTracking";
+import {TimeTracking} from "../screens/time/TimeTracking";
+import {Overtime} from "../screens/time/Overtime";
+import {Schedule} from "../screens/time/Schedule";
+import { Posts } from "../screens/entreprise/Posts";
+import CreatePosts from "../screens/entreprise/CreatePosts";
+import {Departments} from "../screens/departement/Departments";
+import LoginPage from "../screens/auth/LoginPage";
+import LoginCompany from "../screens/auth/LoginCompany";
 
 export const router = createBrowserRouter([
   {
@@ -55,12 +55,22 @@ export const router = createBrowserRouter([
             element: <Dashboard />,
           },
           {
-            path: "employees/list",
-            element: <EmployeeList />,
+            path: "employees/",
+            element: <EmployeLayout />,
+            children: [
+              {
+                path: "",
+                element: <EmployeCard />,
+              },
+              {
+                path: "list",
+                element: <EmployeList />,
+              },
+            ],
           },
           {
             path: "employees/create",
-            element: <CreateEmployees />,
+            element: <CreateEmploye />,
           },
           {
             path: "employees/:id",
@@ -68,7 +78,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "employees/team",
-            element: <EmployeeTeam />,
+            element: <EmployeTeam />,
           },
           {
             path: "employees/team/create",
@@ -76,15 +86,15 @@ export const router = createBrowserRouter([
           },
           {
             path: "employees/counter",
-            element: <EmployeeCounter />,
+            element: <EmployeCounter />,
           },
           {
             path: "employees/archive",
-            element: <EmployeeArchive />,
+            element: <EmployeArchive />,
           },
           {
             path: "employees/tools",
-            element: <EmployeeTools />,
+            element: <EmployeTools />,
           },
           {
             path: "absences/leave-request",
@@ -116,15 +126,15 @@ export const router = createBrowserRouter([
           },
           {
             path: "payroll/statement",
-            element: <Payroll />,
+            element: <p>payrole/statement</p>,
           },
           {
             path: "payroll/benefits",
-            element: <Benefits />,
+            element: <p>payrole/benefice</p>,
           },
           {
             path: "payroll/history",
-            element: <PayrollHistory />,
+            element: <p>payrole/history</p>,
           },
           {
             path: "company/posts",
@@ -139,16 +149,12 @@ export const router = createBrowserRouter([
             element: <Departments />,
           },
           {
-            path: "company/departments/create",
-            element: <CreateDep />,
-          },
-          {
             path: "company/partner",
-            element: <Partner />,
+            element: <p>company/partner</p>,
           },
           {
             path: "company/partner/create",
-            element: <CreatePart />,
+            element: <p>company/partner/create</p>,
           },
         ],
       },

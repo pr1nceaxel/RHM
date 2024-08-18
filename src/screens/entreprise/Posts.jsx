@@ -9,36 +9,43 @@ import {
   Modal,
   Form,
   Input,
-  InputNumber,
   Select,
   message,
   Dropdown,
   Space,
 } from "antd";
-import { createPost, deletePost, loadPositions } from "../api/post";
-import usePositionStore from "../stores/post";
+import usePositionStore from "../../stores/Store_post";
+import useDepartmentStore from "../../stores/Store_departement";
+import { createPost, deletePost } from "../../api/api_post";
 import { PiDotsThreeOutlineThin } from "react-icons/pi";
 
-const { Option } = Select;
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 6 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 14 },
-  },
-};
 
 export const Posts = () => {
   const navigate = useNavigate();
   const { positions, loadPositions, removePosition } = usePositionStore();
+  const { departments, loadDepartments } = useDepartmentStore();
+  
 
   const [form] = Form.useForm();
-
   const [rowData, setRowData] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [departements, setDepartements] = useState([]);
+
+  useEffect(() => {
+    loadDepartments();
+  }, [loadDepartments]);
+
+  useEffect(() => {
+    setDepartements(departments);
+  }, [departments]);
+
+  useEffect(() => {
+    loadPositions();
+  }, [loadPositions]);
+
+  useEffect(() => {
+    setRowData(positions);
+  }, [positions]);
 
   const handleDelete = async (id) => {
     try {
@@ -101,18 +108,10 @@ export const Posts = () => {
     );
   };
 
-  useEffect(() => {
-    loadPositions();
-  }, [loadPositions]);
-
-  useEffect(() => {
-    setRowData(positions);
-  }, [positions]);
-
   const [colDefs] = useState([
     { field: "title", headerName: "Label du Poste" },
     { field: "department", headerName: "Département" },
-    { field: "Number_of_Employee", headerName: "Nombre d'Employés" },
+    { field: "employees", headerName: "Nbr d'employé " },
     {
       field: "Action",
       cellRenderer: CustomButtonComponent,
@@ -132,8 +131,6 @@ export const Posts = () => {
   const paginationPageSize = 500;
   const paginationPageSizeSelector = [200, 500, 1000];
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -145,21 +142,24 @@ export const Posts = () => {
   const handleSubmit = async () => {
     try {
       const values = await form.validateFields();
-      const newPost = {
-        label: values.label,
-        leader: values.responsable,
-        description: values.description_post,
-        datePosted: new Date().toISOString().split("T")[0], 
-        status: values.status,
-        Number_of_Employee: values.Number_of_Employee,
-      };
-
-      const response = await createPost(newPost);
-      setRowData([...rowData, response.data]); 
-      setIsModalVisible(false);
-      form.resetFields(); 
+      try {
+        const response = await createPost(
+          values.title,
+          values.description,
+          values.departmentId
+        );
+        if(response.data.ok) {
+          form.resetFields();
+          setIsModalVisible(false);
+          message.success("Post créé avec succès");
+          loadPositions();
+        }
+        
+      } catch (error) {
+        message.error(`Oops! ${error.message}`);
+      }
     } catch (error) {
-      console.error("Failed to create post:", error);
+      message.error(`Failed to create post: ${error.message}`);
     }
   };
 
@@ -204,52 +204,62 @@ export const Posts = () => {
         ]}
       >
         <Form
-          {...formItemLayout}
           form={form}
-          style={{ maxWidth: 600 }}
-          initialValues={{ Number_of_Employee: 0 }}
+          layout="vertical"
+          requiredMark={false}
+          className="w-full mx-auto mt-5"
+          initialValues={{
+            remember: true,
+          }}
+          autoComplete="off"
         >
           <Form.Item
-            label="Label"
-            name="label"
-            rules={[{ required: true, message: "Champs vide!" }]}
+            label="Intituité du Poste"
+            name="title"
+            className="w-full"
+            rules={[
+              {
+                required: true,
+                message: "Veuillez entrer le nom du poste!",
+              },
+            ]}
           >
-            <Input placeholder="Nom du poste" />
+            <Input />
           </Form.Item>
 
           <Form.Item
-            label="Responsable"
-            name="responsable"
-            rules={[{ required: true, message: "Champs vide!" }]}
+            label="Département"
+            name="departmentId"
+            className=""
+            rules={[
+              {
+                required: true,
+                message: "Veuillez sélectionner un département!",
+              },
+            ]}
           >
-            <Input placeholder="Nom du responsable" />
+            <Select
+              showSearch
+              placeholder="Sélectionner un département"
+              options={departements.map((dept) => ({
+                value: dept.id,
+                label: dept.name,
+              }))}
+            />
           </Form.Item>
 
           <Form.Item
             label="Description"
-            name="description_post"
-            rules={[{ required: true, message: "Champs vide!" }]}
+            name="description"
+            className="w-full"
+            rules={[
+              {
+                required: true,
+                message: "Veuillez entrer une description!",
+              },
+            ]}
           >
-            <Input.TextArea placeholder="Description du poste" />
-          </Form.Item>
-
-          <Form.Item name="status" label="Statut" rules={[{ required: true }]}>
-            <Select
-              placeholder="Sélectionnez une option"
-              onChange={() => {}}
-              allowClear
-            >
-              <Option value="Disponible">Disponible</Option>
-              <Option value="Indisponible">Indisponible</Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            label="Nombre"
-            name="Number_of_Employee"
-            rules={[{ required: true, message: "Champs vide!" }]}
-          >
-            <InputNumber />
+            <Input />
           </Form.Item>
         </Form>
       </Modal>

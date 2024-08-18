@@ -28,7 +28,7 @@ import {
   }
   
   export const items = [
-    getItem("Dashboard", "1", <DashboardOutlined />, ""),
+    getItem("Dashboard", "1", <DashboardOutlined />, "/"),
     getItem("Employés", "sub1", <UsergroupAddOutlined />, null, [
       getItem("Liste", "2", <TeamOutlined />, "/employees/list"),
       getItem("Équipe", "3", <TeamOutlined />, "/employees/team"),

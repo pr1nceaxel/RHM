@@ -1,10 +1,11 @@
-import logo from "../assets/LOGO.svg";
+import logo from "../../assets/LOGO.svg";
 import { useState } from "react";
 import { Button, message, Steps, theme } from "antd";
-import StepOne from "../components/company/form/StepOne";
-import StepTwo from "../components/company/form/StepTwo";
-import StepThree from "../components/company/form/StepThree";
-import StepFour from "../components/company/form/StepFour";
+
+import StepOne from "../../components/company/form/StepOne";
+import StepTwo from "../../components/company/form/StepTwo";
+import StepThree from "../../components/company/form/StepThree";
+import StepFour from "../../components/company/form/StepFour";
 
 const LoginCompany = () => {
   const { token } = theme.useToken();
@@ -58,12 +59,11 @@ const LoginCompany = () => {
     border:
       current === 3
         ? `1px solid ${token.colorBorder}`
-        : `1px dashed ${token.colorBorder}`, // Correction ici
+        : `1px dashed ${token.colorBorder}`, 
     padding: "20px 0px",
     backgroundColor: current === 3 ? "#E9F8F1" : "transparent",
   };
   const onChange = (value) => {
-    console.log("onChange:", value);
     setCurrent(value);
   };
 
