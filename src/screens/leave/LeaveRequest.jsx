@@ -8,21 +8,37 @@ import {  Dropdown, Space, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import useLeaveStore from "../../stores/store_leave";
 import { PiDotsThreeOutlineThin } from "react-icons/pi";
+import { approveLeaveRequest } from "../../api/api_leaveRequest";
 
 
 export const LeaveRequest = () => {
   const navigate = useNavigate();
-
+  const {leaveRequests, loadLeaveRequests, removeLeaveRequest} = useLeaveStore()
+  const [rowData, setRowData] = useState([]);
 
   const CustomButtonComponent = (props) => {
     const { data } = props;
     const handleMenuClick = (e) => {
       if (e.key === "0") {
+        handleApprouve(data.id)
         // navigate(`/employees/${data.id}`);
       } else if (e.key === "1") {
         navigate(`/employees/${data.id}`);
       } else if (e.key === "2") {
         // handleDelete(data.id);
+      }
+    };
+
+    const handleApprouve = async (id) => {
+      try {
+        const response = await approveLeaveRequest(id);
+        if (response.ok) {
+          removeLeaveRequest(id);
+          message.success("demande appouvé avec succès");
+          loadLeaveRequests();
+        }
+      } catch (error) {
+        message.error(`Oops! ${error.message}`);
       }
     };
 
@@ -45,8 +61,7 @@ export const LeaveRequest = () => {
   };
 
 
-  const {leaveRequests, loadLeaveRequests} = useLeaveStore()
-  const [rowData, setRowData] = useState([]);
+
 
   useEffect(() => {
     loadLeaveRequests();
@@ -59,7 +74,7 @@ export const LeaveRequest = () => {
   const [colDefs] = useState([
     { 
       field: "employee", 
-      headerName: "Employé" 
+      headerName: "Employé", 
     },
     { 
       field: "startDate", 
@@ -67,7 +82,7 @@ export const LeaveRequest = () => {
       // cellRenderer: (params) => params.value.length > 20 ? `${params.value.substring(0, 20)}...` : params.value
     },
     { 
-      field: "Date de fin", 
+      field: "endDate", 
       headerName: "Date de fin" 
     },
     { 
@@ -76,7 +91,7 @@ export const LeaveRequest = () => {
     },
     { 
       field: "status", 
-      headerName: "Status" 
+      headerName: "Status" ,
     },
     {
       field: "Action",
