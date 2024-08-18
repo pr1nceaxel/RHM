@@ -12,8 +12,9 @@ import {
   import { useEffect, useState } from "react";
   import { useNavigate } from "react-router-dom";
 import usePositionStore from "../../stores/Store_post";
-import useDepartmentStore from "../../stores/Store_departement";  
+
 import { createEmploye } from "../../api/api_employe";
+import useDepartmentStore from "../../stores/store_departement";
 
   
   const beforeUpload = (file) => {
@@ -90,6 +91,7 @@ import { createEmploye } from "../../api/api_employe";
     const handleSave = async () => {
   
       const values = await form.validateFields();
+      console.log("value" ,values)
       try {
         const response = await createEmploye({
           // flag: flagBase64,

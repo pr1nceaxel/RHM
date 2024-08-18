@@ -10,7 +10,11 @@ const useDepartmentStore = create((set) => ({
     try {
       const response = await getDepartements();
       if (response && response.data) {
-        set({ departments: response.data });
+        const departments = response.data.map(dept=>({
+          ...dept,
+          leader: dept.manager ? dept.manager.firstName + " " + dept.manager.lastName  : "N/A"
+        }))
+        set({ departments});
       }
     } catch (error) {
       console.error("Failed to load departments:", error);

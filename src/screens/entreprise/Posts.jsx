@@ -15,22 +15,36 @@ import {
   Space,
 } from "antd";
 import usePositionStore from "../../stores/Store_post";
-import useDepartmentStore from "../../stores/Store_departement";
+
 import { createPost, deletePost } from "../../api/api_post";
 import { PiDotsThreeOutlineThin } from "react-icons/pi";
+import useEmployeStore from "../../stores/store_employe";
+import useDepartmentStore from "../../stores/store_departement";
+
 
 
 export const Posts = () => {
   const navigate = useNavigate();
   const { positions, loadPositions, removePosition } = usePositionStore();
   const { departments, loadDepartments } = useDepartmentStore();
-  
+  const { employees, loadEmployees } = useEmployeStore();
+
+  useEffect(() => {
+    loadEmployees();
+  }, [loadEmployees]);
+
+  useEffect(() => {
+    setEmployees(employees);
+  }, [employees]);
+
 
   const [form] = Form.useForm();
   const [rowData, setRowData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [departements, setDepartements] = useState([]);
+  const [employes, setEmployees] = useState([]);
 
+  console.log(rowData)
   useEffect(() => {
     loadDepartments();
   }, [loadDepartments]);
@@ -243,7 +257,7 @@ export const Posts = () => {
               placeholder="Sélectionner un département"
               options={departements.map((dept) => ({
                 value: dept.id,
-                label: dept.name,
+                label: dept.name 
               }))}
             />
           </Form.Item>
@@ -252,12 +266,6 @@ export const Posts = () => {
             label="Description"
             name="description"
             className="w-full"
-            rules={[
-              {
-                required: true,
-                message: "Veuillez entrer une description!",
-              },
-            ]}
           >
             <Input />
           </Form.Item>

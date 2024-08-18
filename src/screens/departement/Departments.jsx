@@ -18,11 +18,25 @@ import {
 
 import  useDepartmentStore  from "../../stores/store_departement";
 import { createDepartement, deleteDepartement } from "../../api/api_departement";
+import useEmployeStore from "../../stores/store_employe";
 
 
 export const Departments = () => {
   const navigate = useNavigate();
   const { departments, loadDepartments,removeDepartment  } = useDepartmentStore();
+  const { employees, loadEmployees } = useEmployeStore();
+
+  const [employe, setEmploye] = useState([]);
+
+
+  useEffect(() => {
+    loadEmployees();
+  }, [loadEmployees]);
+
+  useEffect(() => {
+    setEmploye(employees);
+  }, [employees]);
+
   const [form] = Form.useForm();
   const [rowData, setRowData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -235,7 +249,12 @@ export const Departments = () => {
             </Form.Item>
 
             <Form.Item label="Manager" name="managerName" className="w-full">
-              <Select showSearch placeholder="Sélectionner le manager" />
+              <Select showSearch placeholder="Sélectionner le manager" 
+               options={employe.map((dept) => ({
+                value: dept.id,
+                label: dept.firstName + " " + dept.lastName,
+              }))}
+              />
             </Form.Item>
           </div>
           <Form.Item label="Localisation" name="location">

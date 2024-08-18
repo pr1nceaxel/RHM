@@ -11,8 +11,10 @@ const useEmployeStore = create((set) => ({
       if (response && response.data) {
         const employees = response.data.map(emp => ({
           ...emp,
-          department: emp.department ? emp.department.name : "N/A", // Extraire le nom du département
+          department: emp.department ? emp.department.name : "N/A",
+          position: emp.position ? emp.position.title : "N/A"
         }));
+        console.log(employees)
         set({ employees });
       }
     } catch (error) {
