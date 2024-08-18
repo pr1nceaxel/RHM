@@ -1,55 +1,89 @@
+/* eslint-disable react/prop-types */
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "antd";
+import {  Dropdown, Space, message } from "antd";
+import { useNavigate } from "react-router-dom";
+import useLeaveStore from "../../stores/store_leave";
+import { PiDotsThreeOutlineThin } from "react-icons/pi";
+
 
 export const LeaveRequest = () => {
-  const [rowData, setRowData] = useState([
-    {
-      employeeName: "Jean Dupont",
-      reason: "Motif de congés personnel. Besoin de temps pour des raisons familiales.",
-      startDate: "2024-08-05",
-      endDate: "2024-08-15"
-    },
-    {
-      employeeName: "Marie Curie",
-      reason: "Congés annuels pour voyage.",
-      startDate: "2024-07-20",
-      endDate: "2024-07-30"
-    },
-    {
-      employeeName: "Louis Pasteur",
-      reason: "Congés maladie.",
-      startDate: "2024-06-10",
-      endDate: "2024-06-20"
-    },
-    {
-      employeeName: "Claude Monet",
-      reason: "Motif personnel, nécessité de repos.",
-      startDate: "2024-09-01",
-      endDate: "2024-09-10"
-    }
-  ]);
+  const navigate = useNavigate();
 
-  const [colDefs, setColDefs] = useState([
+
+  const CustomButtonComponent = (props) => {
+    const { data } = props;
+    const handleMenuClick = (e) => {
+      if (e.key === "0") {
+        // navigate(`/employees/${data.id}`);
+      } else if (e.key === "1") {
+        navigate(`/employees/${data.id}`);
+      } else if (e.key === "2") {
+        // handleDelete(data.id);
+      }
+    };
+
+    const items = [
+      { label: <a href="#">Approuvé</a>, key: "0" },
+      { label: <a href="#">Refusé</a>, key: "1" },
+      { type: "divider" },
+      { label: <a href="#">Supprimer</a>, danger: true, key: "2" },
+    ];
+
+    return (
+      <Dropdown menu={{ items, onClick: handleMenuClick }} trigger={["click"]}>
+        <a onClick={(e) => e.preventDefault()}>
+          <Space>
+            <PiDotsThreeOutlineThin size={24} />
+          </Space>
+        </a>
+      </Dropdown>
+    );
+  };
+
+
+  const {leaveRequests, loadLeaveRequests} = useLeaveStore()
+  const [rowData, setRowData] = useState([]);
+
+  useEffect(() => {
+    loadLeaveRequests();
+  }, [loadLeaveRequests]);
+
+  useEffect(() => {
+    setRowData(leaveRequests);
+  }, [leaveRequests]);
+
+  const [colDefs] = useState([
     { 
-      field: "employeeName", 
+      field: "employee", 
       headerName: "Employé" 
     },
     { 
-      field: "reason", 
-      headerName: "Motif",
-      cellRenderer: (params) => params.value.length > 20 ? `${params.value.substring(0, 20)}...` : params.value
-    },
-    { 
       field: "startDate", 
-      headerName: "Date de Début" 
+      headerName: "Date de debut ",
+      // cellRenderer: (params) => params.value.length > 20 ? `${params.value.substring(0, 20)}...` : params.value
     },
     { 
-      field: "endDate", 
-      headerName: "Date de Fin" 
-    }
+      field: "Date de fin", 
+      headerName: "Date de fin" 
+    },
+    { 
+      field: "reason", 
+      headerName: "Motif" 
+    },
+    { 
+      field: "status", 
+      headerName: "Status" 
+    },
+    {
+      field: "Action",
+      cellRenderer: CustomButtonComponent,
+      flex: 0.4,
+      filter: false,
+    },
   ]);
 
   const defaultColDef = {

@@ -1,6 +1,6 @@
 import api from "../libs/axios";
 
-export const getLeaveRequest = async () => {
+export const getLeaveRequests = async () => {
     try {
         const response = await api.get('/leave')
         return response.data;
