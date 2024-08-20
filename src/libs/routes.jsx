@@ -87,6 +87,20 @@ export const router = createBrowserRouter([
           {
             path: "employees/counter",
             element: <EmployeCounter />,
+            children: [
+              {
+                path: "",
+                element: <p>presence</p>,
+              },
+              {
+                path: "pointage",
+                element: <p>pointage</p>,
+              },
+              {
+                path: "compteur-heure",
+                element: <p>compteur-heure</p>,
+              }
+            ]
           },
           {
             path: "employees/archive",
