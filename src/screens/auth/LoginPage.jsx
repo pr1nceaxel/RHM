@@ -1,8 +1,7 @@
 import logo from "../../assets/LOGO.svg";
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input, message } from "antd";
 import { useState, useEffect } from "react";
 import useAuthStore from "../../stores/store_auth";
-
 import { loginUser } from "../../api/api_auth";
 
 // Liste des images du diaporama
@@ -18,27 +17,33 @@ export default function LoginPage() {
   const { login } = useAuthStore();
 
   const onFinish = async (values) => {
-    if (values.email === "") {
-      alert("Veuillez entrer votre email");
+    if (values.pseudo === "" || values.password === "") {
+      message.warning('Veuillez remplir tous les champs!');
       return;
     }
-    if (values.password === "") {
-      alert("Veuillez entrer votre mot de passe");
-      return;
-    }
+
+    // Afficher le message de chargement
+    const loadingMessage = message.loading('Chargement en cours...', 0);
 
     try {
       const response = await loginUser(values.pseudo, values.password);
       if (response.data.ok) {
+        message.success('Connexion réussie!');
         login(response.data.data, response.data.token);
+      } else {
+        message.error('Erreur lors de la connexion.');
       }
     } catch (error) {
-      if (error.response.status === 400) {
-        alert("Pseudo ou mot de passe incorrect");
+      if (error.response && error.response.status === 400) {
+        message.error('Pseudo ou mot de passe incorrect');
+      } else if (error.response && error.response.status === 500) {
+        message.error('Erreur serveur');
+      } else {
+        message.error('Une erreur inattendue est survenue');
       }
-      if (error.response.status === 500) {
-        alert("Erreur serveur");
-      }
+    } finally {
+      // Fermer le message de chargement
+      loadingMessage();
     }
   };
 
@@ -54,6 +59,7 @@ export default function LoginPage() {
     }, 5000);
     return () => clearInterval(interval);
   }, []);
+  
   return (
     <div className="flex h-screen ">
       <div className="w-1/2 bg-gray-200 flex items-center justify-center sm:hidden md:block">
