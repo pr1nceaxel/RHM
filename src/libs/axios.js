@@ -1,13 +1,15 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "https://rhmserver-production.up.railway.app/api",
-    // baseURL: "http://localhost:5000/api",
+    baseURL: import.meta.env.PROD 
+        ? import.meta.env.VITE_API_URL_PROD 
+        : import.meta.env.VITE_API_URL_DEV,
     headers: {
         "Content-Type": "application/json",
     },
     withCredentials: true,
 });
+
 
 api.interceptors.request.use(
     (config) => {
