@@ -1,5 +1,6 @@
 import {
-    DashboardOutlined,
+  PieChartOutlined,
+  UserOutlined,
     UsergroupAddOutlined,
     TeamOutlined,
     ToolOutlined,
@@ -9,7 +10,7 @@ import {
     DollarOutlined,
     HistoryOutlined,
     ApartmentOutlined,
-    AuditOutlined,
+    FolderOpenOutlined,
     CarryOutOutlined,
     BankOutlined,
   } from "@ant-design/icons";
@@ -28,12 +29,12 @@ import {
   }
   
   export const items = [
-    getItem("Dashboard", "1", <DashboardOutlined />, "/"),
+    getItem("Dashboard", "1", <PieChartOutlined  />, "/"),
     getItem("Employés", "sub1", <UsergroupAddOutlined />, null, [
-      getItem("Liste", "2", <TeamOutlined />, "/employees/list"),
+      getItem("Employés", "2", <UserOutlined />, "/employees/list"),
       getItem("Équipe", "3", <TeamOutlined />, "/employees/team"),
-      getItem("Compteur", "4", <AuditOutlined />, "/employees/counter"),
-      getItem("Archive", "5", <FileSearchOutlined />, "/employees/archive"),
+      getItem("Compteur", "4", <FieldTimeOutlined />, "/employees/counter"),
+      getItem("Archive", "5", <FolderOpenOutlined />, "/employees/archive"),
       getItem("Boîte à outils", "6", <ToolOutlined />, "/employees/tools"),
     ]),
     getItem("Absences", "sub2", <CalendarOutlined />, null, [

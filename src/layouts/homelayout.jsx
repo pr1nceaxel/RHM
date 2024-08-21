@@ -66,7 +66,7 @@ const HomeLayout = () => {
             top: 0,
             background: "#ffffff",
             zIndex: 1000,
-            width: collapsed ? 80 : 200, 
+            width: collapsed ? 80 : 200,
             transition: "width 0.2s",
           }}
         >
@@ -74,11 +74,12 @@ const HomeLayout = () => {
             <img src={logo} alt="" className="w-10 h-10 my-2" />
             {collapsed ? null : <h1 className="text-lg font-bold ">E-RHM</h1>}
           </div>
+
           <Menu
             theme="light"
             defaultSelectedKeys={["1"]}
-            mode="inline"
             items={items}
+            mode="inline"
             style={{
               background: "#ffffff",
               color: "#000000",
@@ -87,7 +88,7 @@ const HomeLayout = () => {
         </Sider>
         <Layout
           style={{
-            marginLeft: collapsed ? 80 : 200, 
+            marginLeft: collapsed ? 80 : 200,
             transition: "margin-left 0.2s",
             display: "flex",
             flexDirection: "column",
@@ -96,7 +97,7 @@ const HomeLayout = () => {
           <Header
             style={{
               position: "fixed",
-              width: `calc(100% - ${collapsed ? 80 : 200}px)`, 
+              width: `calc(100% - ${collapsed ? 80 : 200}px)`,
               zIndex: 1000,
               padding: 0,
               background: "#ffffff",
@@ -108,7 +109,7 @@ const HomeLayout = () => {
             <Button
               type="text"
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
+              // onClick={() => setCollapsed(!collapsed)}
               style={{
                 fontSize: "16px",
                 width: 64,
@@ -148,13 +149,13 @@ const HomeLayout = () => {
           <Content
             style={{
               flex: 1,
-              padding: "64px 0 0", 
+              padding: "64px 0 0",
               overflowY: "auto",
-              minHeight: "calc(100vh - 128px)", 
+              minHeight: "calc(100vh - 128px)",
             }}
           >
             <div
-            className="rounded-tl-3xl"
+              className="rounded-tl-3xl"
               style={{
                 minHeight: "100%",
                 background: "#ecf1fd",
@@ -170,7 +171,7 @@ const HomeLayout = () => {
               transition: "bottom 0.3s",
               height: "10px",
               position: "fixed",
-              width: `calc(100% - ${collapsed ? 80 : 200}px)`, 
+              width: `calc(100% - ${collapsed ? 80 : 200}px)`,
               bottom: scrollDirection === "down" ? "-64px" : "0",
             }}
           >
