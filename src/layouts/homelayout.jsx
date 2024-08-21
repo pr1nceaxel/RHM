@@ -20,7 +20,7 @@ import { dropDownMenuItems } from "../helpers/DropdonwAvatarList";
 const { Header, Content, Footer, Sider } = Layout;
 
 const HomeLayout = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const [scrollDirection, setScrollDirection] = useState("up");
 
   useEffect(() => {
