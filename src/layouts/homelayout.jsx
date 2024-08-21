@@ -4,7 +4,6 @@ import {
   Layout,
   Menu,
   ConfigProvider,
-  theme,
   Button,
   Avatar,
   Badge,
@@ -21,13 +20,8 @@ import { dropDownMenuItems } from "../helpers/DropdonwAvatarList";
 const { Header, Content, Footer, Sider } = Layout;
 
 const HomeLayout = () => {
-
-
   const [collapsed, setCollapsed] = useState(false);
   const [scrollDirection, setScrollDirection] = useState("up");
-  const {
-    token: { borderRadiusLG },
-  } = theme.useToken();
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -52,7 +46,7 @@ const HomeLayout = () => {
     <ConfigProvider
       theme={{
         token: {
-          colorBgContainer: "#ffffff",
+          colorBgContainer: "#ecf1fd",
           colorPrimaryText: "#000000",
           colorMenuBackground: "#ffffff",
           colorMenuItemText: "#000000",
@@ -72,12 +66,12 @@ const HomeLayout = () => {
             top: 0,
             background: "#ffffff",
             zIndex: 1000,
-            width: collapsed ? 80 : 200, // Ajuster la largeur en fonction de l'état
+            width: collapsed ? 80 : 200, 
             transition: "width 0.2s",
           }}
         >
-          <div className="flex items-center justify-center">
-            <img src={logo} alt="" className="w-20 h-20 my-2" />
+          <div className="flex items-center justify-center mb-10 mt-5">
+            <img src={logo} alt="" className="w-10 h-10 my-2" />
             {collapsed ? null : <h1 className="text-lg font-bold ">E-RHM</h1>}
           </div>
           <Menu
@@ -93,18 +87,20 @@ const HomeLayout = () => {
         </Sider>
         <Layout
           style={{
-            marginLeft: collapsed ? 80 : 200, // Ajuster le margin-left en fonction de l'état
+            marginLeft: collapsed ? 80 : 200, 
             transition: "margin-left 0.2s",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           <Header
             style={{
               position: "fixed",
-              width: `calc(100% - ${collapsed ? 80 : 200}px)`, // Ajuster la largeur en fonction de l'état
+              width: `calc(100% - ${collapsed ? 80 : 200}px)`, 
               zIndex: 1000,
               padding: 0,
               background: "#ffffff",
-              transition: "left 0.2s, top 0.3s",
+              transition: "top 0.3s",
               top: scrollDirection === "down" ? "-64px" : "0",
             }}
             className="flex items-center px-4"
@@ -135,34 +131,33 @@ const HomeLayout = () => {
               >
                 <a onClick={(e) => e.preventDefault()}>
                   <Space>
-                  <Avatar
-                style={{
-                  backgroundColor: "#fde3cf",
-                  color: "#f56a00",
-                }}
-              >
-                U
-              </Avatar>
+                    <Avatar
+                      style={{
+                        backgroundColor: "#fde3cf",
+                        color: "#f56a00",
+                      }}
+                    >
+                      U
+                    </Avatar>
                   </Space>
                 </a>
               </Dropdown>
-          
             </div>
           </Header>
 
           <Content
             style={{
-              margin: "64px 0px 0",
-              padding: "4px",
-              overflow: "auto",
-              minHeight: "calc(100vh - 64px)",
+              flex: 1,
+              padding: "64px 0 0", 
+              overflowY: "auto",
+              minHeight: "calc(100vh - 128px)", 
             }}
           >
             <div
+            className="rounded-tl-3xl"
               style={{
-                minHeight: 360,
-                background: "#ffffff",
-                borderRadius: borderRadiusLG,
+                minHeight: "100%",
+                background: "#ecf1fd",
               }}
             >
               <Outlet />
@@ -172,6 +167,11 @@ const HomeLayout = () => {
             style={{
               textAlign: "center",
               background: "#ffffff",
+              transition: "bottom 0.3s",
+              height: "10px",
+              position: "fixed",
+              width: `calc(100% - ${collapsed ? 80 : 200}px)`, 
+              bottom: scrollDirection === "down" ? "-64px" : "0",
             }}
           >
             MELDO ©{new Date().getFullYear()} Created by Melone

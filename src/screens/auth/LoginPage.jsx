@@ -22,7 +22,6 @@ export default function LoginPage() {
       return;
     }
 
-    // Afficher le message de chargement
     const loadingMessage = message.loading('Chargement en cours...', 0);
 
     try {
@@ -42,7 +41,6 @@ export default function LoginPage() {
         message.error('Une erreur inattendue est survenue');
       }
     } finally {
-      // Fermer le message de chargement
       loadingMessage();
     }
   };
@@ -62,14 +60,14 @@ export default function LoginPage() {
   
   return (
     <div className="flex h-screen ">
-      <div className="w-1/2 bg-gray-200 flex items-center justify-center sm:hidden md:block">
+      <div className="w-1/2 bg-gray-200 items-center justify-center hidden lg:flex">
         <img
           src={images[currentImageIndex]}
           alt="Slideshow"
           className=" w-full h-full object-cover transition  duration-1000 ease-in-out"
         />
       </div>
-      <div className="w-1/2 bg-white m-10 sm:w-full md:w-1/2">
+      <div className="bg-white m-10  lg:w-1/2">
         <div className="flex items-center ">
           <img src={logo} alt="" className="w-16 h-16 my-2" />
           <h1 className="text-4xl font-medium ">E-RHM</h1>

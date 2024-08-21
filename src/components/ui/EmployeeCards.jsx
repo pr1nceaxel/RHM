@@ -4,7 +4,6 @@ import { CiMail } from "react-icons/ci";
 import logo from "../../assets/LOGO.svg";
 
 export default function EmployerCards({ employee }) {
-  console.log(employee);
   return (
     <div className="w-80 border rounded-xl mx-auto">
       <div className="mx-auto text-center my-4">
