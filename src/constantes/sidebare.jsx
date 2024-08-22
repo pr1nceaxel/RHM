@@ -3,7 +3,6 @@ import {
   UserOutlined,
     UsergroupAddOutlined,
     TeamOutlined,
-    ToolOutlined,
     CalendarOutlined,
     FileSearchOutlined,
     FieldTimeOutlined,
@@ -16,6 +15,11 @@ import {
   } from "@ant-design/icons";
   import { FaNetworkWired } from "react-icons/fa";
   import { FcDepartment } from "react-icons/fc";
+  import { IoCalendarOutline } from "react-icons/io5";
+  import { MdOutlineLibraryAddCheck } from "react-icons/md";
+  import { BsFolder } from "react-icons/bs";
+
+
 
   import { Link } from 'react-router-dom';
   
@@ -30,14 +34,15 @@ import {
   
   export const items = [
     getItem("Dashboard", "1", <PieChartOutlined  />, "/"),
+    getItem("Planning", 2, <IoCalendarOutline/>),
     getItem("Employés", "sub1", <UsergroupAddOutlined />, null, [
       getItem("Employés", "2", <UserOutlined />, "/employees/list"),
       getItem("Équipe", "3", <TeamOutlined />, "/employees/team"),
       getItem("Compteur", "4", <FieldTimeOutlined />, "/employees/counter"),
       getItem("Archive", "5", <FolderOpenOutlined />, "/employees/archive"),
-      getItem("Boîte à outils", "6", <ToolOutlined />, "/employees/tools"),
+      getItem("Documents", "6" , <BsFolder/>)
     ]),
-    getItem("Absences", "sub2", <CalendarOutlined />, null, [
+    getItem("Demande", "sub2", <MdOutlineLibraryAddCheck />, null, [
       getItem("Demande de congés", "7", <CarryOutOutlined />, "/absences/leave-request"),
       getItem("Calendrier des absences", "8", <CalendarOutlined />, "/absences/absence-calendar"),
       getItem("Calendrier des congés", "9", <CalendarOutlined />, "/absences/leave-calendar"),

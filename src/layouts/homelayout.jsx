@@ -46,9 +46,9 @@ const HomeLayout = () => {
     <ConfigProvider
       theme={{
         token: {
-          colorBgContainer: "#ecf1fd",
+          colorBgContainer: "#ffffff",
           colorPrimaryText: "#000000",
-          colorMenuBackground: "#ffffff",
+          colorMenuBackground: "#ecf1fd",
           colorMenuItemText: "#000000",
           colorMenuItemSelected: "#e6f7ff",
         },
@@ -64,7 +64,7 @@ const HomeLayout = () => {
             height: "100vh",
             left: 0,
             top: 0,
-            background: "#ffffff",
+            background: "#ecf1fd",
             zIndex: 1000,
             width: collapsed ? 80 : 200,
             transition: "width 0.2s",
@@ -81,7 +81,7 @@ const HomeLayout = () => {
             items={items}
             mode="inline"
             style={{
-              background: "#ffffff",
+              background: "#ecf1fd",
               color: "#000000",
             }}
           />
@@ -100,7 +100,7 @@ const HomeLayout = () => {
               width: `calc(100% - ${collapsed ? 80 : 200}px)`,
               zIndex: 1000,
               padding: 0,
-              background: "#ffffff",
+              background: "#ecf1fd",
               transition: "top 0.3s",
               top: scrollDirection === "down" ? "-64px" : "0",
             }}
@@ -109,7 +109,6 @@ const HomeLayout = () => {
             <Button
               type="text"
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              // onClick={() => setCollapsed(!collapsed)}
               style={{
                 fontSize: "16px",
                 width: 64,
@@ -152,13 +151,14 @@ const HomeLayout = () => {
               padding: "64px 0 0",
               overflowY: "auto",
               minHeight: "calc(100vh - 128px)",
+
             }}
           >
             <div
               className="rounded-tl-3xl"
               style={{
                 minHeight: "100%",
-                background: "#ecf1fd",
+                padding: "5px"
               }}
             >
               <Outlet />
@@ -167,7 +167,7 @@ const HomeLayout = () => {
           <Footer
             style={{
               textAlign: "center",
-              background: "#ffffff",
+              background: "#ecf1fd",
               transition: "bottom 0.3s",
               height: "10px",
               position: "fixed",

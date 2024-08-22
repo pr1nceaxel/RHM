@@ -7,26 +7,26 @@ import RequireAuth from "../layouts/RequireAuth";
 import NotRequireAuth from "../layouts/NotRequireAuth";
 
 // Screens
-import {Dashboard} from "../screens/Dashboard";
-import {EmployeList} from "../screens/employe/Employe_list";
+import { Dashboard } from "../screens/Dashboard";
+import { EmployeList } from "../screens/employe/Employe_list";
 import EmployeCard from "../screens/employe/Employe_card";
 import CreateEmploye from "../screens/employe/Employe_create";
-import {EmployeCounter} from "../screens/employe/Employe_counter";
+import { EmployeCounter } from "../screens/employe/Employe_counter";
 import ViewInformationEmploye from "../screens/employe/ViewInformationEmploye";
-import {EmployeTeam} from "../screens/employe/Employe_team";
+import { EmployeTeam } from "../screens/employe/Employe_team";
 import CreateTeams from "../screens/entreprise/CreateTeams";
-import {EmployeArchive} from "../screens/employe/Employe_archive";
-import {EmployeTools} from "../screens/employe/Employe_tools";
-import {LeaveRequest} from "../screens/leave/LeaveRequest";
+import EmployeArchive  from "../screens/employe/Employe_archive";
+import { EmployeTools } from "../screens/employe/Employe_tools";
+import { LeaveRequest } from "../screens/leave/LeaveRequest";
 import { AbsenceCalendar } from "../screens/leave/AbsenceCalendar";
-import {LeaveCalendar} from "../screens/leave/LeaveCalendar";
-import {LeaveTracking} from "../screens/leave/LeaveTracking";
-import {TimeTracking} from "../screens/time/TimeTracking";
-import {Overtime} from "../screens/time/Overtime";
-import {Schedule} from "../screens/time/Schedule";
+import { LeaveCalendar } from "../screens/leave/LeaveCalendar";
+import { LeaveTracking } from "../screens/leave/LeaveTracking";
+import { TimeTracking } from "../screens/time/TimeTracking";
+import { Overtime } from "../screens/time/Overtime";
+import { Schedule } from "../screens/time/Schedule";
 import { Posts } from "../screens/entreprise/Posts";
 import CreatePosts from "../screens/entreprise/CreatePosts";
-import {Departments} from "../screens/departement/Departments";
+import { Departments } from "../screens/departement/Departments";
 import LoginPage from "../screens/auth/LoginPage";
 import LoginCompany from "../screens/auth/LoginCompany";
 
@@ -99,8 +99,8 @@ export const router = createBrowserRouter([
               {
                 path: "compteur-heure",
                 element: <p>compteur-heure</p>,
-              }
-            ]
+              },
+            ],
           },
           {
             path: "employees/archive",
