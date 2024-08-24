@@ -28,7 +28,6 @@ import CreateTeams from '../screens/CreateTeams';
 import ViewInformationEmploye from '../screens/ViewInformationEmploye';
 
 
-
 export const router = createBrowserRouter([
     {
         path: '/',

@@ -118,7 +118,7 @@ const HomeLayout = () => {
                 height: 64,
               }}
             />
-            <p>NAVBAR</p>
+            <p>LOUTCHE</p>
 
             <div className="ml-auto flex items-center gap-5 mx-10">
               <Badge count={5}>
