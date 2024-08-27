@@ -6,6 +6,7 @@ import EmployeLayout from "../layouts/EmployeLayout";
 import RequireAuth from "../layouts/RequireAuth";
 import NotRequireAuth from "../layouts/NotRequireAuth";
 
+
 // Screens
 import { Dashboard } from "../screens/Dashboard";
 import { EmployeList } from "../screens/employe/Employe_list";
@@ -29,6 +30,7 @@ import CreatePosts from "../screens/entreprise/CreatePosts";
 import { Departments } from "../screens/departement/Departments";
 import LoginPage from "../screens/auth/LoginPage";
 import LoginCompany from "../screens/auth/LoginCompany";
+
 
 export const router = createBrowserRouter([
   {

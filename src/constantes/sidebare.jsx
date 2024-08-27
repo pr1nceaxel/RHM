@@ -8,13 +8,21 @@ import {
     FieldTimeOutlined,
     DollarOutlined,
     HistoryOutlined,
+
+    // ApartmentOutlined,
+    AuditOutlined,
+
     ApartmentOutlined,
     FolderOpenOutlined,
+
     CarryOutOutlined,
     BankOutlined,
   } from "@ant-design/icons";
   import { FaNetworkWired } from "react-icons/fa";
   import { FcDepartment } from "react-icons/fc";
+
+  import { IoMdBusiness } from "react-icons/io";
+
   import { IoCalendarOutline } from "react-icons/io5";
   import { MdOutlineLibraryAddCheck } from "react-icons/md";
   import { BsFolder } from "react-icons/bs";
@@ -58,10 +66,14 @@ import {
       getItem("Avantages", "15", <BankOutlined />, "/payroll/benefits"),
       getItem("Historique", "16", <HistoryOutlined />, "/payroll/history"),
     ]),
-    getItem("Entreprise", "sub5", <ApartmentOutlined />, null, [
-      getItem("Postes", "17", <BankOutlined />, "/company/posts"),
-      getItem("Département", "18", <FcDepartment />, "/company/departments"),
-      getItem("Partenaire", "19", <FaNetworkWired />   , "/company/partner"),
+
+    getItem("Entreprise", "sub5", <IoMdBusiness />
+      , null, [
+      getItem("Postes", "17", <BankOutlined />, "/home/company/posts"),
+      getItem("Département", "18", <FcDepartment />, "/home/company/departments"),
+      getItem("Partenaire", "19", <FaNetworkWired />   , "/home/company/partner"),
+
     ]),
   ];
+  
   
