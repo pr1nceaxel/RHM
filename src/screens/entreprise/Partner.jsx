@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { Button, Modal, Form, Input, InputNumber, Select, Space } from "antd";
 
 
+
+
 const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -88,6 +90,7 @@ export const Partner = () => {
 
   return (
     <div className="mx-5 py-3">
+      {/* <PartnerCard/> */}
       <div className="flex mx-2 justify-between my-3">
         <div className="">
           <h1 className="text-xl font-bold">Partenaire</h1>

@@ -3,7 +3,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
-export const EmployeeTeam = () => {
+export const EmployeTeam = () => {
 
   const navigate = useNavigate();
 

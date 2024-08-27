@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MdPaid } from "react-icons/md";
 import { FaCalendarAlt, FaTasks, FaUmbrellaBeach } from "react-icons/fa";
@@ -64,3 +65,4 @@ export const Dashboard = () => {
     </div>
   );
 };
+
