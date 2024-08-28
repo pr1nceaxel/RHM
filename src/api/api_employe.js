@@ -31,14 +31,15 @@ export const createEmploye = async ({
   emergencyContactPhone,
   emergencyContactlastName,
   emergencyContactEmail,
-  emergencyContactAdress
+  emergencyContactAdress,
+  matricule
 }) => {
   try {
     const response = await api.post("/employe", {
       flag,
       firstName,
       lastName,
-      dateOfBirth: new Date(dateOfBirth).toISOString(),
+      dateOfBirth,
       placeOfBirth,
       phoneNumber: phoneNumber || null, 
       email,
@@ -54,11 +55,12 @@ export const createEmploye = async ({
       emergencyContactlastName,
       emergencyContactEmail,
       emergencyContactAdress,
-      comments: comments || "", 
+      comments: comments, 
+      matricule
     });
     return response.data;
   } catch (error) {
-    throw error.response?.data || error.message;
+      return error.response?.data || error.message;
   }
 };
 

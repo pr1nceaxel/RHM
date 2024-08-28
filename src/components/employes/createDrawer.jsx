@@ -9,12 +9,16 @@ import {
   Select,
   Radio,
 } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ImgCrop from "antd-img-crop";
 import { CiCircleAlert } from "react-icons/ci";
 import { MdBoy } from "react-icons/md";
 import { MdOutlineGirl } from "react-icons/md";
 import { CiCamera } from "react-icons/ci";
+import { createEmploye } from "../../api/api_employe";
+import useEmployeStore from "../../stores/store_employe";
+import useDepartmentStore from "../../stores/store_departement";
+import usePositionStore from "../../stores/Store_post";
 
 const beforeUpload = (file) => {
   const isJpgOrPng =
@@ -61,6 +65,31 @@ export default function CreateEmployeDrawer({ open, onClose }) {
     emergencyContactPhone: "",
   });
 
+  const [position, setPositions] = useState([]);
+
+  const [departements, setDepartements] = useState([]);
+
+  const { loadEmployees } = useEmployeStore();
+
+  const { departments, loadDepartments } = useDepartmentStore();
+  const { positions, loadPositions } = usePositionStore();
+
+  useEffect(() => {
+    loadDepartments();
+  }, [loadDepartments]);
+
+  useEffect(() => {
+    setDepartements(departments);
+  }, [departments]);
+
+  useEffect(() => {
+    loadPositions();
+  }, [loadPositions]);
+
+  useEffect(() => {
+    setPositions(positions);
+  }, [positions]);
+
   const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -103,6 +132,47 @@ export default function CreateEmployeDrawer({ open, onClose }) {
   };
 
   const showChildrenDrawer = () => {
+    if (formState.gender === null) {
+      message.error("Veuillez renseigner le sexe de l'employé");
+      return;
+    }
+
+    if (formState.lastName === "") {
+      message.error("Veuillez renseigner le nom de l'employé");
+      return;
+    }
+
+    if (formState.firstName === "") {
+      message.error("Veuillez renseigner le prénom de l'employé");
+      return;
+    }
+
+    if (formState.birthDate === null) {
+      message.error("Veuillez renseigner la date de naissance de l'employé");
+      return;
+    }
+
+    if (
+      formState.email === "" &&
+      formState.phoneNumber === "" &&
+      formState.residence === ""
+    ) {
+      message.error(
+        "Veuillez renseigner au moins un moyen de contact pour l'employé"
+      );
+      return;
+    }
+
+    if (formState.employeeId === "") {
+      message.error("Veuillez renseigner le matricule de l'employé");
+      return;
+    }
+
+    if (formState.phoneNumber !== "" && !/^\d+$/.test(formState.phoneNumber)) {
+      message.error("Le numéro de téléphone ne doit contenir que des chiffres");
+      return;
+    }
+
     setChildrenDrawer(true);
   };
 
@@ -110,11 +180,67 @@ export default function CreateEmployeDrawer({ open, onClose }) {
     setChildrenDrawer(false);
   };
 
-
   const handleCreate = async () => {
-    console.log('Form Data:', formState);
-    setChildrenDrawer(false);
-    onClose();
+    try {
+      const employe = await createEmploye({
+        // flag: formState.photo,
+        comments: formState.notes,
+        firstName: formState.firstName,
+        lastName: formState.lastName,
+        dateOfBirth: formState.birthDate,
+        placeOfBirth: formState.birthPlace,
+        address: formState.residence,
+        gender: formState.gender,
+        phoneNumber: formState.phoneNumber,
+        email: formState.email,
+        departmentId: formState.department ? formState.department : undefined,
+        positionId: formState.position ? formState.position : undefined,
+        contractType: formState.contract,
+        salary: formState.salary,
+        socialSecurityNumber: "",
+        emergencyContactName: formState.emergencyContactName,
+        emergencyContactPhone: formState.emergencyContactPhone,
+        emergencyContactlastName: formState.emergencyContactFirstName,
+        emergencyContactEmail: formState.emergencyContactEmail,
+        emergencyContactAdress: "",
+        matricule: formState.employeeId,
+      });
+
+      if (employe.ok) {
+        message.success(employe.message);
+        // reset form
+        setFormState({
+          photo: null,
+          gender: null,
+          lastName: "",
+          firstName: "",
+          birthDate: null,
+          birthPlace: "",
+          email: "",
+          phoneNumber: "",
+          residence: "",
+          employeeId: "",
+          hireDate: null,
+          notes: "",
+          department: "",
+          position: "",
+          contract: "",
+          emergencyContactName: "",
+          emergencyContactFirstName: "",
+          emergencyContactEmail: "",
+          emergencyContactPhone: "",
+        });
+        loadEmployees();
+        setChildrenDrawer(false);
+        onClose();
+      } else {
+        message.error(employe.message);
+      }
+
+
+    } catch (error) {
+      console.log("Error:", error);
+    }
   };
 
   return (
@@ -185,7 +311,11 @@ export default function CreateEmployeDrawer({ open, onClose }) {
               maxCount={1}
               beforeUpload={beforeUpload}
             >
-              <CiCamera size={32} />
+              {fileList.length === 0 && (
+                <div className="flex items-center justify-center w-full h-full text-center">
+                  <CiCamera size={32} />
+                </div>
+              )}
             </Upload>
           </ImgCrop>
           <div className="mb-4 flex">
@@ -214,11 +344,9 @@ export default function CreateEmployeDrawer({ open, onClose }) {
               className="font-thin"
               name="lastName"
               value={formState.lastName}
-              onChange={
-                (e)=>{
-                  setFormState({...formState, lastName: e.target.value})
-                }
-              }
+              onChange={(e) => {
+                setFormState({ ...formState, lastName: e.target.value });
+              }}
             />
           </div>
           <div className="border w-full py-2 rounded-xl">
@@ -228,8 +356,8 @@ export default function CreateEmployeDrawer({ open, onClose }) {
               className="font-thin"
               name="firstName"
               value={formState.firstName}
-              onChange={(e)=>{
-                setFormState({...formState, firstName: e.target.value})
+              onChange={(e) => {
+                setFormState({ ...formState, firstName: e.target.value });
               }}
             />
           </div>
@@ -240,9 +368,7 @@ export default function CreateEmployeDrawer({ open, onClose }) {
             variant="borderless"
             className="font-thin w-full"
             placeholder="Date de naissance"
-            onChange={(date) =>
-              setFormState({ ...formState, birthPlace: date })
-            }
+            onChange={(date) => setFormState({ ...formState, birthDate: date })}
             value={formState.birthDate}
             name="birthDate"
           />
@@ -254,11 +380,9 @@ export default function CreateEmployeDrawer({ open, onClose }) {
             placeholder="Lieu de naissance"
             name="birthPlace"
             value={formState.birthPlace}
-            onChange={
-              (e)=>{
-                setFormState({...formState, birthPlace: e.target.value})
-              }
-            }
+            onChange={(e) => {
+              setFormState({ ...formState, birthPlace: e.target.value });
+            }}
           />
         </div>
       </div>
@@ -275,11 +399,9 @@ export default function CreateEmployeDrawer({ open, onClose }) {
             className="font-thin"
             name="email"
             value={formState.email}
-            onChange={
-              (e)=>{
-                setFormState({...formState, email: e.target.value})
-              }
-            }
+            onChange={(e) => {
+              setFormState({ ...formState, email: e.target.value });
+            }}
           />
         </div>
         <div className="w-full border py-2 rounded-xl">
@@ -289,11 +411,9 @@ export default function CreateEmployeDrawer({ open, onClose }) {
             className="font-thin"
             name="phoneNumber"
             value={formState.phoneNumber}
-            onChange={
-              (e)=>{
-                setFormState({...formState, phoneNumber: e.target.value})
-              }
-            }
+            onChange={(e) => {
+              setFormState({ ...formState, phoneNumber: e.target.value });
+            }}
           />
         </div>
         <div className="w-full border py-2 rounded-xl">
@@ -303,11 +423,9 @@ export default function CreateEmployeDrawer({ open, onClose }) {
             className="font-thin"
             name="residence"
             value={formState.residence}
-            onChange={
-              (e)=>{
-                setFormState({...formState, residence: e.target.value})
-              }
-            }
+            onChange={(e) => {
+              setFormState({ ...formState, residence: e.target.value });
+            }}
           />
         </div>
       </div>
@@ -335,11 +453,9 @@ export default function CreateEmployeDrawer({ open, onClose }) {
             className="font-thin"
             name="employeeId"
             value={formState.employeeId}
-            onChange={
-              (e)=>{
-                setFormState({...formState, employeeId: e.target.value})
-              }
-            }
+            onChange={(e) => {
+              setFormState({ ...formState, employeeId: e.target.value });
+            }}
           />
         </div>
         <div className="w-full border py-2 rounded-xl">
@@ -347,9 +463,7 @@ export default function CreateEmployeDrawer({ open, onClose }) {
             variant="borderless"
             className="font-thin w-full"
             placeholder="Date d'embauche"
-            onchange={(date) =>
-              setFormState({ ...formState, hireDate: date })
-            }
+            onChange={(date) => setFormState({ ...formState, hireDate: date })}
             value={formState.hireDate}
             name="hireDate"
           />
@@ -362,11 +476,9 @@ export default function CreateEmployeDrawer({ open, onClose }) {
             className="font-thin"
             name="notes"
             value={formState.notes}
-            onChange={
-              (e)=>{
-                setFormState({...formState, notes: e.target.value})
-              }
-            }
+            onChange={(e) => {
+              setFormState({ ...formState, notes: e.target.value });
+            }}
           />
         </div>
       </div>
@@ -420,27 +532,17 @@ export default function CreateEmployeDrawer({ open, onClose }) {
             className="font-thin w-full"
             showSearch
             placeholder="Selectionnez un département"
-            onchange={(value) =>
+            onChange={(value) =>
               setFormState({ ...formState, department: value })
             }
             value={formState.department}
             filterOption={(input, option) =>
               (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
             }
-            options={[
-              {
-                value: "1",
-                label: "Jack",
-              },
-              {
-                value: "2",
-                label: "Lucy",
-              },
-              {
-                value: "3",
-                label: "Tom",
-              },
-            ]}
+            options={departements.map((dept) => ({
+              value: dept.id,
+              label: dept.name,
+            }))}
           />
         </div>
         <div className="mt-4 mb-2">
@@ -454,26 +556,16 @@ export default function CreateEmployeDrawer({ open, onClose }) {
             showSearch
             placeholder="Selectionnez un poste"
             value={formState.position}
-            onchange={(value) =>
+            onChange={(value) =>
               setFormState({ ...formState, position: value })
             }
             filterOption={(input, option) =>
               (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
             }
-            options={[
-              {
-                value: "1",
-                label: "Jack",
-              },
-              {
-                value: "2",
-                label: "Lucy",
-              },
-              {
-                value: "3",
-                label: "Tom",
-              },
-            ]}
+            options={position.map((dept) => ({
+              value: dept.id,
+              label: dept.title,
+            }))}
           />
         </div>
 
@@ -488,7 +580,7 @@ export default function CreateEmployeDrawer({ open, onClose }) {
               className="font-thin w-full"
               showSearch
               value={formState.contract}
-              onchange={(value) =>
+              onChange={(value) =>
                 setFormState({ ...formState, contract: value })
               }
               placeholder="Selectionnez un type de contrat"
@@ -498,18 +590,9 @@ export default function CreateEmployeDrawer({ open, onClose }) {
                   .includes(input.toLowerCase())
               }
               options={[
-                {
-                  value: "1",
-                  label: "Jack",
-                },
-                {
-                  value: "2",
-                  label: "Lucy",
-                },
-                {
-                  value: "3",
-                  label: "Tom",
-                },
+                { value: "CDI", label: "CDI" },
+                { value: "CDD", label: "CDD" },
+                { value: "Stage", label: "Stage" },
               ]}
             />
           </div>
@@ -536,11 +619,12 @@ export default function CreateEmployeDrawer({ open, onClose }) {
                 className="font-thin"
                 name="emergencyContactName"
                 value={formState.emergencyContactName}
-                onChange={
-                  (e)=>{
-                    setFormState({...formState, emergencyContactName: e.target.value})
-                  }
-                }
+                onChange={(e) => {
+                  setFormState({
+                    ...formState,
+                    emergencyContactName: e.target.value,
+                  });
+                }}
               />
             </div>
             <div className="border w-full py-2 rounded-xl">
@@ -550,11 +634,12 @@ export default function CreateEmployeDrawer({ open, onClose }) {
                 className="font-thin"
                 name="emergencyContactFirstName"
                 value={formState.emergencyContactFirstName}
-                onChange={
-                  (e)=>{
-                    setFormState({...formState, emergencyContactFirstName: e.target.value})
-                  }
-                }
+                onChange={(e) => {
+                  setFormState({
+                    ...formState,
+                    emergencyContactFirstName: e.target.value,
+                  });
+                }}
               />
             </div>
           </div>
@@ -572,11 +657,12 @@ export default function CreateEmployeDrawer({ open, onClose }) {
               className="font-thin"
               name="emergencyContactEmail"
               value={formState.emergencyContactEmail}
-              onChange={
-                (e)=>{
-                  setFormState({...formState, emergencyContactEmail: e.target.value})
-                }
-              }
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  emergencyContactEmail: e.target.value,
+                });
+              }}
             />
           </div>
           <div className="border w-full py-2 rounded-xl">
@@ -586,11 +672,12 @@ export default function CreateEmployeDrawer({ open, onClose }) {
               className="font-thin"
               name="emergencyContactPhone"
               value={formState.emergencyContactPhone}
-              onChange={
-                (e)=>{
-                  setFormState({...formState, emergencyContactPhone: e.target.value})
-                }
-              }
+              onChange={(e) => {
+                setFormState({
+                  ...formState,
+                  emergencyContactPhone: e.target.value,
+                });
+              }}
             />
           </div>
         </div>
