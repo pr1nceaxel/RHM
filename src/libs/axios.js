@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import axios from "axios";
-import { E_RHM_API_URL } from "../config";
+import { E_RHM_API_URL } from "../../config";
 
 
 const api = axios.create({
