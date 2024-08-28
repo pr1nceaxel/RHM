@@ -30,6 +30,7 @@ import CreatePosts from "../screens/entreprise/CreatePosts";
 import { Departments } from "../screens/departement/Departments";
 import LoginPage from "../screens/auth/LoginPage";
 import LoginCompany from "../screens/auth/LoginCompany";
+import { PayrollHistory } from "../screens/payroll/PayrollHistory";
 
 
 export const router = createBrowserRouter([
@@ -142,7 +143,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "payroll/statement",
-            element: <p>payrole/statement</p>,
+            element: <PayrollHistory/>
           },
           {
             path: "payroll/benefits",
