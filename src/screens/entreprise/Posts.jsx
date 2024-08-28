@@ -88,18 +88,18 @@ export const Posts = () => {
 
     const items = [
       {
-        label: <a href="#">Détail</a>,
+        label: <p className="font-thin">Détail</p>,
         key: "0",
       },
       {
-        label: <a href="#">Modifier</a>,
+        label: <p className="font-thin">Modifier</p>,
         key: "1",
       },
       {
         type: "divider",
       },
       {
-        label: <a href="#">Supprimer</a>,
+        label: <p className="font-thin">Supprimer</p>,
         danger: true,
         key: "2",
       },
@@ -181,15 +181,15 @@ export const Posts = () => {
     <div className="mx-5 py-3">
       <div className="flex mx-2 justify-between my-3">
         <div className="">
-          <h1 className="text-xl font-bold">Postes</h1>
-          <p>
+          <h1 className="text-xl">Postes</h1>
+          <p  className="font-thin text-lg">
             Voici la liste des postes disponibles au sein de notre entreprise.
           </p>
         </div>
         <div>
-          <Button type="primary" size="large" onClick={showModal}>
-            Nouveau poste
-          </Button>
+          <button className=" py-2 px-4 rounded-2xl bg-[#E89D85] font-light" onClick={showModal}>
+              Nouveau
+            </button>
         </div>
       </div>
       <div className="ag-theme-quartz" style={{ height: 500 }}>

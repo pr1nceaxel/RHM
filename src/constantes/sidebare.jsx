@@ -57,8 +57,8 @@ export const items = [
     getItem("Historique", "17", <HistoryOutlined />, "/payroll/history"),
   ]),
   getItem("Entreprise", "sub5", <IoMdBusiness />, null, [
-    getItem("Postes", "18", <BankOutlined />, "/home/company/posts"),
-    getItem("Département", "19", <FcDepartment />, "/home/company/departments"),
-    getItem("Partenaire", "20", <FaNetworkWired />, "/home/company/partner"),
+    getItem("Postes", "18", <BankOutlined />, "/company/posts"),
+    getItem("Département", "19", <FcDepartment />, "/company/departments"),
+    getItem("Partenaire", "20", <FaNetworkWired />, "/company/partner"),
   ]),
 ];

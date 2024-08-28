@@ -25,7 +25,8 @@ const beforeUpload = (file) => {
     file.type === "image/jpeg" ||
     file.type === "image/png" ||
     file.type === "image/jpg" ||
-    file.type === "image/svg";
+    file.type === "image/svg" ||
+    file.type === "image/webp";
   if (!isJpgOrPng) {
     message.error("Vous ne pouvez télécharger que des fichiers JPG/PNG/SVG!");
     return Upload.LIST_IGNORE;
@@ -180,6 +181,7 @@ export default function CreateEmployeDrawer({ open, onClose }) {
     setChildrenDrawer(false);
   };
 
+  console.log(formState.photo);
   const handleCreate = async () => {
     try {
       const employe = await createEmploye({
@@ -233,6 +235,8 @@ export default function CreateEmployeDrawer({ open, onClose }) {
         loadEmployees();
         setChildrenDrawer(false);
         onClose();
+        setFileList([]);
+        setSexe();
       } else {
         message.error(employe.message);
       }

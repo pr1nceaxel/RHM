@@ -5,7 +5,6 @@ import { IoPeople, IoCloudUpload } from "react-icons/io5";
 import { useState } from "react";
 import CreateEmployeDrawer from "../components/employes/createDrawer";
 
-
 export default function EmployeLayout() {
   const [open, setOpen] = useState(false);
 
@@ -46,7 +45,9 @@ export default function EmployeLayout() {
       <div className="flex mx-2 justify-between my-3">
         <div>
           <h1 className="text-xl ">Liste des Employés</h1>
-          <p  className="font-thin text-lg">Voici la liste des employés de notre entreprise.</p>
+          <p className="font-thin text-lg">
+            Voici la liste des employés de notre entreprise.
+          </p>
         </div>
         <div className="flex items-center gap-10">
           <div className="flex  px-1 py-1 justify-between rounded-full bg-[#ecf1fd]">
