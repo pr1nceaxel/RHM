@@ -20,7 +20,7 @@ import { dropDownMenuItems } from "../helpers/DropdonwAvatarList";
 const { Header, Content, Footer, Sider } = Layout;
 
 const HomeLayout = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const [scrollDirection, setScrollDirection] = useState("up");
 
   useEffect(() => {
@@ -46,9 +46,9 @@ const HomeLayout = () => {
     <ConfigProvider
       theme={{
         token: {
-          colorBgContainer: "#ecf1fd",
+          colorBgContainer: "#ffffff",
           colorPrimaryText: "#000000",
-          colorMenuBackground: "#ffffff",
+          colorMenuBackground: "#ecf1fd",
           colorMenuItemText: "#000000",
           colorMenuItemSelected: "#e6f7ff",
         },
@@ -64,9 +64,9 @@ const HomeLayout = () => {
             height: "100vh",
             left: 0,
             top: 0,
-            background: "#ffffff",
+            background: "#ecf1fd",
             zIndex: 1000,
-            width: collapsed ? 80 : 200, 
+            width: collapsed ? 80 : 200,
             transition: "width 0.2s",
           }}
         >
@@ -74,20 +74,21 @@ const HomeLayout = () => {
             <img src={logo} alt="" className="w-10 h-10 my-2" />
             {collapsed ? null : <h1 className="text-lg font-bold ">E-RHM</h1>}
           </div>
+
           <Menu
             theme="light"
             defaultSelectedKeys={["1"]}
-            mode="inline"
             items={items}
+            mode="inline"
             style={{
-              background: "#ffffff",
+              background: "#ecf1fd",
               color: "#000000",
             }}
           />
         </Sider>
         <Layout
           style={{
-            marginLeft: collapsed ? 80 : 200, 
+            marginLeft: collapsed ? 80 : 200,
             transition: "margin-left 0.2s",
             display: "flex",
             flexDirection: "column",
@@ -96,10 +97,10 @@ const HomeLayout = () => {
           <Header
             style={{
               position: "fixed",
-              width: `calc(100% - ${collapsed ? 80 : 200}px)`, 
+              width: `calc(100% - ${collapsed ? 80 : 200}px)`,
               zIndex: 1000,
               padding: 0,
-              background: "#ffffff",
+              background: "#ecf1fd",
               transition: "top 0.3s",
               top: scrollDirection === "down" ? "-64px" : "0",
             }}
@@ -108,14 +109,17 @@ const HomeLayout = () => {
             <Button
               type="text"
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
               style={{
                 fontSize: "16px",
                 width: 64,
                 height: 64,
               }}
             />
+
+            <p>LOUTCHE</p>
+
             <p className="font-medium text-base text-gray-500">LOUTCHE</p>
+
 
             <div className="ml-auto flex items-center gap-5 mx-10">
               <p className="text-blue-950">Aide</p>
@@ -148,16 +152,17 @@ const HomeLayout = () => {
           <Content
             style={{
               flex: 1,
-              padding: "64px 0 0", 
+              padding: "64px 0 0",
               overflowY: "auto",
-              minHeight: "calc(100vh - 128px)", 
+              minHeight: "calc(100vh - 128px)",
+
             }}
           >
             <div
-            className="rounded-tl-3xl"
+              className="rounded-tl-3xl"
               style={{
                 minHeight: "100%",
-                background: "#ecf1fd",
+                padding: "5px"
               }}
             >
               <Outlet />
@@ -166,11 +171,11 @@ const HomeLayout = () => {
           <Footer
             style={{
               textAlign: "center",
-              background: "#ffffff",
+              background: "#ecf1fd",
               transition: "bottom 0.3s",
               height: "10px",
               position: "fixed",
-              width: `calc(100% - ${collapsed ? 80 : 200}px)`, 
+              width: `calc(100% - ${collapsed ? 80 : 200}px)`,
               bottom: scrollDirection === "down" ? "-64px" : "0",
             }}
           >

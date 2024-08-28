@@ -1,20 +1,33 @@
 import {
-    DashboardOutlined,
+  PieChartOutlined,
+  UserOutlined,
     UsergroupAddOutlined,
     TeamOutlined,
-    ToolOutlined,
     CalendarOutlined,
     FileSearchOutlined,
     FieldTimeOutlined,
     DollarOutlined,
     HistoryOutlined,
-    ApartmentOutlined,
+
+    // ApartmentOutlined,
     AuditOutlined,
+
+    ApartmentOutlined,
+    FolderOpenOutlined,
+
     CarryOutOutlined,
     BankOutlined,
   } from "@ant-design/icons";
   import { FaNetworkWired } from "react-icons/fa";
   import { FcDepartment } from "react-icons/fc";
+
+  import { IoMdBusiness } from "react-icons/io";
+
+  import { IoCalendarOutline } from "react-icons/io5";
+  import { MdOutlineLibraryAddCheck } from "react-icons/md";
+  import { BsFolder } from "react-icons/bs";
+
+
 
   import { Link } from 'react-router-dom';
   
@@ -28,15 +41,16 @@ import {
   }
   
   export const items = [
-    getItem("Dashboard", "1", <DashboardOutlined />, "/"),
+    getItem("Dashboard", "1", <PieChartOutlined  />, "/"),
+    getItem("Planning", 2, <IoCalendarOutline/>),
     getItem("Employés", "sub1", <UsergroupAddOutlined />, null, [
-      getItem("Liste", "2", <TeamOutlined />, "/employees/list"),
+      getItem("Employés", "2", <UserOutlined />, "/employees/list"),
       getItem("Équipe", "3", <TeamOutlined />, "/employees/team"),
-      getItem("Compteur", "4", <AuditOutlined />, "/employees/counter"),
-      getItem("Archive", "5", <FileSearchOutlined />, "/employees/archive"),
-      getItem("Boîte à outils", "6", <ToolOutlined />, "/employees/tools"),
+      getItem("Compteur", "4", <FieldTimeOutlined />, "/employees/counter"),
+      getItem("Archive", "5", <FolderOpenOutlined />, "/employees/archive"),
+      getItem("Documents", "6" , <BsFolder/>)
     ]),
-    getItem("Absences", "sub2", <CalendarOutlined />, null, [
+    getItem("Demande", "sub2", <MdOutlineLibraryAddCheck />, null, [
       getItem("Demande de congés", "7", <CarryOutOutlined />, "/absences/leave-request"),
       getItem("Calendrier des absences", "8", <CalendarOutlined />, "/absences/absence-calendar"),
       getItem("Calendrier des congés", "9", <CalendarOutlined />, "/absences/leave-calendar"),
@@ -52,10 +66,14 @@ import {
       getItem("Avantages", "15", <BankOutlined />, "/payroll/benefits"),
       getItem("Historique", "16", <HistoryOutlined />, "/payroll/history"),
     ]),
-    getItem("Entreprise", "sub5", <ApartmentOutlined />, null, [
-      getItem("Postes", "17", <BankOutlined />, "/company/posts"),
-      getItem("Département", "18", <FcDepartment />, "/company/departments"),
-      getItem("Partenaire", "19", <FaNetworkWired />   , "/company/partner"),
+
+    getItem("Entreprise", "sub5", <IoMdBusiness />
+      , null, [
+      getItem("Postes", "17", <BankOutlined />, "/home/company/posts"),
+      getItem("Département", "18", <FcDepartment />, "/home/company/departments"),
+      getItem("Partenaire", "19", <FaNetworkWired />   , "/home/company/partner"),
+
     ]),
   ];
+  
   
