@@ -4,7 +4,6 @@ import {
   Layout,
   Menu,
   ConfigProvider,
-  Button,
   Avatar,
   Badge,
   Dropdown,
@@ -12,7 +11,6 @@ import {
 } from "antd";
 import { items } from "../constantes/sidebare";
 import logo from "../assets/LOGO.svg";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoCalendarOutline } from "react-icons/io5";
 import { dropDownMenuItems } from "../helpers/DropdonwAvatarList";
@@ -92,6 +90,7 @@ const HomeLayout = () => {
             transition: "margin-left 0.2s",
             display: "flex",
             flexDirection: "column",
+            backgroundColor: "#ffffff",
           }}
         >
           <Header
@@ -106,20 +105,8 @@ const HomeLayout = () => {
             }}
             className="flex items-center px-4"
           >
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              style={{
-                fontSize: "16px",
-                width: 64,
-                height: 64,
-              }}
-            />
-
-            <p>LOUTCHE</p>
 
             <p className="font-medium text-base text-gray-500">LOUTCHE</p>
-
 
             <div className="ml-auto flex items-center gap-5 mx-10">
               <p className="text-blue-950">Aide</p>
@@ -155,15 +142,16 @@ const HomeLayout = () => {
               padding: "64px 0 0",
               overflowY: "auto",
               minHeight: "calc(100vh - 128px)",
-
             }}
+            className="rounded-tl-3xl "
           >
             <div
-              className="rounded-tl-3xl"
               style={{
                 minHeight: "100%",
-                padding: "5px"
+                padding: "5px",
               }}
+            className="rounded-tl-3xl "
+
             >
               <Outlet />
             </div>

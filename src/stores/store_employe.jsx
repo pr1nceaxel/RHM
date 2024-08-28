@@ -14,7 +14,6 @@ const useEmployeStore = create((set) => ({
           department: emp.department ? emp.department.name : "N/A",
           position: emp.position ? emp.position.title : "N/A"
         }));
-        console.log(employees)
         set({ employees });
       }
     } catch (error) {

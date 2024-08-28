@@ -4,23 +4,23 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { useEffect, useState } from "react";
 import { Button } from "antd";
-import {  Dropdown, Space, message } from "antd";
+import { Dropdown, Space, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import useLeaveStore from "../../stores/store_leave";
 import { PiDotsThreeOutlineThin } from "react-icons/pi";
 import { approveLeaveRequest } from "../../api/api_leaveRequest";
 
-
 export const LeaveRequest = () => {
   const navigate = useNavigate();
-  const {leaveRequests, loadLeaveRequests, removeLeaveRequest} = useLeaveStore()
+  const { leaveRequests, loadLeaveRequests, removeLeaveRequest } =
+    useLeaveStore();
   const [rowData, setRowData] = useState([]);
 
   const CustomButtonComponent = (props) => {
     const { data } = props;
     const handleMenuClick = (e) => {
       if (e.key === "0") {
-        handleApprouve(data.id)
+        handleApprouve(data.id);
         // navigate(`/employees/${data.id}`);
       } else if (e.key === "1") {
         navigate(`/employees/${data.id}`);
@@ -60,9 +60,6 @@ export const LeaveRequest = () => {
     );
   };
 
-
-
-
   useEffect(() => {
     loadLeaveRequests();
   }, [loadLeaveRequests]);
@@ -72,26 +69,26 @@ export const LeaveRequest = () => {
   }, [leaveRequests]);
 
   const [colDefs] = useState([
-    { 
-      field: "employee", 
-      headerName: "Employé", 
+    {
+      field: "employee",
+      headerName: "Employé",
     },
-    { 
-      field: "startDate", 
+    {
+      field: "startDate",
       headerName: "Date de debut ",
       // cellRenderer: (params) => params.value.length > 20 ? `${params.value.substring(0, 20)}...` : params.value
     },
-    { 
-      field: "endDate", 
-      headerName: "Date de fin" 
+    {
+      field: "endDate",
+      headerName: "Date de fin",
     },
-    { 
-      field: "reason", 
-      headerName: "Motif" 
+    {
+      field: "reason",
+      headerName: "Motif",
     },
-    { 
-      field: "status", 
-      headerName: "Status" ,
+    {
+      field: "status",
+      headerName: "Status",
     },
     {
       field: "Action",
@@ -116,16 +113,23 @@ export const LeaveRequest = () => {
     <div className="mx-5 py-3">
       <div className="flex mx-2 justify-between my-3">
         <div>
-          <h1 className="text-xl font-bold">Liste des Demandes de Congés</h1>
+          <h1 className="text-3xl font-bold ">Demandes de congé</h1>
           <p>Voici la liste des demandes de congés des employés.</p>
         </div>
         <div>
-          <Button type="primary" size="large">
-            Nouvelle Demande
+          <Button
+            type="primary"
+            size="large"
+            shape="round"
+            className="px-4 py-5"
+          >
+            Créer
           </Button>
         </div>
       </div>
-      <div className="ag-theme-quartz" style={{ height: "70vh"}}>
+      <div className="ag-theme-quartz" style={{ height: "70vh" }}>
+       
+       
         <AgGridReact
           pagination={pagination}
           paginationPageSize={paginationPageSize}

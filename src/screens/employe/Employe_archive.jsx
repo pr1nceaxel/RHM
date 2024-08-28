@@ -1,11 +1,4 @@
-// export const EmployeArchive = () => {
-//   return (
-//     <div>EmployeeArchive</div>
-//   )
-// }
 
-
-// import React from 'react';
 import { Table, Tag, Avatar } from 'antd';
 
 const columns = [
