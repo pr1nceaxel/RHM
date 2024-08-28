@@ -1,14 +1,16 @@
+/* eslint-disable no-undef */
 import axios from "axios";
+import { E_RHM_API_URL } from "../../config";
 
 const api = axios.create({
 
-    baseURL: "http://localhost:5000/api",
-    // baseURL: "http://rhmserver-production.up.railway.app/api",
+    baseURL: E_RHM_API_URL ,
     headers: {
         "Content-Type": "application/json",
     },
     withCredentials: true,
 });
+
 
 api.interceptors.request.use(
     (config) => {
