@@ -3,17 +3,19 @@ import { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
-import {  Dropdown, Space, message } from "antd";
+import { Dropdown, Space, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { PiDotsThreeOutlineThin } from "react-icons/pi";
 
 import { deleteEmploye } from "../../api/api_employe";
-import  useEmployeStore  from "../../stores/store_employe";
+import useEmployeStore from "../../stores/store_employe";
 
 export const EmployeList = () => {
   const navigate = useNavigate();
   const { employees, loadEmployees, removeEmployee } = useEmployeStore();
   const [rowData, setRowData] = useState([]);
+
+  console.log(rowData);
 
   const handleDelete = async (id) => {
     try {
@@ -67,16 +69,26 @@ export const EmployeList = () => {
   }, [employees]);
 
   const [colDefs] = useState([
-    { field: "flag", headerName: "Photo", filter: false },
-    { field: "lastName", headerName: "Prénom" },
-    { field: "firstName", headerName: "Nom" },
-    { field: "department", headerName: "Département" },
-    { field: "position", headerName: "Poste" },
+    {
+      field: "name",
+      headerName: "Employé",
+      filter: false,
+      headerClass: "bg-[#ecf1fd]",
+      cellRenderer: (params) => params.value,
+      cellStyle: { display: 'flex', alignItems: 'center' } 
+    },
+    {
+      field: "department",
+      headerName: "Département",
+      headerClass: "bg-[#ecf1fd]",
+    },
+    { field: "position", headerName: "Poste", headerClass: "bg-[#ecf1fd]" },
     {
       field: "Action",
       cellRenderer: CustomButtonComponent,
       flex: 0.4,
       filter: false,
+      headerClass: "bg-[#ecf1fd]",
     },
   ]);
 
@@ -88,16 +100,14 @@ export const EmployeList = () => {
   };
 
   return (
-
-      <div className="ag-theme-quartz" style={{ height: "70vh" }}>
-        <AgGridReact
-          pagination={true}
-          rowData={rowData}
-          columnDefs={colDefs}
-          defaultColDef={defaultColDef}
-        />
-      </div>
-
-  
-  )
+    <div className="ag-theme-quartz" style={{ height: "70vh" }}>
+      <AgGridReact
+        pagination={true}
+        rowData={rowData}
+        columnDefs={colDefs}
+        defaultColDef={defaultColDef}
+        rowHeight={50}
+      />
+    </div>
+  );
 };

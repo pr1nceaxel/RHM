@@ -43,7 +43,7 @@ export const Posts = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [departements, setDepartements] = useState([]);
   const [employes, setEmployees] = useState([]);
-
+  
   console.log(rowData)
   useEffect(() => {
     loadDepartments();
