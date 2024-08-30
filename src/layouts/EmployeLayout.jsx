@@ -1,5 +1,5 @@
 import { Dropdown } from "antd";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { CiGrid41, CiViewTable } from "react-icons/ci";
 import { IoPeople, IoCloudUpload } from "react-icons/io5";
 import { useState } from "react";
@@ -7,6 +7,11 @@ import CreateEmployeDrawer from "../components/employes/createDrawer";
 
 export default function EmployeLayout() {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChangeView = (view) => {
+    navigate('/employees/' + view);
+  }
 
   const showDrawer = () => {
     setOpen(true);
@@ -51,11 +56,18 @@ export default function EmployeLayout() {
         </div>
         <div className="flex items-center gap-10">
           <div className="flex  px-1 py-1 justify-between rounded-full bg-[#ecf1fd]">
-            <button className="bg-white p-1 rounded-full ">
-              <CiGrid41 size={23} />
-            </button>
-            <button>
+            <button className={`p-1 rounded-full ${location.pathname === '/employees/list' ? 'bg-white' : ''}`} 
+            onClick={() => handleChangeView('list')}
+            >
               <CiViewTable size={23} />
+
+            </button>
+            <button
+            onClick={() => handleChangeView('')}
+            className={`p-1 rounded-full ${location.pathname === '/employees/' ? 'bg-white' : ''}`}
+            >
+              <CiGrid41 size={23} />
+
             </button>
           </div>
 
