@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Button, Modal, Form, Input, InputNumber, Select, Space } from "antd";
+import { defaultColDef } from "../../constantes/gridText";
 
 
 
@@ -57,12 +58,7 @@ export const Partner = () => {
 
   ]);
 
-  const defaultColDef = {
-    flex: 1,
-    sortable: true,
-    filter: true,
-    floatingFilter: true,
-  };
+
 
   const pagination = true;
   const paginationPageSize = 500;

@@ -7,8 +7,8 @@ export const EmployeCounterLayout = () => {
     navigate("/employees/counter/" + view);
   };
   return (
-    <div className="mx-10">
-      <div className="flex gap-10 pt-10 border-b-2 ">
+    <div className="">
+      <div className="flex gap-10 pt-10 border-b-2 mx-5">
         <button onClick={() => handleChangeView("")}>
           <p
             className={` 

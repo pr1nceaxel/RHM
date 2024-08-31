@@ -1,9 +1,11 @@
 import { AgGridReact } from "ag-grid-react";
 import { useEffect, useState } from "react";
 import usePresenceStore from "../../stores/Pointage";
+import { defaultColDef } from "../../constantes/gridText";
 
 export default function ListPresence() {
   const [rowData, setRowData] = useState([]);
+  // const [loading, setLoading] = useState(true);
   const { presenceListTotal, loaPresenceListTotal } = usePresenceStore();
 
   useEffect(() => {
@@ -66,12 +68,7 @@ export default function ListPresence() {
     },
   ]);
 
-  const defaultColDef = {
-    flex: 1,
-    sortable: true,
-    filter: true,
-    floatingFilter: true,
-  };
+
 
   const handleRowClick = (event) => {
     const { id } = event.data;
@@ -87,6 +84,7 @@ export default function ListPresence() {
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
           onRowClicked={handleRowClick}
+          // loading={loading} 
         />
       </div>
     </div>

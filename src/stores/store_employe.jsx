@@ -27,7 +27,6 @@ const useEmployeStore = create((set) => ({
         }));
         set({ employees });
       }
-      console.log(response.data.at(0).firstName);
     } catch (error) {
       console.error("Failed to load employees:", error);
     }

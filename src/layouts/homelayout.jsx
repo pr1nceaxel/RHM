@@ -148,7 +148,6 @@ const HomeLayout = () => {
             <div
               style={{
                 minHeight: "100%",
-                padding: "5px",
               }}
             className="rounded-tl-3xl "
 

@@ -19,6 +19,7 @@ import {
 import  useDepartmentStore  from "../../stores/store_departement";
 import { createDepartement, deleteDepartement } from "../../api/api_departement";
 import useEmployeStore from "../../stores/store_employe";
+import { defaultColDef } from "../../constantes/gridText";
 
 
 export const Departments = () => {
@@ -135,12 +136,7 @@ export const Departments = () => {
     },
   ]);
 
-  const defaultColDef = {
-    flex: 1,
-    sortable: true,
-    filter: true,
-    floatingFilter: true,
-  };
+
 
   const showModal = () => {
     setIsModalVisible(true);

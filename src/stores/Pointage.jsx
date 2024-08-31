@@ -30,8 +30,8 @@ const usePresenceStore = create((set) => ({
           ...presence,
           date: presence.date ? formatDate(presence.date) : "N/A",
           heureDebut: presence.checkInTime ? formatTime(presence.checkInTime) : "N/A",
-          pause: presence.pauseTime ? formatTime(presence.pauseTime) : "N/A", 
-          reprise: presence.resumeTime ? formatTime(presence.resumeTime) : "N/A", 
+          pause: presence.Break ? formatTime(presence.Break) : "N/A", 
+          reprise: presence.EndBreak ? formatTime(presence.EndBreak) : "N/A", 
           fin: presence.checkOutTime ? formatTime(presence.checkOutTime) : "N/A",
           employee: (
             <div className="flex items-center gap-10">
