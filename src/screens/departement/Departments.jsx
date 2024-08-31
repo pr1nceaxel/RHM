@@ -199,8 +199,8 @@ export const Departments = () => {
           </Button>
         </div>
       </div>
-      <div style={{ height: "70vh" }}>
-        <AgGridReact
+      <div className="ag-theme-quartz" style={{ height: "70vh" }}>
+      <AgGridReact
           pagination={true}
           rowData={rowData}
           columnDefs={colDefs}
