@@ -1,5 +1,5 @@
 export default function CounterHours() {
   return (
-    <div>CounterHours</div>
+    <div className='z-50' >CounterHours</div>
   )
 }

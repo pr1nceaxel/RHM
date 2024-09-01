@@ -68,7 +68,7 @@ const HomeLayout = () => {
             transition: "width 0.2s",
           }}
         >
-          <div className="flex items-center justify-center mb-10 mt-5">
+          <div className="flex items-center justify-center mb-10 mt-5 ">
             <img src={logo} alt="" className="w-10 h-10 my-2" />
             {collapsed ? null : <h1 className="text-lg font-bold ">E-RHM</h1>}
           </div>
