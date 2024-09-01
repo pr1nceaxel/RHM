@@ -30,7 +30,7 @@ const usePresenceStore = create((set) => ({
           ...presence,
           date: presence.date ? formatDate(presence.date) : "N/A",
           heureDebut: presence.checkInTime ? formatTime(presence.checkInTime) : "N/A",
-          pause: presence.Break ? formatTime(presence.Break) : "N/A", 
+          pause: presence.Breaks ? (presence.Break) : "N/A", 
           reprise: presence.EndBreak ? formatTime(presence.EndBreak) : "N/A", 
           fin: presence.checkOutTime ? formatTime(presence.checkOutTime) : "N/A",
           employee: (
@@ -45,7 +45,10 @@ const usePresenceStore = create((set) => ({
               </div>
             </div>
           ),
+          Breaks: presence.Breaks[0] ? formatTime(presence?.Breaks?.at(0)?.Break) : "N/A",
+          EndBreak: presence.Breaks[0] ? formatTime(presence?.Breaks?.at(0)?.EndBreak) : "N/A",
           matricule: presence.employee ? presence.employee.matricule : "N/A",
+
         }));
         set({ presenceListTotal });
       }

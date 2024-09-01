@@ -7,9 +7,10 @@ export default function ListPresence() {
   const [rowData, setRowData] = useState([]);
   // const [loading, setLoading] = useState(true);
   const { presenceListTotal, loaPresenceListTotal } = usePresenceStore();
-
+console.log(presenceListTotal.at(0)?.Breaks.Break)
+console.log("presence",presenceListTotal.at(0))
   useEffect(() => {
-    loaPresenceListTotal();
+    loaPresenceListTotal(); 
   }, [loaPresenceListTotal]);
 
   useEffect(() => {
@@ -46,14 +47,14 @@ export default function ListPresence() {
 
     },
     {
-      field: "pause",
+      field: "Breaks",
       headerName: "Pause",
       headerClass: "bg-[#ecf1fd]",
       cellStyle: { display: 'flex', alignItems: 'center' } 
 
     },
     {
-      field: "reprise",
+      field: "EndBreak",
       headerName: "Reprise",
       headerClass: "bg-[#ecf1fd]",
       cellStyle: { display: 'flex', alignItems: 'center' } 
