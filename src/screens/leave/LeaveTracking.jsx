@@ -1,57 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Drawer, Button, Select } from 'antd';
 
 const employees = [
   {
     id: 1,
     name: 'VIANNEY bro',
     leavePeriods: [{ start: new Date(2024, 8, 29), end: new Date(2024, 8, 31), status: 'Repos' }],
+    detail:"jnifeisjnfesnfeijfneifjbejifbejzdfnjejisebdfjbefir",
   },
   {
     id: 2,
     name: 'bernard',
     leavePeriods: [{ start: new Date(2024, 8, 1), end: new Date(2024, 8, 5), status: 'Repos' }],
+    detail:"jnifeisjnfesnfeijfneifjbejifbejzdfnjejisebdfjbefir",
+
   },
   {
     id: 3,
     name: 'ange',
     leavePeriods: [{ start: new Date(2024, 8, 7), end: new Date(2024, 8, 14), status: 'Repos' }],
+    detail:"jnifeisjnfesnfeijfneifjbejifbejzdfnjejisebdfjbefir",
+
   },
   {
     id: 4,
     name: 'koffi',
     leavePeriods: [{ start: new Date(2024, 0, 1), end: new Date(2024, 0, 2), status: 'Repos' }],
+    detail:"jnifeisjnfesnfeijfneifjbejifbejzdfnjejisebdfjbefir",
   },
 ];
 
 export const LeaveTracking = () => {
   const [date, setDate] = useState(new Date());
-  const [viewMode, setViewMode] = useState('week'); // Gestion de la vue semaine/mois
-  const [gotoDate, setGotoDate] = useState(''); // Stocke la date pour la fonction "Aller à"
-  const [selectedLeave, setSelectedLeave] = useState(null); // État pour afficher ou cacher les détails du congé
-  const [showForm, setShowForm] = useState(false); // État pour afficher ou cacher le formulaire
+  const [viewMode, setViewMode] = useState('week');
+  const [gotoDate, setGotoDate] = useState('');
+  const [selectedLeave, setSelectedLeave] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Fonction pour mettre à jour la date sélectionnée
   const onChange = (newDate) => {
     setDate(newDate);
   };
 
-  // Fonction pour avancer ou reculer d'une semaine ou d'un mois
+  const [employees, setEmployees] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/api/employees')
+      .then((response) => response.json())
+      .then((data) => setEmployees(data))
+      .catch((error) => console.error('Erreur de récupération des employés:', error));
+  }, []);
+
   const changeDate = (direction) => {
     const newDate = new Date(date);
     if (viewMode === 'week') {
-      newDate.setDate(newDate.getDate() + direction * 7); // Avance/Recul d'une semaine
+      newDate.setDate(newDate.getDate() + direction * 7);
     } else {
-      newDate.setMonth(newDate.getMonth() + direction); // Avance/Recul d'un mois
+      newDate.setMonth(newDate.getMonth() + direction);
     }
     setDate(newDate);
   };
 
-  // Fonction pour afficher les événements sur les jours
   const getEventsForDate = (employee, currentDate) => {
     return employee.leavePeriods.find((period) => currentDate >= period.start && currentDate <= period.end);
   };
 
-  // Fonction pour aller à une date spécifique
   const goToSpecificDate = () => {
     if (gotoDate) {
       const newDate = new Date(gotoDate);
@@ -59,40 +74,39 @@ export const LeaveTracking = () => {
     }
   };
 
-  // Fonction pour gérer la sélection d'un congé
   const handleLeaveClick = (employee, leavePeriod) => {
     setSelectedLeave({ employee, leavePeriod });
+    setIsDrawerOpen(true);
   };
 
-  // Fonction pour cacher les détails
-  const handleCloseDetails = () => {
+  const handleCloseDrawer = () => {
+    setIsDrawerOpen(false);
     setSelectedLeave(null);
   };
 
-  // Fonction pour ouvrir le formulaire
   const handleOpenForm = () => {
     setShowForm(true);
+    setIsDrawerOpen(true);
   };
 
-  // Fonction pour fermer le formulaire
-  const handleCloseForm = () => {
-    setShowForm(false);
-  };
-
-  // Fonction pour soumettre le formulaire (cela peut être adapté pour ajouter réellement un congé)
   const handleSubmitForm = (event) => {
     event.preventDefault();
-    // Logique pour ajouter un congé
-    handleCloseForm(); // Ferme le formulaire après soumission
+    handleCloseDrawer();
   };
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredEmployees = employees.filter((employee) =>
+    employee.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-gray-100 p-6 relative">
-      {/* Navbar */}
       <div className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center mb-6">
-        <button onClick={handleOpenForm} className="bg-blue-500 text-white px-4 py-2 rounded-lg">Créer</button>
+        <Button type="primary" onClick={handleOpenForm}>Créer</Button>
 
-        {/* Option Aller à une date */}
         <div>
           <input
             type="date"
@@ -100,39 +114,43 @@ export const LeaveTracking = () => {
             onChange={(e) => setGotoDate(e.target.value)}
             className="border px-4 py-2 rounded-lg mx-3"
           />
-          <button onClick={goToSpecificDate} className="bg-blue-500 text-white px-4 py-2 rounded-lg">
-            Aller à
-          </button>
+          <Button onClick={goToSpecificDate}>Aller à</Button>
         </div>
 
-        <input type="text" placeholder="Salariés" className="border px-4 py-2 rounded-lg" />
+        <div className="relative">
+          <input
+            type="text"
+            placeholder=""
+            className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+          <svg
+            className="absolute left-3 top-2.5 text-gray-400"
+            width="16"
+            height="16"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16">
+          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.44 1.103a5.5 5.5 0 1 1 7.778-7.778 5.5 5.5 0 0 1-7.778 7.778z" />
+          </svg>
+        </div>
+
         <div className="flex space-x-4 items-center">
-          <button onClick={() => setDate(new Date())} className="bg-blue-500 text-white px-4 py-2 rounded-lg">
-            Aujourd'hui
-          </button>
-          <button onClick={() => setViewMode('week')} className="text-gray-500">
-            Semaine
-          </button>
-          <button onClick={() => setViewMode('month')} className="text-gray-500">
-            Mois
-          </button>
+          <Button onClick={() => setDate(new Date())}>Aujourd'hui</Button>
+          <Button onClick={() => setViewMode('week')}>Semaine</Button>
+          <Button onClick={() => setViewMode('month')}>Mois</Button>
         </div>
       </div>
 
-      {/* Contrôles de navigation du calendrier */}
       <div className="flex justify-between items-center mb-4">
-        <button onClick={() => changeDate(-1)} className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg">
-          Précédent
-        </button>
+        <Button onClick={() => changeDate(-1)}>Précédent</Button>
         <span className="text-xl font-semibold">
           {date.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
         </span>
-        <button onClick={() => changeDate(1)} className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg">
-          Suivant
-        </button>
+        <Button onClick={() => changeDate(1)}>Suivant</Button>
       </div>
 
-      {/* Affichage du calendrier par semaine ou mois */}
       <div className="bg-white p-4 rounded-lg shadow-md overflow-x-auto">
         <table className="table-auto w-full">
           <thead>
@@ -150,7 +168,7 @@ export const LeaveTracking = () => {
             </tr>
           </thead>
           <tbody>
-            {employees.map((employee, idx) => (
+            {filteredEmployees.map((employee, idx) => (
               <tr key={idx} className="border-t">
                 <td className="p-2">{employee.name}</td>
                 {[...Array(viewMode === 'week' ? 7 : 30)].map((_, i) => {
@@ -173,82 +191,77 @@ export const LeaveTracking = () => {
         </table>
       </div>
 
-      {/* Détails du congé avec animation de panneau */}
-      {selectedLeave && (
-        <div
-          className={`fixed top-0 right-0 z-50 w-1/3 h-full bg-white shadow-lg transform transition-transform duration-500 ease-in-out ${
-            selectedLeave ? 'translate-x-0' : 'translate-x-full'
-          }`}
-          style={{ marginTop: '64px' }} // Ajustement pour éviter que l'en-tête ne cache les détails
-        >
-          <button
-            onClick={handleCloseDetails}
-            className="bg-red-500 text-white px-4 py-2 rounded-lg absolute top-4 right-4"
-          >
-            Fermer
-          </button>
-          <div className="p-6">
-            <h3 className="text-xl font-semibold mb-4">Détails du congé</h3>
-            <p>
-              <strong>Employé:</strong> {selectedLeave.employee.name}
-            </p>
-            <p>
-              <strong>Statut:</strong> {selectedLeave.leavePeriod.status}
-            </p>
-            <p>
-              <strong>Début:</strong> {selectedLeave.leavePeriod.start.toLocaleDateString()}
-            </p>
-            <p>
-              <strong>Fin:</strong> {selectedLeave.leavePeriod.end.toLocaleDateString()}
-            </p>
-          </div>
-        </div>
-      )}
+      {/* Drawer pour les détails ou le formulaire */}
+      <Drawer
+        title={selectedLeave ? 'Détails du congé' : 'Ajouter un congé'}
+        placement="right"
+        onClose={handleCloseDrawer}
+        visible={isDrawerOpen}
+        width={400}
+      >
+        {selectedLeave ? (
 
-      {/* Formulaire d'ajout de congé avec animation */}
-      {showForm && (
-        <div
-          className={`fixed top-0 right-0 z-50 w-1/3 h-full bg-white shadow-lg transform transition-transform duration-500 ease-in-out ${
-            showForm ? 'translate-x-0' : 'translate-x-full'
-          }`}
-          style={{ marginTop: '64px' }} // Ajustement pour éviter que l'en-tête ne cache le formulaire
-        >
-          <button
-            onClick={handleCloseForm}
-            className="bg-red-500 text-white px-4 py-2 rounded-lg absolute top-4 right-4"
-          >
-            Fermer
-          </button>
-          <div className="p-6">
-            <h3 className="text-xl font-semibold mb-4">Ajouter un congé</h3>
-            <form onSubmit={handleSubmitForm}>
-              <div className="mb-4">
-                <label className="block text-gray-700">Employé</label>
-                <input type="text" className="border px-4 py-2 rounded-lg w-full" required />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Début</label>
-                <input type="date" className="border px-4 py-2 rounded-lg w-full" required />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Fin</label>
-                <input type="date" className="border px-4 py-2 rounded-lg w-full" required />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Statut</label>
-                <select className="border px-4 py-2 rounded-lg w-full" required>
-                  <option value="Repos">Repos</option>
-                  <option value="Congé maladie">Congé maladie</option>
-                  <option value="Vacances">Vacances</option>
-                </select>
-              </div>
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full">
-                Ajouter
-              </button>
-            </form>
+         <div className="p-4 bg-white rounded-lg shadow-md max-h-96 overflow-y-auto">
+            <p className="text-lg font-semibold text-gray-800 mb-2">
+              <strong>Employé:</strong><br /> {selectedLeave.employee.name}
+            </p>
+            <p className="text-lg font-semibold text-gray-800 mb-2">
+              <strong>Statut:</strong><br /> {selectedLeave.leavePeriod.status}
+            </p>
+            <p className="text-lg font-semibold text-gray-800 mb-2">
+              <strong>Début du congé:</strong><br /> {selectedLeave.leavePeriod.start.toLocaleDateString()}
+            </p>
+            <p className="text-lg font-semibold text-gray-800 mb-2">
+              <strong>Fin du congé:</strong><br /> {selectedLeave.leavePeriod.end.toLocaleDateString()}
+            </p>
+            <p className="text-lg font-semibold text-gray-800 mb-2">
+              <strong>Détails:</strong><br />
+              <span className="block  break-words whitespace-normal">
+                {selectedLeave.employee.detail}
+              </span>
+            </p>
           </div>
-        </div>
-      )}
+
+        ) : (
+          <form onSubmit={handleSubmitForm}>
+
+            <div className="w-full border py-2 rounded-lg">
+              <Select
+                className="w-full"
+                placeholder="Sélectionnez un employé"
+                value={selectedEmployee}
+                onChange={(value) => setSelectedEmployee(value)}
+                options={employees.map((employee) => ({
+                  value: employee.id,
+                  label: employee.firstName,
+                }))}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-gray-700">Début du congé:</label>
+              <input type="date" className="border px-4 py-2 rounded-lg w-full" required />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Fin du congé:</label>
+              <input type="date" className="border px-4 py-2 rounded-lg w-full" required />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Statut</label>
+              <select className="border px-4 py-2 rounded-lg w-full" required>
+                <option value="Repos">Repos</option>
+                <option value="Congé maladie">Congé maladie</option>
+                <option value="Vacances">Vacances</option>
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Détails</label>
+              <textarea className="border px-4 py-2 rounded-lg w-full" required></textarea>
+            </div>
+            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full">Ajouter</button>
+          </form>
+        )}
+      </Drawer>
     </div>
   );
 };
