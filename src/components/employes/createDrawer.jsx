@@ -8,6 +8,7 @@ import {
   DatePicker,
   Select,
   Radio,
+  Switch,
 } from "antd";
 import { useEffect, useState } from "react";
 import ImgCrop from "antd-img-crop";
@@ -181,7 +182,13 @@ export default function CreateEmployeDrawer({ open, onClose }) {
     setChildrenDrawer(false);
   };
 
-  console.log(formState.photo);
+  const [checked, setChecked] = useState(true);
+
+  const handleAdminChange = (checked) => {
+    console.log(`switch to ${checked}`);
+    setChecked(checked);
+  };
+
   const handleCreate = async () => {
     try {
       const employe = await createEmploye({
@@ -240,8 +247,6 @@ export default function CreateEmployeDrawer({ open, onClose }) {
       } else {
         message.error(employe.message);
       }
-
-
     } catch (error) {
       console.log("Error:", error);
     }
@@ -681,6 +686,21 @@ export default function CreateEmployeDrawer({ open, onClose }) {
                   ...formState,
                   emergencyContactPhone: e.target.value,
                 });
+              }}
+            />
+          </div>
+
+          <div className=" my-10 flex items-center space-x-7">
+            <p className="text-xl font-light text-[#E87868]">Administrateur</p>
+            <Switch
+              checked={checked}
+              onChange={handleAdminChange}
+              style={{
+                backgroundColor: checked ? "#E87868" : "#979797",
+                borderColor: checked ? "#E87868" : "#979797",
+                ".ant-switch-handle": {
+                  backgroundColor: "white",
+                },
               }}
             />
           </div>

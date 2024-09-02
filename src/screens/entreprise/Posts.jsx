@@ -20,6 +20,7 @@ import { createPost, deletePost } from "../../api/api_post";
 import { PiDotsThreeOutlineThin } from "react-icons/pi";
 import useEmployeStore from "../../stores/store_employe";
 import useDepartmentStore from "../../stores/store_departement";
+import { defaultColDef } from "../../constantes/gridText";
 
 
 
@@ -134,12 +135,6 @@ export const Posts = () => {
     },
   ]);
 
-  const defaultColDef = {
-    flex: 1,
-    sortable: true,
-    filter: true,
-    floatingFilter: true,
-  };
 
   const pagination = true;
   const paginationPageSize = 500;

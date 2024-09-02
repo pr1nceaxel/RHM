@@ -9,13 +9,13 @@ import { PiDotsThreeOutlineThin } from "react-icons/pi";
 
 import { deleteEmploye } from "../../api/api_employe";
 import useEmployeStore from "../../stores/store_employe";
+import { defaultColDef } from "../../constantes/gridText";
 
 export const EmployeList = () => {
   const navigate = useNavigate();
   const { employees, loadEmployees, removeEmployee } = useEmployeStore();
   const [rowData, setRowData] = useState([]);
 
-  console.log(rowData);
 
   const handleDelete = async (id) => {
     try {
@@ -91,13 +91,6 @@ export const EmployeList = () => {
       headerClass: "bg-[#ecf1fd]",
     },
   ]);
-
-  const defaultColDef = {
-    flex: 1,
-    sortable: true,
-    filter: true,
-    floatingFilter: true,
-  };
 
   return (
     <div className="ag-theme-quartz" style={{ height: "70vh" }}>

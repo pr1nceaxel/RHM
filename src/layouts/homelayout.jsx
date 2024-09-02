@@ -68,7 +68,7 @@ const HomeLayout = () => {
             transition: "width 0.2s",
           }}
         >
-          <div className="flex items-center justify-center mb-10 mt-5">
+          <div className="flex items-center justify-center mb-10 mt-5 ">
             <img src={logo} alt="" className="w-10 h-10 my-2" />
             {collapsed ? null : <h1 className="text-lg font-bold ">E-RHM</h1>}
           </div>
@@ -105,7 +105,6 @@ const HomeLayout = () => {
             }}
             className="flex items-center px-4"
           >
-
             <p className="font-medium text-base text-gray-500">LOUTCHE</p>
 
             <div className="ml-auto flex items-center gap-5 mx-10">
@@ -135,27 +134,34 @@ const HomeLayout = () => {
               </Dropdown>
             </div>
           </Header>
+          <Layout style={{ marginTop: 64 }}>
 
+        
           <Content
             style={{
-              flex: 1,
-              padding: "64px 0 0",
-              overflowY: "auto",
-              minHeight: "calc(100vh - 128px)",
+              margin: 0,
+              minHeight: 280,
+              overflow: "hidden",
+              position: "relative",
+
+              background: "#ecf1fd",
+          
             }}
             className="rounded-tl-3xl "
           >
             <div
-              style={{
-                minHeight: "100%",
-                padding: "5px",
-              }}
-            className="rounded-tl-3xl "
-
+                style={{
+                  minHeight: "100%",
+                  padding: "10px",
+                  overflowY: "auto",
+                  height: "calc(100vh - 88px)",
+                }}
+              className="rounded-tl-3xl overflow-hidden bg-white"
             >
               <Outlet />
             </div>
           </Content>
+          </Layout>
           <Footer
             style={{
               textAlign: "center",

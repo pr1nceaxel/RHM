@@ -12,7 +12,7 @@ import { Dashboard } from "../screens/Dashboard";
 import { EmployeList } from "../screens/employe/Employe_list";
 import EmployeCard from "../screens/employe/Employe_card";
 import CreateEmploye from "../screens/employe/Employe_create";
-import { EmployeCounter } from "../screens/employe/Employe_counter";
+
 import ViewInformationEmploye from "../screens/employe/ViewInformationEmploye";
 import { EmployeTeam } from "../screens/employe/Employe_team";
 import CreateTeams from "../screens/entreprise/CreateTeams";
@@ -31,6 +31,15 @@ import { Departments } from "../screens/departement/Departments";
 import LoginPage from "../screens/auth/LoginPage";
 import LoginCompany from "../screens/auth/LoginCompany";
 import { PayrollHistory } from "../screens/payroll/PayrollHistory";
+import { EmployeCounterLayout } from "../layouts/Employe_counterLayout";
+import ListPresence from "../screens/employe/ListPresence";
+import RegistrePointage from "../screens/employe/RegistrePointage";
+import CounterHours from "../screens/employe/CounterHours";
+import TeamLayout from "../layouts/TeamLayout";
+import ArchiveLayout from "../layouts/ArchiveLayout";
+import LeaveRequestLayout from "../layouts/LeaveRequestLayout";
+import PaieFicheLayout from "../layouts/PaieFicheLayout";
+import ViewOneEmploye from "../layouts/ViewOneEmploye";
 
 
 export const router = createBrowserRouter([
@@ -76,12 +85,21 @@ export const router = createBrowserRouter([
             element: <CreateEmploye />,
           },
           {
-            path: "employees/:id",
-            element: <ViewInformationEmploye />,
+            element: <ViewOneEmploye />,
+            children:[
+              {
+                path: "employees/:id",
+                element: <ViewInformationEmploye />,
+              }
+            ]
           },
           {
-            path: "employees/team",
-            element: <EmployeTeam />,
+            element: <TeamLayout />,
+            children: [
+            {  path: "employees/team",
+              element: <EmployeTeam />,
+            }
+            ]
           },
           {
             path: "employees/team/create",
@@ -89,33 +107,44 @@ export const router = createBrowserRouter([
           },
           {
             path: "employees/counter",
-            element: <EmployeCounter />,
+            element: <EmployeCounterLayout />,
             children: [
               {
                 path: "",
-                element: <p>presence</p>,
+                element: <ListPresence/>,
               },
               {
                 path: "pointage",
-                element: <p>pointage</p>,
+                element: <RegistrePointage/>,
               },
               {
                 path: "compteur-heure",
-                element: <p>compteur-heure</p>,
+                element: <CounterHours />,
               },
             ],
           },
           {
-            path: "employees/archive",
-            element: <EmployeArchive />,
+            element: <ArchiveLayout />,
+            children:[
+              {
+                path: "employees/archive",
+                element: <EmployeArchive />,
+
+              }
+            ]
           },
           {
             path: "employees/tools",
             element: <EmployeTools />,
           },
           {
-            path: "absences/leave-request",
-            element: <LeaveRequest />,
+            element: <LeaveRequestLayout />,
+            children: [
+              {
+                path: "absences/leave-request",
+                element: <LeaveRequest />,
+              }
+            ]
           },
           {
             path: "absences/absence-calendar",
@@ -142,8 +171,13 @@ export const router = createBrowserRouter([
             element: <Schedule />,
           },
           {
-            path: "payroll/statement",
-            element: <PayrollHistory/>
+            element: <PaieFicheLayout/>,
+            children:[
+              {
+                path: "payroll/statement",
+                element: <PayrollHistory/>,
+              }
+            ]
           },
           {
             path: "payroll/benefits",
