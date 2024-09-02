@@ -3,7 +3,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { useEffect, useState } from "react";
-import { Button } from "antd";
+
 import { Dropdown, Space, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import useLeaveStore from "../../stores/store_leave";
@@ -107,22 +107,7 @@ export const LeaveRequest = () => {
 
   return (
     <div className="mx-5 py-3">
-      <div className="flex mx-2 justify-between my-3">
-        <div>
-          <h1 className="text-3xl font-bold ">Demandes de congé</h1>
-          <p>Voici la liste des demandes de congés des employés.</p>
-        </div>
-        <div>
-          <Button
-            type="primary"
-            size="large"
-            shape="round"
-            className="px-4 py-5"
-          >
-            Créer
-          </Button>
-        </div>
-      </div>
+
       <div className="ag-theme-quartz" style={{ height: "70vh" }}>
        
        

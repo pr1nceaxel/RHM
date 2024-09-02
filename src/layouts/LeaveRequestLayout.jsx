@@ -9,7 +9,7 @@ export default function LeaveRequestLayout() {
         <div>
           <h1 className="text-xl ">Archivage</h1>
           <p className="font-thin text-lg">
-            Voici la liste des equipes de notre entreprise.
+          Voici la liste des demandes de congés des employés.
           </p>
         </div>
         <div className="flex items-center gap-10">
