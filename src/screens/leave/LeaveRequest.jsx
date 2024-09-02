@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import useLeaveStore from "../../stores/store_leave";
 import { PiDotsThreeOutlineThin } from "react-icons/pi";
 import { approveLeaveRequest } from "../../api/api_leaveRequest";
+import { defaultColDef } from "../../constantes/gridText";
 
 export const LeaveRequest = () => {
   const navigate = useNavigate();
@@ -98,12 +99,7 @@ export const LeaveRequest = () => {
     },
   ]);
 
-  const defaultColDef = {
-    flex: 1,
-    sortable: true,
-    filter: true,
-    floatingFilter: true,
-  };
+
 
   const pagination = true;
   const paginationPageSize = 500;

@@ -35,6 +35,10 @@ import { EmployeCounterLayout } from "../layouts/Employe_counterLayout";
 import ListPresence from "../screens/employe/ListPresence";
 import RegistrePointage from "../screens/employe/RegistrePointage";
 import CounterHours from "../screens/employe/CounterHours";
+import TeamLayout from "../layouts/TeamLayout";
+import ArchiveLayout from "../layouts/ArchiveLayout";
+import LeaveRequestLayout from "../layouts/LeaveRequestLayout";
+import PaieFicheLayout from "../layouts/PaieFicheLayout";
 
 
 export const router = createBrowserRouter([
@@ -84,8 +88,12 @@ export const router = createBrowserRouter([
             element: <ViewInformationEmploye />,
           },
           {
-            path: "employees/team",
-            element: <EmployeTeam />,
+            element: <TeamLayout />,
+            children: [
+            {  path: "employees/team",
+              element: <EmployeTeam />,
+            }
+            ]
           },
           {
             path: "employees/team/create",
@@ -110,16 +118,27 @@ export const router = createBrowserRouter([
             ],
           },
           {
-            path: "employees/archive",
-            element: <EmployeArchive />,
+            element: <ArchiveLayout />,
+            children:[
+              {
+                path: "employees/archive",
+                element: <EmployeArchive />,
+
+              }
+            ]
           },
           {
             path: "employees/tools",
             element: <EmployeTools />,
           },
           {
-            path: "absences/leave-request",
-            element: <LeaveRequest />,
+            element: <LeaveRequestLayout />,
+            children: [
+              {
+                path: "absences/leave-request",
+                element: <LeaveRequest />,
+              }
+            ]
           },
           {
             path: "absences/absence-calendar",
@@ -146,8 +165,13 @@ export const router = createBrowserRouter([
             element: <Schedule />,
           },
           {
-            path: "payroll/statement",
-            element: <PayrollHistory/>
+            element: <PaieFicheLayout/>,
+            children:[
+              {
+                path: "payroll/statement",
+                element: <PayrollHistory/>,
+              }
+            ]
           },
           {
             path: "payroll/benefits",

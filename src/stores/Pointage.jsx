@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { getListPresence } from "../api/pointage";
+import { capitalizeFirstLetter } from "../helpers/capitalizeFirstLetter";
 
 
 const formatDate = (dateString) => {
@@ -37,11 +38,11 @@ const usePresenceStore = create((set) => ({
             <div className="flex items-center gap-10">
               <div className=" rounded-full w-10 h-10 justify-center flex items-center bg-green-300 ">
                 {presence.employee.firstName.charAt(0).toUpperCase() +
-                  presence.employee.lastName.charAt(0).toUpperCase()}{" "}
+                  presence.employee.lastName.charAt(0).toUpperCase()}
               </div>
               <div className="flex flex-col">
-                <div className="text-sm font-medium">{presence.employee.firstName} </div>
-                <div className="text-xs text-gray-500">{presence.employee.lastName}</div>
+                <div className="text-sm font-medium">{capitalizeFirstLetter(presence.employee.firstName)} </div>
+                <div className="text-xs text-gray-500">{capitalizeFirstLetter(presence.employee.lastName)}</div>
               </div>
             </div>
           ),
