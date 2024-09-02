@@ -39,6 +39,7 @@ import TeamLayout from "../layouts/TeamLayout";
 import ArchiveLayout from "../layouts/ArchiveLayout";
 import LeaveRequestLayout from "../layouts/LeaveRequestLayout";
 import PaieFicheLayout from "../layouts/PaieFicheLayout";
+import ViewOneEmploye from "../layouts/ViewOneEmploye";
 
 
 export const router = createBrowserRouter([
@@ -84,8 +85,13 @@ export const router = createBrowserRouter([
             element: <CreateEmploye />,
           },
           {
-            path: "employees/:id",
-            element: <ViewInformationEmploye />,
+            element: <ViewOneEmploye />,
+            children:[
+              {
+                path: "employees/:id",
+                element: <ViewInformationEmploye />,
+              }
+            ]
           },
           {
             element: <TeamLayout />,
