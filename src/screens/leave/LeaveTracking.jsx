@@ -43,15 +43,15 @@ export const LeaveTracking = () => {
     setDate(newDate);
   };
 
-  const [employees, setEmployees] = useState([]);
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  // const [employees, setEmployees] = useState([]);
+  // const [selectedEmployee, setSelectedEmployee] = useState(null);
 
-  useEffect(() => {
-    fetch('http://localhost:3001/api/employees')
-      .then((response) => response.json())
-      .then((data) => setEmployees(data))
-      .catch((error) => console.error('Erreur de récupération des employés:', error));
-  }, []);
+  // useEffect(() => {
+  //   fetch('http://localhost:3001/api/employees')
+  //     .then((response) => response.json())
+  //     .then((data) => setEmployees(data))
+  //     .catch((error) => console.error('Erreur de récupération des employés:', error));
+  // }, []);
 
   const changeDate = (direction) => {
     const newDate = new Date(date);
@@ -225,7 +225,7 @@ export const LeaveTracking = () => {
         ) : (
           <form onSubmit={handleSubmitForm}>
 
-            <div className="w-full border py-2 rounded-lg">
+            {/* <div className="w-full border py-2 rounded-lg">
               <Select
                 className="w-full"
                 placeholder="Sélectionnez un employé"
@@ -236,6 +236,11 @@ export const LeaveTracking = () => {
                   label: employee.firstName,
                 }))}
               />
+            </div> */}
+
+            <div className="mb-4">
+              <label className="block text-gray-700">Employé</label>
+              <input type="text" className="border px-4 py-2 rounded-lg w-full" required />
             </div>
 
             <div className="mb-4">
