@@ -15,7 +15,7 @@ import CreateEmploye from "../screens/employe/Employe_create";
 
 import ViewInformationEmploye from "../screens/employe/ViewInformationEmploye";
 import { EmployeTeam } from "../screens/employe/Employe_team";
-import CreateTeams from "../screens/entreprise/CreateTeams";
+import {CreateTeams} from "../screens/employe/CreateTeams";
 import EmployeArchive  from "../screens/employe/Employe_archive";
 import { EmployeTools } from "../screens/employe/Employe_tools";
 import { LeaveRequest } from "../screens/leave/LeaveRequest";
@@ -93,18 +93,20 @@ export const router = createBrowserRouter([
               }
             ]
           },
+
           {
             element: <TeamLayout />,
             children: [
-            {  path: "employees/team",
-              element: <EmployeTeam />,
+            {  path: "employees/team/create",
+              element: <CreateTeams />,
             }
             ]
           },
           {
-            path: "employees/team/create",
-            element: <CreateTeams />,
-          },
+            path: "employees/team/:index",
+            element: <EmployeTeam />,
+          },  
+                  
           {
             path: "employees/counter",
             element: <EmployeCounterLayout />,
