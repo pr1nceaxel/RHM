@@ -38,11 +38,11 @@ export const Dashboard = () => {
         </div>
 
 
-        {/* <div className="bg-gradient-to-r from-indigo-500 to-blue-600 shadow-lg rounded-lg p-6 text-center text-white hover:shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer"
-          onClick={() => navigate("/home/payroll/statement")}>
+        <div className="bg-gradient-to-r from-indigo-500 to-blue-600 shadow-lg rounded-lg p-6 text-center text-white hover:shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer"
+          onClick={() => navigate("/employees/task")}>
           <h3 className="text-xl font-semibold mb-2">Tâches</h3>
           <p className="text-5xl"><FaTasks /></p>
-        </div> */}
+        </div>
 
 
 

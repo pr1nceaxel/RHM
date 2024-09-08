@@ -106,8 +106,11 @@ export const LeaveTracking = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6 relative">
+
+      <div>
+        <h1 className="text-2xl font-bold mb-3 xl ">Suivi des Congés </h1>
+      </div>
       <div className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center mb-6">
-        <Button type="primary" onClick={handleOpenForm}>Créer</Button>
 
         <div>
           <input
@@ -143,6 +146,9 @@ export const LeaveTracking = () => {
           <Button onClick={() => setViewMode('week')}>Semaine</Button>
           <Button onClick={() => setViewMode('month')}>Mois</Button>
         </div>
+
+        <Button type="primary" onClick={handleOpenForm}>Créer</Button>
+
       </div>
 
       <div className="flex justify-between items-center mb-4">

@@ -50,8 +50,8 @@ export default function EmployeLayout() {
     <div className=" py-3">
       <div className="flex mx-2 justify-between my-3">
         <div>
-          <h1 className="text-xl ">Liste des Employés</h1>
-          <p className="font-thin text-lg">
+          <h1 className="text-2xl font-bold  xl ">Gestion des Employés</h1>
+          <p className="font-thin   text-lg">
             Voici la liste des employés de notre entreprise.
           </p>
         </div>

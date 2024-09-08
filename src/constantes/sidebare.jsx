@@ -1,7 +1,5 @@
 import {
-  PieChartOutlined,
   UserOutlined,
-  TeamOutlined,
   CalendarOutlined,
   FileSearchOutlined,
   DollarOutlined,
@@ -11,14 +9,13 @@ import {
   BankOutlined,
 } from "@ant-design/icons";
 import { RxDashboard } from "react-icons/rx";
-
+import { FaTasks } from "react-icons/fa";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import { PiArrowsCounterClockwise } from "react-icons/pi";
 
 import { FaHandshake   } from "react-icons/fa";
-import { FcDepartment } from "react-icons/fc";
 import { IoMdBusiness } from "react-icons/io";
 import { MdOutlineLibraryAddCheck } from "react-icons/md";
 import { BsFolder, BsPersonBadge } from "react-icons/bs";
@@ -41,6 +38,7 @@ export const items = [
   getItem("Employés", "sub1", <FaRegCircleUser />    , null, [
     getItem("Employés", "3", <UserOutlined />, "/employees/list"),
     getItem("Équipe", "4", <HiOutlineUserGroup />      , "/employees/team/create"),
+    getItem("Tâche", "9", <FaTasks />      , "/employees/task"),
     getItem("Compteur", "5", <PiArrowsCounterClockwise />      , "/employees/counter"),
     getItem("Archive", "6", <FolderOpenOutlined />, "/employees/archive"),
     getItem("Documents", "7", <BsFolder />),

@@ -15,6 +15,8 @@ import CreateEmploye from "../screens/employe/Employe_create";
 
 import ViewInformationEmploye from "../screens/employe/ViewInformationEmploye";
 import { EmployeTeam } from "../screens/employe/Employe_team";
+import { EmployeTask } from "../screens/employe/Employe_task";
+
 import {CreateTeams} from "../screens/employe/CreateTeams";
 import EmployeArchive  from "../screens/employe/Employe_archive";
 import { EmployeTools } from "../screens/employe/Employe_tools";
@@ -105,6 +107,10 @@ export const router = createBrowserRouter([
           {
             path: "employees/team/:index",
             element: <EmployeTeam />,
+          },  
+          {
+            path: "employees/task",
+            element: <EmployeTask />,
           },  
                   
           {

@@ -6,10 +6,10 @@ export default function ArchiveLayout() {
   return (
     <div className=" py-3">
       <div className="flex mx-2 justify-between my-3">
-        <div>
-          <h1 className="text-xl ">Archivage</h1>
+      <div>
+        <h2 className="text-2xl font-bold ">Gestion des Archives</h2>
           <p className="font-thin text-lg">
-            Voici la liste des equipes de notre entreprise.
+            Voici la liste des archives.
           </p>
         </div>
         <div className="flex items-center gap-10">
