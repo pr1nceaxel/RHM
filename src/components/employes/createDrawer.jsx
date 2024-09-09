@@ -467,16 +467,28 @@ export default function CreateEmployeDrawer({ open, onClose }) {
             }}
           />
         </div>
+
         <div className="w-full border py-2 rounded-xl">
           <DatePicker
             variant="borderless"
             className="font-thin w-full"
-            placeholder="Date d'embauche"
+            placeholder="Début Contrat"
             onChange={(date) => setFormState({ ...formState, hireDate: date })}
             value={formState.hireDate}
             name="hireDate"
           />
         </div>
+        <div className="w-full border py-2 rounded-xl">
+          <DatePicker
+            variant="borderless"
+            className="font-thin w-full"
+            placeholder="Fin Contrat"
+            onChange={(date) => setFormState({ ...formState, hireDate: date })}
+            value={formState.hireDate}
+            name="hireDate"
+          />
+        </div>
+        
         <div className="w-full border py-2 rounded-xl">
           <Input.TextArea
             rows={3}
