@@ -6,10 +6,9 @@ import { loginUser } from "../../api/api_auth";
 
 // Liste des images du diaporama
 const images = [
+  "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1723125742314-22a9028e0096?q=80&w=2898&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1721332150382-d4114ee27eff?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxMXx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1723642019190-b44549d0ed21?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw5fHx8ZW58MHx8fHx8",
-  "https://images.unsplash.com/photo-1723491371211-83d20430837c?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxOHx8fGVufDB8fHx8fA%3D%3D",
   "https://plus.unsplash.com/premium_photo-1723649902616-0dce94980e06?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyN3x8fGVufDB8fHx8fA%3D%3D",
 ];
 
@@ -72,11 +71,10 @@ export default function LoginPage() {
           <img src={logo} alt="" className="w-16 h-16 my-2" />
           <h1 className="text-4xl font-medium ">E-RHM</h1>
         </div>
-        <div className="my-10">
-          <h1 className="text-2xl font-medium ">Content de vous revoir 👋 </h1>
+        <div className="my-2">
+          <h1 className="text-2xl font-medium "> Bienvenue  😇 </h1>
           <p className="text-lg font-light">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam eos
-            voluptate quos optio eligendi, dolorum eveniet reiciendis
+          Connectez-vous pour gérer vos ressources avec efficacité et simplicité.
           </p>
         </div>
         <div className="">

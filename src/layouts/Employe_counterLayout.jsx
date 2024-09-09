@@ -8,6 +8,10 @@ export const EmployeCounterLayout = () => {
   };
   return (
     <div className="">
+
+      <div>
+        <h1 className="text-2xl font-bold  xl ">Gestion des Présences</h1>
+      </div>
       <div className="flex gap-10 pt-10 border-b-2 mx-5">
         <button onClick={() => handleChangeView("")}>
           <p

@@ -4,7 +4,6 @@ import { RiDeleteBin2Line } from "react-icons/ri";
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Button, Modal,Select,Input   } from 'antd';
 
-
 export function EmployeTeam() {
   const navigate = useNavigate();
   const { state } = useLocation();
