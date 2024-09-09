@@ -102,6 +102,8 @@ export const LeaveTracking = () => {
     employee.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  
+
   return (
     <div className="min-h-screen bg-gray-100 p-6 relative">
       <div className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center mb-6">
@@ -120,7 +122,7 @@ export const LeaveTracking = () => {
         <div className="relative">
           <input
             type="text"
-            placeholder=""
+            placeholder="Rechercher..."
             className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={searchTerm}
             onChange={handleSearch}
@@ -215,7 +217,7 @@ export const LeaveTracking = () => {
               <strong>Fin du congé:</strong><br /> {selectedLeave.leavePeriod.end.toLocaleDateString()}
             </p>
             <p className="text-lg font-semibold text-gray-800 mb-2">
-              <strong>Détails:</strong><br />
+              <strong>Motif:</strong><br />
               <span className="block  break-words whitespace-normal">
                 {selectedLeave.employee.detail}
               </span>
