@@ -26,9 +26,11 @@ const membre3 = [
 ];
 
 const team = [
-  { id: "1", name: 'TCHEPO', manager: 'axel', members: '3', description: 'dsjhbcsdhcsdjncbsdjcbdjcbs', membersData: membre1 },
-  { id: "2", name: 'AZALAPINHOU', manager: 'paul', members: '3', description: 'dsjhbcsdhcsdjncbsdjcbdjcbs', membersData: membre2 },
-  { id: "3", name: 'AXEL', manager: 'koffi', members: '3', description: 'dsjhbcsdhcsdjncbsdjcbdjcbs', membersData: membre3 },
+  { id: "1", name: 'TCHEPO', manager: 'axel', members: '3', description: '          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium velit doloribus dolores aliquid odit hic fuga cupiditate, quam recusandae nisi.', membersData: membre1 },
+  { id: "2", name: 'AZALAPINHOU', manager: 'paul', members: '3', description: '          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium velit doloribus dolores aliquid odit hic fuga cupiditate, quam recusandae nisi.
+', membersData: membre2 },
+  { id: "3", name: 'AXEL', manager: 'koffi', members: '3', description: '          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium velit doloribus dolores aliquid odit hic fuga cupiditate, quam recusandae nisi.
+', membersData: membre3 },
 ];
 
 

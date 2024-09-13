@@ -11,7 +11,7 @@ export const Dashboard = () => {
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
-      <h2 className="text-3xl font-bold mb-8 text-gray-700">Bienvenue dans l'espace Dashboard</h2>
+      <h2 className="text-3xl font-bold mb-8 text-gray-700">Dashboard</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 uppercase">
 
         <div className="bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg rounded-lg p-6 text-center text-white hover:shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer"

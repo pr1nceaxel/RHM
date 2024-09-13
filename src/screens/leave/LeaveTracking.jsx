@@ -6,27 +6,27 @@ const employees = [
     id: 1,
     name: 'VIANNEY bro',
     leavePeriods: [{ start: new Date(2024, 8, 29), end: new Date(2024, 8, 31), status: 'Repos' }],
-    detail:"jnifeisjnfesnfeijfneifjbejifbejzdfnjejisebdfjbefir",
+    detail:"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium velit doloribus dolores aliquid odit hic fuga cupiditate, quam recusandae nisi.',",
   },
   {
     id: 2,
     name: 'bernard',
     leavePeriods: [{ start: new Date(2024, 8, 1), end: new Date(2024, 8, 5), status: 'Repos' }],
-    detail:"jnifeisjnfesnfeijfneifjbejifbejzdfnjejisebdfjbefir",
+    detail:"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium velit doloribus dolores aliquid odit hic fuga cupiditate, quam recusandae nisi.',",
 
   },
   {
     id: 3,
     name: 'ange',
     leavePeriods: [{ start: new Date(2024, 8, 7), end: new Date(2024, 8, 14), status: 'Repos' }],
-    detail:"jnifeisjnfesnfeijfneifjbejifbejzdfnjejisebdfjbefir",
+    detail:"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium velit doloribus dolores aliquid odit hic fuga cupiditate, quam recusandae nisi.',",
 
   },
   {
     id: 4,
     name: 'koffi',
     leavePeriods: [{ start: new Date(2024, 0, 1), end: new Date(2024, 0, 2), status: 'Repos' }],
-    detail:"jnifeisjnfesnfeijfneifjbejifbejzdfnjejisebdfjbefir",
+    detail:"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium velit doloribus dolores aliquid odit hic fuga cupiditate, quam recusandae nisi.',",
   },
 ];
 
@@ -142,7 +142,7 @@ export const LeaveTracking = () => {
         </div>
 
         <div className="flex space-x-4 items-center">
-          <Button onClick={() => setDate(new Date())}>Aujourd'hui</Button>
+          <Button onClick={() => setDate(new Date())}>Aujourd'hui </Button>
           <Button onClick={() => setViewMode('week')}>Semaine</Button>
           <Button onClick={() => setViewMode('month')}>Mois</Button>
         </div>

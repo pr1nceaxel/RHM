@@ -61,6 +61,8 @@ export default function CreateEmployeDrawer({ open, onClose }) {
     department: "",
     position: "",
     contract: "",
+    startContracts: "",
+    endContracts: "",
     emergencyContactName: "",
     emergencyContactFirstName: "",
     emergencyContactEmail: "",
@@ -153,6 +155,14 @@ export default function CreateEmployeDrawer({ open, onClose }) {
       message.error("Veuillez renseigner la date de naissance de l'employé");
       return;
     }
+    if (formState.startContracts === null) {
+      message.error("Veuillez renseigner la date de naissance de l'employé");
+      return;
+    }
+    if (formState.endContracts === null) {
+      message.error("Veuillez renseigner la date de naissance de l'employé");
+      return;
+    }
 
     if (
       formState.email === "" &&
@@ -205,6 +215,8 @@ export default function CreateEmployeDrawer({ open, onClose }) {
         departmentId: formState.department ? formState.department : undefined,
         positionId: formState.position ? formState.position : undefined,
         contractType: formState.contract,
+        startContracts: formState.startContracts,
+        endContracts: formState.endContracts,
         salary: formState.salary,
         socialSecurityNumber: "",
         emergencyContactName: formState.emergencyContactName,
@@ -234,6 +246,8 @@ export default function CreateEmployeDrawer({ open, onClose }) {
           department: "",
           position: "",
           contract: "",
+          startContracts: "",
+          endContracts: "",
           emergencyContactName: "",
           emergencyContactFirstName: "",
           emergencyContactEmail: "",
@@ -473,9 +487,9 @@ export default function CreateEmployeDrawer({ open, onClose }) {
             variant="borderless"
             className="font-thin w-full"
             placeholder="Début Contrat"
-            onChange={(date) => setFormState({ ...formState, hireDate: date })}
-            value={formState.hireDate}
-            name="hireDate"
+            onChange={(date) => setFormState({ ...formState, startContracts: date })}
+            value={formState.startContracts}
+            name="startContracts"
           />
         </div>
         <div className="w-full border py-2 rounded-xl">
@@ -483,9 +497,9 @@ export default function CreateEmployeDrawer({ open, onClose }) {
             variant="borderless"
             className="font-thin w-full"
             placeholder="Fin Contrat"
-            onChange={(date) => setFormState({ ...formState, hireDate: date })}
-            value={formState.hireDate}
-            name="hireDate"
+            onChange={(date) => setFormState({ ...formState, endContracts: date })}
+            value={formState.endContracts}
+            name="endContracts"
           />
         </div>
         
