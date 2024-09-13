@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import dayjs from 'dayjs';
 
 
-
-
 export const PayrollHistory = () => {
     const employees = [
         { name: 'Prudence Gnamién AMANI', role: 'Agent de service', contract: 'CDI', salary: '150.000 FCFA' , bulletin: '1085094.pdf'},
@@ -202,7 +200,7 @@ export const PayrollHistory = () => {
             </ul>
           </div>
         )}
-      </div>  
+          </div>  
             <select
               value={selectedEmployee}
               onChange={(e) => setSelectedEmployee(e.target.value)}
@@ -221,18 +219,11 @@ export const PayrollHistory = () => {
             </button>
             <button className="text-red-500 p-2 rounded ml-2">❌</button>
           </div>
-          </div>
-        
-         
+          </div> 
         </div>
       )}
-
-
-
     </div>
-
-
-        </div>
+    </div>
         
     );
 };

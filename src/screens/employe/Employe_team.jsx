@@ -1,40 +1,71 @@
 import React, { useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import { RiDeleteBin2Line } from "react-icons/ri";
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { Button, Modal,Select,Input   } from 'antd';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Button, Modal, Select, Input } from 'antd';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 export function EmployeTeam() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { team,membersData } = state; // Récupérer les données de l'équipe
+  const { team, membersData } = state || {};  // Vérifiez que `state` existe
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isModalOpen2, setIsModalOpen2] = useState(false);
-  
-    const showModal = () => {
-      setIsModalOpen(true);
-    };
-    const showModal2 = () => {
-      setIsModalOpen2(true);
-    };
-  
-    const handleOk = () => {
-      setIsModalOpen(false);
-    };
-    const handleOk2 = () => {
-      setIsModalOpen2(false);
-    };
-  
-    const handleCancel = () => {
-      setIsModalOpen(false);
-    };
-    const handleCancel2 = () => {
-      setIsModalOpen2(false);
-    };
-  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [gridApi, setGridApi] = useState(null);
 
-    
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const showModal2 = () => {
+    setIsModalOpen2(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleOk2 = () => {
+    setIsModalOpen2(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel2 = () => {
+    setIsModalOpen2(false);
+  };
+
+  // Transformez membersData en options compatibles avec Select
+  const membersOptions = membersData
+    ? membersData.map(member => ({
+        label: member.label,   // Utilisez `member.label` pour l'étiquette
+        value: member.name,    // Utilisez `member.name` pour la valeur
+      }))
+    : [];
+
+  const columnDefs = [
+    { headerName: "Nom", field: "name", sortable: true, filter: true },
+    { headerName: "Poste", field: "post", sortable: true, filter: true, cellStyle: { textAlign: 'center' } },
+    { headerName: "Rôle", field: "role", sortable: true, filter: true, cellStyle: { textAlign: 'center' } },
+    {
+      headerName: "Actions",
+      field: "actions",
+      // Commenter la cellule d'action pour éviter l'erreur pendant le développement
+      // cellRendererFramework: (params) => (
+      //   <div className="flex items-center space-x-5">
+      //     <a className="bg-red-500 p-2">
+      //       <RiDeleteBin2Line />
+      //     </a>
+      //   </div>
+      // )
+    }
+  ];
+
   return (
     <div className="w-full p-6 bg-white shadow-md rounded-lg">
       <div className="">
@@ -46,10 +77,10 @@ export function EmployeTeam() {
         </button>
       </div>
       <div className="flex space-x-3 mb-3 justify-between">
-        <h1 className='text-xl font-bold' >Membre de l'équipe {team.name}</h1>
+        <h1 className="text-xl font-bold">Membre de l'équipe {team?.name}</h1>
         <div className="mx-3">
-          <Button className="bg-white-500 mx-2 border p-2"  onClick={showModal}>
-          Modifier équipe
+          <Button className="bg-white-500 mx-2 border p-2" onClick={showModal}>
+            Modifier équipe
           </Button>
 
           <Button className="bg-green-500 border p-2" onClick={showModal2}>
@@ -58,76 +89,42 @@ export function EmployeTeam() {
         </div>
       </div>
 
-      <table className="w-full table-auto border-collapse">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="px-4 py-2 text-left">Nom</th>
-            <th className="px-4 py-2 text-center">Poste</th>
-            <th className="px-4 py-2 text-center">Rôle</th>
-            <th className="px-4 py-2 text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {team.membersData.map((member, index) => (
-            <tr key={index} className="border-t">
-              <td className="px-4 py-2">{member.name}</td>
-              <td className="px-4 py-2 text-center">{member.post}</td>
-              <td className="px-4 py-2 text-center">{member.role}</td>
-              <td className="flex items-center space-x-5 px-4 py-2">
-                <a className="bg-red-500 p-2">
-                  <RiDeleteBin2Line />
-                </a>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="ag-theme-quartz" style={{ height: "70vh" }}>
+        <AgGridReact
+          rowData={team?.membersData || []}  // Évitez les erreurs si `membersData` est undefined
+          columnDefs={columnDefs}
+          onGridReady={params => setGridApi(params.api)}
+        />
+      </div>
 
-      <Modal title={`Modifier l'équipe « ${team.name} »`} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-       
-        <div className="border  py-2 mb-3 rounded-xl">
-
+      <Modal title={`Modifier l'équipe « ${team?.name} »`} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <div className="border py-2 mb-3 rounded-xl">
           <Input
             placeholder="Nom de l'équipe"
             variant="borderless"
             className="font-thin"
             name="name"
-            value=""
+            value={team?.name || ''}
           />
         </div>
         <Select
           showSearch
           style={{ width: 200 }}
-          placeholder="Selectionner le manager"
+          placeholder="Sélectionner le manager"
           optionFilterProp="label"
-          label={membersData}
-          value={membersData}
-          onChange={value => setSelectedManager(value)}
-          filterSort={(optionA, optionB) =>
-            (optionA?.membersData.label ?? '').toLowerCase().localeCompare((optionB?.membersData.label ?? '').toLowerCase())
-          }
-          options={membersData} // Utilisation des membres dans le Select
+          options={membersOptions}  // Utilisez les options formatées ici
         />
-        </Modal>
+      </Modal>
 
-
-      <Modal title={`Ajouter des membres à l'équipe « ${team.name} »`} open={isModalOpen2} onOk={handleOk2} onCancel={handleCancel2}>
-       
-
+      <Modal title={`Ajouter des membres à l'équipe « ${team?.name} »`} open={isModalOpen2} onOk={handleOk2} onCancel={handleCancel2}>
         <Select
           showSearch
           style={{ width: 200 }}
-          placeholder="Selectionner le manager"
+          placeholder="Sélectionner des membres"
           optionFilterProp="label"
-          label={membersData}
-          value={membersData}
-          onChange={value => setSelectedManager(value)}
-          filterSort={(optionA, optionB) =>
-            (optionA?.membersData.label ?? '').toLowerCase().localeCompare((optionB?.membersData.label ?? '').toLowerCase())
-          }
-          options={membersData} // Utilisation des membres dans le Select
+          options={membersOptions}  // Utilisez les options formatées ici
         />
-        </Modal>
+      </Modal>
     </div>
   );
 }

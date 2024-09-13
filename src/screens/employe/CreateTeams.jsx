@@ -1,23 +1,28 @@
 import React, { useState } from 'react';
 import 'tailwindcss/tailwind.css';
-import { GoPencil } from "react-icons/go";
-import { RiDeleteBin2Line } from "react-icons/ri";
+import { Dropdown, Space, message } from "antd";
+import { PiDotsThreeOutlineThin } from "react-icons/pi";
 import { useNavigate } from 'react-router-dom';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+
+
 
 const membre1 = [
-  {  name: 'jean',  label: 'Jean',	    post:'developeur',	role:'manager',		Actions:'...'   },
-  {  name: 'prince', label: 'prince',		post:'developeur',	role:'membre',		Actions:'...'     },
-  {  name: 'yao', label: 'yao',	 	post:'developeur',	role:'membre',		Actions:'...'        },
+  { name: 'jean', label: 'Jean', post: 'developeur', role: 'manager', Actions: '...' },
+  { name: 'prince', label: 'prince', post: 'developeur', role: 'membre', Actions: '...' },
+  { name: 'yao', label: 'yao', post: 'developeur', role: 'membre', Actions: '...' },
 ];
 const membre2 = [
-  {  name: 'paul', 	label: 'paul',	    post:'developeur',	role:'manager',		Actions:'...'   },
-  {  name: 'christ', label: 'christ',		post:'developeur',	role:'membre',		Actions:'...'     },
-  {  name: 'AXEL',  label: 'AXEL',		post:'developeur',	role:'membre',		Actions:'...'        },
+  { name: 'paul', label: 'paul', post: 'developeur', role: 'manager', Actions: '...' },
+  { name: 'christ', label: 'christ', post: 'developeur', role: 'membre', Actions: '...' },
+  { name: 'AXEL', label: 'AXEL', post: 'developeur', role: 'membre', Actions: '...' },
 ];
 const membre3 = [
-  {  name: 'koffi', 	label: 'koffi',	    post:'developeur',	role:'manager',		Actions:'...'   },
-  {  name: 'aka', label: 'aka',		post:'developeur',	role:'membre',		Actions:'...'     },
-  {  name: 'henry', label: 'henry',	 	post:'developeur',	role:'membre',		Actions:'...'        },
+  { name: 'koffi', label: 'koffi', post: 'developeur', role: 'manager', Actions: '...' },
+  { name: 'aka', label: 'aka', post: 'developeur', role: 'membre', Actions: '...' },
+  { name: 'henry', label: 'henry', post: 'developeur', role: 'membre', Actions: '...' },
 ];
 
 const team = [
@@ -25,6 +30,45 @@ const team = [
   { id: "2", name: 'AZALAPINHOU', manager: 'paul', members: '3', description: 'dsjhbcsdhcsdjncbsdjcbdjcbs', membersData: membre2 },
   { id: "3", name: 'AXEL', manager: 'koffi', members: '3', description: 'dsjhbcsdhcsdjncbsdjcbdjcbs', membersData: membre3 },
 ];
+
+
+// Déplacez cette définition en haut, avant les `columnDefs`
+const CustomButtonComponent = (props) => {
+  const { data } = props;
+
+  const navigate = useNavigate(); // Déplacez aussi `navigate` à l'intérieur du composant si nécessaire
+
+  const handleMenuClick = (e) => {
+    if (e.key === "0") {
+      navigate(`/employees/team/${data.id}`, { state: { team: data, membersData: data.membersData } });
+    // } else if (e.key === "1") {
+    //   navigate(`/employees/edit/${data.id}`, { state: { team: data } });
+    } else if (e.key === "2") {
+      handleDelete(data.id);
+    }
+    if (!team || !membersData) {
+      return <div>Aucune équipe sélectionnée. Veuillez réessayer.</div>;
+    }
+    
+  };
+
+  const items = [
+    { label: "Détail", key: "0" },
+    // { label: "Modifier", key: "1" },
+    { type: "divider" },
+    { label: "Supprimer", key: "2", danger: true },
+  ];
+
+  return (
+    <Dropdown menu={{ items, onClick: handleMenuClick }} trigger={["click"]}>
+      <a onClick={(e) => e.preventDefault()}>
+        <Space>
+          <PiDotsThreeOutlineThin style={{ fontSize: 24 }} />
+        </Space>
+      </a>
+    </Dropdown>
+  );
+};
 
 export function CreateTeams() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -38,47 +82,52 @@ export function CreateTeams() {
     team.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const columnDefs = [
+    { headerName: "Nom", field: "name", sortable: true, filter: true },
+    { headerName: "Manager", field: "manager", sortable: true, filter: true, cellStyle: { textAlign: 'center' } },
+    { headerName: "Membres", field: "members", sortable: true, filter: true, cellStyle: { textAlign: 'center' } },
+    { headerName: "Description", field: "description", sortable: true, filter: true, cellStyle: { textAlign: 'center' } },
+    {
+      headerName: "Actions",
+      field: "actions",
+      cellRenderer: CustomButtonComponent, // On appelle CustomButtonComponent ici
+      flex: 0.4,
+      filter: false,
+    },
+  ];
+
+  const handleDelete = async (id) => {
+    try {
+      // Logique de suppression à définir ici
+      message.success("Employé supprimé avec succès");
+    } catch (error) {
+      message.error(`Erreur lors de la suppression: ${error.message}`);
+    }
+  };
+
   return (
     <div className="w-full p-6 bg-white shadow-md rounded-lg">
+      <input
+        type="text"
+        placeholder="Rechercher une équipe..."
+        value={searchTerm}
+        onChange={handleSearch}
+        className="p-2 mb-4 border border-gray-300 rounded"
+      />
 
-      <table className="w-full table-auto border-collapse">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="px-4 py-2 text-left">Nom</th>
-            <th className="px-4 py-2 text-center">Manager</th>
-            <th className="px-4 py-2 text-center">Membres</th>
-            <th className="px-4 py-2 text-center">Description</th>
-            <th className="px-4 py-2 text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredTeam.map((team, index) => (
-            <tr key={index} className="border-t">
-              <td className="px-4 py-2">{team.name}</td>
-              <td className="px-4 py-2 text-center">{team.manager}</td>
-              <td className="px-4 py-2 text-center">{team.members}</td>
-              <td className="px-4 py-2 text-center">{team.description}</td>
-              <td className="flex items-center space-x-5 px-4 py-2">
-                <a
-                  className="bg-blue-500 text-white p-2"
-                  onClick={() => navigate(`/employees/team/${team.id}`, { state: { team } })}
-                >
-                  Voir
-                </a>
-                <a className="border border-gray-500 p-2">
-                  <GoPencil />
-                </a>
-                <a className="bg-red-500 p-2">
-                  <RiDeleteBin2Line />
-                </a>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        <div className="ag-theme-quartz" style={{ height: "70vh" }}>
+        <AgGridReact
+          rowData={filteredTeam}
+          columnDefs={columnDefs}
+          pagination={true}
+          paginationPageSize={10}
+        />
+      </div>
     </div>
   );
 }
+
+
 
 
 
