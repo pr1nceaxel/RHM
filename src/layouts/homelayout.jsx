@@ -135,32 +135,28 @@ const HomeLayout = () => {
             </div>
           </Header>
           <Layout style={{ marginTop: 64 }}>
+            <Content
+              style={{
+                margin: 0,
+                minHeight: 280,
+                overflow: "hidden",
+                position: "relative",
 
-        
-          <Content
-            style={{
-              margin: 0,
-              minHeight: 280,
-              overflow: "hidden",
-              position: "relative",
-
-              background: "#ecf1fd",
-          
-            }}
-            className="rounded-tl-3xl "
-          >
-            <div
+                background: "#ecf1fd",
+              }}
+              className="rounded-tl-3xl "
+            >
+              <div
                 style={{
                   minHeight: "100%",
-                  padding: "10px",
                   overflowY: "auto",
                   height: "calc(100vh - 88px)",
                 }}
-              className="rounded-tl-3xl overflow-hidden bg-white"
-            >
-              <Outlet />
-            </div>
-          </Content>
+                className="rounded-tl-3xl overflow-hidden bg-white"
+              >
+                <Outlet />
+              </div>
+            </Content>
           </Layout>
           <Footer
             style={{
