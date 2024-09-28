@@ -17,13 +17,13 @@ export const Dashboard = () => {
         <div className="bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg rounded-lg p-6 text-center text-white hover:shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer"
           onClick={() => navigate("/employees/list")}>
           <h3 className="text-xl font-semibold mb-2">Nombre d'Employés</h3>
-          <p className="text-4xl font-bold">10</p>
+          <p className="text-4xl font-bold">4</p>
         </div>
 
         <div className="bg-gradient-to-r from-green-500 to-teal-500 shadow-lg rounded-lg p-6 text-center text-white hover:shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer"
           onClick={() => navigate("/employees/counter/pointage")}>
           <h3 className="text-xl font-semibold mb-2">Présent Aujourd'hui</h3>
-          <p className="text-4xl font-bold">9</p>
+          <p className="text-4xl font-bold">1</p>
         </div>
 
         <div className="bg-gradient-to-r from-pink-500 to-red-500 shadow-lg rounded-lg p-6 text-center text-white hover:shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer"
@@ -34,7 +34,7 @@ export const Dashboard = () => {
         <div className="bg-gradient-to-r from-yellow-500 to-orange-500 shadow-lg rounded-lg p-6 text-center text-white hover:shadow-xl hover:scale-105 transition-transform duration-300 cursor-pointer"
           onClick={() => navigate("/absences/leave-request")}>
           <h3 className="text-xl font-semibold mb-2">Demande de Congés</h3>
-          <p className="text-5xl flex justify-items-center space-x-20  font-bold"><FaUmbrellaBeach /><span>2</span></p>
+          <p className="text-5xl flex justify-items-center space-x-20  font-bold"><FaUmbrellaBeach /><span>0</span></p>
         </div>
 
 
